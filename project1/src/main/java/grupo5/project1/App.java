@@ -5,6 +5,8 @@ public class App
 {
     public static void main( String[] args )
     {
+    	GitHandler gh = new GitHandler("C:\\Users\\pedro\\git\\Project1_ADS\\.git");
     	
+    	gh.test();
     }
 }
