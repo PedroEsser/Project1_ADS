@@ -9,41 +9,36 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
+import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 
 public class GitHandler {
 
 	private Repository repository;
 	private Ref master;
-	
-	public GitHandler(String gitDir) {//"C:\\Users\\pedro\\git\\Project1_ADS\\.git"
+
+	public GitHandler(String gitDir) {
 		try {
-			repository = new FileRepositoryBuilder()
-				    .setGitDir(new File(gitDir))
-				    .build();
+			repository = new FileRepositoryBuilder().setGitDir(new File(gitDir)).build();
 			master = repository.getRef("master");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void test() {
-		
 		try {
 			RefUpdate branch = createBranch("branch1");
-			
-			//Git.wrap(repository).checkout().setCreateBranch(false).setName(branch.getName()).call();
-			Git.wrap(repository).checkout().setCreateBranch(false).setName("master").call();
-		
-			//deleteBranch(branch.getName());
+
+			changeBranch(branch.getName());
+			changeBranch("master");
+
+			deleteBranch("branch1");
 		} catch (Exception e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-
-		
 	}
-	
-	public RefUpdate createBranch(String branchName) {		//if user already has branch, set name to branch_n
+
+	public RefUpdate createBranch(String branchName) { // if user already has branch, set name of branch to branch_n
 		try {
 			RefUpdate branch = repository.updateRef("refs/heads/" + branchName);
 			branch.setNewObjectId(master.getObjectId());
@@ -54,8 +49,8 @@ public class GitHandler {
 		}
 		return null;
 	}
-	
-	public void deleteBranch(String branchName) {		//if user already has branch, set name to branch_n
+
+	public void deleteBranch(String branchName) {
 		try {
 			RefUpdate deleteBranch1 = repository.updateRef("refs/heads/" + branchName);
 			deleteBranch1.setForceUpdate(true);
@@ -64,7 +59,7 @@ public class GitHandler {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void changeBranch(String branchName) {
 		try {
 			Git.wrap(repository).checkout().setCreateBranch(false).setName(branchName).call();
@@ -72,36 +67,13 @@ public class GitHandler {
 			e.printStackTrace();
 		}
 	}
-	
-	/*
-	 * 
-	 * 
-	 * // Get a reference
-Ref master = repo.getRef("master");
 
-// Get the object the reference points to
-ObjectId masterTip = master.getObjectId();
+	public void push(String token) {
+		try {
+			Git.wrap(repository).push().setCredentialsProvider(new UsernamePasswordCredentialsProvider(token, "")).call();
+		} catch (GitAPIException e) {
+			e.printStackTrace();
+		}
+	}
 
-// Rev-parse
-ObjectId obj = repo.resolve("HEAD^{tree}");
-
-// Load raw object contents
-ObjectLoader loader = repo.open(masterTip);
-loader.copyTo(System.out);
-
-// Create a branch
-RefUpdate createBranch1 = repo.updateRef("refs/heads/branch1");
-createBranch1.setNewObjectId(masterTip);
-createBranch1.update();
-
-// Delete a branch
-RefUpdate deleteBranch1 = repo.updateRef("refs/heads/branch1");
-deleteBranch1.setForceUpdate(true);
-deleteBranch1.delete();
-
-// Config
-Config cfg = repo.getConfig();
-String name = cfg.getString("user", null, "name");
-	 * 
-	 */
 }
