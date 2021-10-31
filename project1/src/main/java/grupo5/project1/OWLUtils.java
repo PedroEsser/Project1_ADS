@@ -16,12 +16,13 @@ public class OWLUtils {
 
 	
 	public static void leOWLTest() {
-    	File owlFile = new File("ADS.owl");
+    	File owlFile = new File("C:\\Users\\pedro\\git\\Knowledge_Base/ontology.owl");
     	
         try {
           // Loading an OWL ontology using the OWLAPI
           OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
           OWLOntology ontology =  ontologyManager.loadOntologyFromOntologyDocument(owlFile);
+        	  
           // Create SQWRL query engine using the SWRLAPI
           SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
           // Create and execute a SQWRL query using the SWRLAPI
@@ -55,6 +56,7 @@ public class OWLUtils {
           System.err.println("Error starting application: " + e.getMessage());
           System.exit(-1);
         }
+        
     }
 	
 }

@@ -2,9 +2,7 @@ package grupo5.project1;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 
-import org.eclipse.jgit.api.CheckoutCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.MergeCommand;
 import org.eclipse.jgit.api.MergeResult;
@@ -12,8 +10,6 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 
@@ -35,14 +31,12 @@ public class GitHandler {
 		try {
 			//RefUpdate newBranch = createBranch(branchName);
 			changeBranch(branchName);
-//			push("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");
 			
 			commit("Testing branch " + branchName);
 			
 			changeBranch("master");
 			mergeBrach(branchName);
 			deleteBranch(branchName);
-			push("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");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
