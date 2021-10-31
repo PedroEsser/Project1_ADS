@@ -6,7 +6,7 @@ public class App
     {
     	GitHandler gh = new GitHandler("C:\\Users\\pedro\\git\\SID\\.git");
     	
-    	gh.test();
+    	gh.test("Test_Branch");
     	//OWLUtils.leOWLTest();
     }
     
