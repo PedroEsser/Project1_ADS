@@ -7,7 +7,9 @@ public class App
 //    	GitHandler gh = new GitHandler("C:\\Users\\pedro\\git\\Knowledge_Base\\.git");
 //    	
 //    	gh.test("Test_Branch");
-    	OWLUtils.leOWLTest();
+    	
+    	OWLHandler handler = new OWLHandler("animal.owl");
+    	handler.getClasses();
     }
     
 }
