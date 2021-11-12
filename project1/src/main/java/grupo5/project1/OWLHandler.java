@@ -1,19 +1,29 @@
 package grupo5.project1;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
 import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.formats.FunctionalSyntaxDocumentFormat;
 import org.semanticweb.owlapi.model.AxiomType;
+import org.semanticweb.owlapi.model.EntityType;
+import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLDocumentFormat;
+import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.OWLOntologyStorageException;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
+import org.semanticweb.owlapi.util.DefaultPrefixManager;
 import org.swrlapi.factory.SWRLAPIFactory;
 import org.swrlapi.parser.SWRLParseException;
 import org.swrlapi.sqwrl.SQWRLQueryEngine;
@@ -21,16 +31,20 @@ import org.swrlapi.sqwrl.SQWRLResult;
 import org.swrlapi.sqwrl.exceptions.SQWRLException;
 
 public class OWLHandler {
-	
+
 	private File owlFile;
-	private OWLOntologyManager ontologyManager;
+	private OWLOntologyManager manager;
 	private OWLOntology ontology;
-	
+	private OWLDataFactory factory;
+	private String prefix;
+
 	public OWLHandler(String file) {
 		owlFile = new File(file);
-		ontologyManager = OWLManager.createOWLOntologyManager();
+		manager = OWLManager.createOWLOntologyManager();
 		try {
-			ontology =  ontologyManager.loadOntologyFromOntologyDocument(owlFile);
+			ontology =  manager.loadOntologyFromOntologyDocument(owlFile);
+			factory = ontology.getOWLOntologyManager().getOWLDataFactory();
+			prefix = manager.getOntologyFormat(ontology).asPrefixOWLOntologyFormat().getDefaultPrefix();
 		} catch (OWLOntologyCreationException e) {
 	    	System.err.println("Error creating OWL ontology: " + e.getMessage());
 	    	System.exit(-1);
@@ -44,6 +58,18 @@ public class OWLHandler {
         	subclasses.put(c, ontology.getSubClassAxiomsForSuperClass(c));
         }
         return subclasses;
+	}
+
+//	Exemplo: handler.declareOWLEntity(EntityType.CLASS,"Pessoas");
+	public <E> void declareOWLEntity(EntityType<?> type, String name) {
+		OWLEntity entity = factory.getOWLEntity(type, IRI.create(prefix, name));
+		OWLAxiom axiom = factory.getOWLDeclarationAxiom(entity);
+		try {
+			manager.addAxiom(ontology, axiom);
+			manager.saveOntology(ontology, new FunctionalSyntaxDocumentFormat(), new FileOutputStream(owlFile));
+		} catch (OWLOntologyStorageException | FileNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 
 //	public void leOWLTest() {
