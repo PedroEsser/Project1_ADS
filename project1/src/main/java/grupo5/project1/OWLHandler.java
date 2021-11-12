@@ -14,6 +14,7 @@ import org.semanticweb.owlapi.model.EntityType;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLDataProperty;
 import org.semanticweb.owlapi.model.OWLDataPropertyAssertionAxiom;
@@ -52,7 +53,7 @@ public class OWLHandler {
 	    	System.exit(-1);
 		}
 	}
-
+	
 	public HashMap<OWLClass, Set<OWLSubClassOfAxiom>> getClasses() {
         Set<OWLClass> classes = ontology.getClassesInSignature();
         HashMap<OWLClass, Set<OWLSubClassOfAxiom>> subclasses = new HashMap<>();
@@ -61,11 +62,19 @@ public class OWLHandler {
         }
         return subclasses;
 	}
-	
+	//gets individuals Declaration(Individuals)
 	public Set<OWLNamedIndividual> getEntities() { //TODO change name to get Individual but for now... titiesss  
 		return ontology.getIndividualsInSignature();
 	}
 	
+	public HashMap<OWLClass, Set<OWLClassAssertionAxiom>> getClassesAndTheirIndividuals() {
+		HashMap<OWLClass, Set<OWLClassAssertionAxiom>> classesIndividuals = new HashMap<>();
+		for(OWLClass c: ontology.getClassesInSignature()) {
+			classesIndividuals.put(c, ontology.getClassAssertionAxioms(c));
+		}
+		return classesIndividuals;
+	}
+	//gets a map with the individuals and their dataproperties values dataPropertyAssertions(...)
 	public HashMap<OWLNamedIndividual, Set<OWLDataPropertyAssertionAxiom>> getindividualsProperties() {
 		HashMap<OWLNamedIndividual, Set<OWLDataPropertyAssertionAxiom>> individualsProperties = new HashMap<>();
 		Set<OWLNamedIndividual> individuals = getEntities();
@@ -73,6 +82,10 @@ public class OWLHandler {
 			individualsProperties.put(individual, ontology.getDataPropertyAssertionAxioms(individual));
 		}
 		return individualsProperties;
+	}
+	//get declaration of data properties Declaration(dataProperty)
+	public Set<OWLDataProperty> getDataProperties() {
+		return ontology.getDataPropertiesInSignature();
 	}
 
 //	Exemplo: handler.declareOWLEntity(EntityType.CLASS,"Pessoas");
