@@ -16,8 +16,10 @@ import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLDataPropertyAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLDocumentFormat;
 import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
@@ -58,6 +60,19 @@ public class OWLHandler {
         	subclasses.put(c, ontology.getSubClassAxiomsForSuperClass(c));
         }
         return subclasses;
+	}
+	
+	public Set<OWLNamedIndividual> getEntities() { //TODO change name to get Individual but for now... titiesss  
+		return ontology.getIndividualsInSignature();
+	}
+	
+	public HashMap<OWLNamedIndividual, Set<OWLDataPropertyAssertionAxiom>> getindividualsProperties() {
+		HashMap<OWLNamedIndividual, Set<OWLDataPropertyAssertionAxiom>> individualsProperties = new HashMap<>();
+		Set<OWLNamedIndividual> individuals = getEntities();
+		for(OWLNamedIndividual individual : individuals) {
+			individualsProperties.put(individual, ontology.getDataPropertyAssertionAxioms(individual));
+		}
+		return individualsProperties;
 	}
 
 //	Exemplo: handler.declareOWLEntity(EntityType.CLASS,"Pessoas");
