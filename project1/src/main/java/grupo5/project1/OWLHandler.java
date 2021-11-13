@@ -56,13 +56,13 @@ public class OWLHandler {
 		}
 	}
 	
-	public HashMap<OWLClass, Set<OWLSubClassOfAxiom>> getClasses() {
+	public HashMap<OWLClass, Set<OWLSubClassOfAxiom>> getTaxonomy() {
         Set<OWLClass> classes = ontology.getClassesInSignature();
-        HashMap<OWLClass, Set<OWLSubClassOfAxiom>> subclasses = new HashMap<>();
+        HashMap<OWLClass, Set<OWLSubClassOfAxiom>> taxonomy = new HashMap<>();
         for(OWLClass c : classes) {
-        	subclasses.put(c, ontology.getSubClassAxiomsForSuperClass(c));
+        	taxonomy.put(c, ontology.getSubClassAxiomsForSuperClass(c));
         }
-        return subclasses;
+        return taxonomy;
 	}
 	//gets individuals Declaration(Individuals)
 	public Set<OWLNamedIndividual> getEntities() { //TODO change name to get Individual but for now... titiesss  
