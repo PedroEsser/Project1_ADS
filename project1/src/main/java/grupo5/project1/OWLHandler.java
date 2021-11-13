@@ -26,6 +26,7 @@ import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLEquivalentDataPropertiesAxiom;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
+import org.semanticweb.owlapi.model.OWLObjectPropertyAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
@@ -195,6 +196,29 @@ public class OWLHandler {
 		}
 	}
 	//---------------------------------------DELETE---------------------------------------
+	public void deleteObjectProperty(String name) {
+		OWLObjectProperty objectProperty = factory.getOWLObjectProperty(IRI.create(prefix, name));
+		for(OWLNamedIndividual individual: getIndividuals()) 
+			for(OWLObjectPropertyAssertionAxiom op: ontology.getObjectPropertyAssertionAxioms(individual))
+				if(op.getProperty().equals(objectProperty))
+					manager.removeAxiom(ontology, op);
+		for(OWLDeclarationAxiom item: ontology.getDeclarationAxioms(objectProperty))
+			manager.removeAxiom(ontology, item);
+		saveOntology();	
+	}
+	
+	public void deleteObjectPropertyofIndividuals(String objectPropertyName, String individualName1, String individualName2) {
+		OWLObjectProperty objectProperty = factory.getOWLObjectProperty(IRI.create(prefix, objectPropertyName));
+		OWLNamedIndividual individual1 = factory.getOWLNamedIndividual(IRI.create(prefix,individualName1));
+		OWLNamedIndividual individual2 = factory.getOWLNamedIndividual(IRI.create(prefix,individualName2));
+		Set<OWLObjectPropertyAssertionAxiom> assertions = ontology.getObjectPropertyAssertionAxioms(individual1);
+		assertions.addAll(ontology.getObjectPropertyAssertionAxioms(individual2));
+		for(OWLObjectPropertyAssertionAxiom op: assertions) 
+			if(op.getProperty().equals(objectProperty) && op.getIndividualsInSignature().contains(individual1) && op.getIndividualsInSignature().contains(individual2))
+				manager.removeAxiom(ontology, op);
+		saveOntology();
+	}
+	
 	public void deleteDataProperty(String name){
 		OWLDataProperty dataProperty = factory.getOWLDataProperty(IRI.create(prefix, name));
 		for(OWLNamedIndividual individual: getIndividuals()) 
