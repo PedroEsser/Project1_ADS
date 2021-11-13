@@ -66,6 +66,11 @@ public class OWLHandler {
         }
         return taxonomy;
 	}
+	
+	//gets individuals Declaration(Individuals)
+		public Set<OWLClass> getClasses() {
+			return ontology.getClassesInSignature();
+		}
 	//gets individuals Declaration(Individuals)
 	public Set<OWLNamedIndividual> getIndividuals() {
 		return ontology.getIndividualsInSignature();
@@ -114,6 +119,17 @@ public class OWLHandler {
 		}
 	}
 	
+	public void declareSubClassOf(String sc1, String sc2) {
+		OWLClass superclass = factory.getOWLClass(IRI.create(prefix, sc1));
+		OWLClass subclass = factory.getOWLClass(IRI.create(prefix, sc2));
+		OWLAxiom axiom = factory.getOWLSubClassOfAxiom(superclass, subclass);
+		Set<OWLClass> allClasses = getClasses();
+		if(allClasses.contains(superclass) && allClasses.contains(subclass)) {
+			manager.addAxiom(ontology, axiom);
+			saveOntology();
+		}
+	}
+
 	public void declareDataPropertyAssertion(String individual, String dataProperty, String value) {
 		OWLNamedIndividual ind = factory.getOWLNamedIndividual(IRI.create(prefix, individual));
 		OWLDataProperty data = factory.getOWLDataProperty(IRI.create(prefix, dataProperty));
