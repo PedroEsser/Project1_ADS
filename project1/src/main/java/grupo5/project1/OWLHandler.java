@@ -23,6 +23,8 @@ import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
 import org.semanticweb.owlapi.model.OWLDocumentFormat;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
+import org.semanticweb.owlapi.model.OWLObjectProperty;
+import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
@@ -65,7 +67,7 @@ public class OWLHandler {
         return taxonomy;
 	}
 	//gets individuals Declaration(Individuals)
-	public Set<OWLNamedIndividual> getEntities() { //TODO change name to get Individual but for now... titiesss  
+	public Set<OWLNamedIndividual> getIndividuals() {
 		return ontology.getIndividualsInSignature();
 	}
 	//gets a list of individuals of a class
@@ -79,7 +81,7 @@ public class OWLHandler {
 	//gets a map with the individuals and their dataproperties values dataPropertyAssertions(...)
 	public HashMap<OWLNamedIndividual, Set<OWLDataPropertyAssertionAxiom>> getindividualsProperties() {
 		HashMap<OWLNamedIndividual, Set<OWLDataPropertyAssertionAxiom>> individualsProperties = new HashMap<>();
-		for(OWLNamedIndividual individual : getEntities()) {
+		for(OWLNamedIndividual individual : getIndividuals()) {
 			individualsProperties.put(individual, ontology.getDataPropertyAssertionAxioms(individual));
 		}
 		return individualsProperties;
@@ -88,8 +90,13 @@ public class OWLHandler {
 	public Set<OWLDataProperty> getDataProperties() {
 		return ontology.getDataPropertiesInSignature();
 	}
+	
+	//get declaration of data properties Declaration(dataProperty)
+	public Set<OWLObjectProperty> getObjectProperties() {
+		return ontology.getObjectPropertiesInSignature();
+	}
 
-//	Exemplo: handler.declareOWLEntity(EntityType.CLASS,"Pessoas");
+	//Exemplo: handler.declareOWLEntity(EntityType.CLASS,"Pessoas");
 	public <E> void declareOWLEntity(EntityType<?> type, String name) {
 		OWLEntity entity = factory.getOWLEntity(type, IRI.create(prefix, name));
 		OWLAxiom axiom = factory.getOWLDeclarationAxiom(entity);
@@ -108,11 +115,20 @@ public class OWLHandler {
 	}
 	
 	public void declareDataPropertyAssertion(String individual, String dataProperty, String value) {
-		
 		OWLNamedIndividual ind = factory.getOWLNamedIndividual(IRI.create(prefix, individual));
 		OWLDataProperty data = factory.getOWLDataProperty(IRI.create(prefix, dataProperty));
 		OWLAxiom axiom = factory.getOWLDataPropertyAssertionAxiom(data, ind, value);
-		if(getDataProperties().contains(data) && getEntities().contains(ind) && !hasDeclaredDataPropertyAssertion(ind, data)) {
+		if(getDataProperties().contains(data) && getIndividuals().contains(ind) && !hasDeclaredDataPropertyAssertion(ind, data)) {
+			manager.addAxiom(ontology, axiom);
+			saveOntology();
+		}
+	}
+	
+	public void declareDataPropertyAssertion(String individual, String dataProperty, boolean value) {
+		OWLNamedIndividual ind = factory.getOWLNamedIndividual(IRI.create(prefix, individual));
+		OWLDataProperty data = factory.getOWLDataProperty(IRI.create(prefix, dataProperty));
+		OWLAxiom axiom = factory.getOWLDataPropertyAssertionAxiom(data, ind, value);
+		if(getDataProperties().contains(data) && getIndividuals().contains(ind) && !hasDeclaredDataPropertyAssertion(ind, data)) {
 			manager.addAxiom(ontology, axiom);
 			saveOntology();
 		}
@@ -122,18 +138,18 @@ public class OWLHandler {
 		OWLNamedIndividual ind = factory.getOWLNamedIndividual(IRI.create(prefix, individual));
 		OWLDataProperty data = factory.getOWLDataProperty(IRI.create(prefix, dataProperty));
 		OWLAxiom axiom = factory.getOWLDataPropertyAssertionAxiom(data, ind, value);
-		if(getDataProperties().contains(data) && getEntities().contains(ind) && !hasDeclaredDataPropertyAssertion(ind, data)) {
+		if(getDataProperties().contains(data) && getIndividuals().contains(ind) && !hasDeclaredDataPropertyAssertion(ind, data)) {
 			manager.addAxiom(ontology, axiom);
 			saveOntology();
 		}
 	
 	}
 	
-	public void declareDataPropertyAssertion(String individual, String dataProperty, boolean value) {
+	public void declareDataPropertyAssertion(String individual, String dataProperty, double value) {
 		OWLNamedIndividual ind = factory.getOWLNamedIndividual(IRI.create(prefix, individual));
 		OWLDataProperty data = factory.getOWLDataProperty(IRI.create(prefix, dataProperty));
 		OWLAxiom axiom = factory.getOWLDataPropertyAssertionAxiom(data, ind, value);
-		if(getDataProperties().contains(data) && getEntities().contains(ind) && !hasDeclaredDataPropertyAssertion(ind, data)) {
+		if(getDataProperties().contains(data) && getIndividuals().contains(ind) && !hasDeclaredDataPropertyAssertion(ind, data)) {
 			manager.addAxiom(ontology, axiom);
 			saveOntology();
 		}
@@ -146,6 +162,18 @@ public class OWLHandler {
 			}
 		}
 		return false;
+	}
+	
+	public void declareObjectPropertyAssertion(String op, String ind1, String ind2) {
+		OWLObjectPropertyExpression objectProperty = factory.getOWLObjectProperty(IRI.create(prefix, op));
+		OWLNamedIndividual individual1 = factory.getOWLNamedIndividual(IRI.create(prefix, ind1));
+		OWLNamedIndividual individual2 = factory.getOWLNamedIndividual(IRI.create(prefix, ind2));
+		OWLAxiom axiom = factory.getOWLObjectPropertyAssertionAxiom(objectProperty, individual1, individual2);
+		Set<OWLNamedIndividual> allIndividuals = getIndividuals();
+		if(!ind1.equals(ind2) && getObjectProperties().contains(objectProperty) && allIndividuals.contains(individual1) && allIndividuals.contains(individual2)) {
+			manager.addAxiom(ontology, axiom);
+			saveOntology();
+		}
 	}
 	
 	public void deleteIndividual(String name) {//TODO remove his dataProperties ?
