@@ -18,6 +18,7 @@ import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLDataProperty;
 import org.semanticweb.owlapi.model.OWLDataPropertyAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
 import org.semanticweb.owlapi.model.OWLDocumentFormat;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
@@ -66,7 +67,7 @@ public class OWLHandler {
 	public Set<OWLNamedIndividual> getEntities() { //TODO change name to get Individual but for now... titiesss  
 		return ontology.getIndividualsInSignature();
 	}
-	
+	//gets a list of individuals of a class
 	public HashMap<OWLClass, Set<OWLClassAssertionAxiom>> getClassesAndTheirIndividuals() {
 		HashMap<OWLClass, Set<OWLClassAssertionAxiom>> classesIndividuals = new HashMap<>();
 		for(OWLClass c: ontology.getClassesInSignature()) {
@@ -77,8 +78,7 @@ public class OWLHandler {
 	//gets a map with the individuals and their dataproperties values dataPropertyAssertions(...)
 	public HashMap<OWLNamedIndividual, Set<OWLDataPropertyAssertionAxiom>> getindividualsProperties() {
 		HashMap<OWLNamedIndividual, Set<OWLDataPropertyAssertionAxiom>> individualsProperties = new HashMap<>();
-		Set<OWLNamedIndividual> individuals = getEntities();
-		for(OWLNamedIndividual individual : individuals) {
+		for(OWLNamedIndividual individual : getEntities()) {
 			individualsProperties.put(individual, ontology.getDataPropertyAssertionAxioms(individual));
 		}
 		return individualsProperties;
@@ -92,8 +92,40 @@ public class OWLHandler {
 	public <E> void declareOWLEntity(EntityType<?> type, String name) {
 		OWLEntity entity = factory.getOWLEntity(type, IRI.create(prefix, name));
 		OWLAxiom axiom = factory.getOWLDeclarationAxiom(entity);
+		manager.addAxiom(ontology, axiom);
+		saveOntology();
+	}
+	
+	public void deleteIndividual(String name) {//TODO remove his dataProperties ?
+		OWLNamedIndividual namedIndividual = factory.getOWLNamedIndividual(IRI.create(prefix,name));
+		for(OWLClassAssertionAxiom item: ontology.getClassAssertionAxioms(namedIndividual))
+			manager.removeAxiom(ontology, item);
+		for(OWLDeclarationAxiom item: ontology.getDeclarationAxioms(namedIndividual)) 
+			manager.removeAxiom(ontology, item);
+		saveOntology();
+	}
+	
+	public void deleteClass(String name, String iri, Boolean isName) {//TODO delete individuals from the class
+		OWLClass owlClass = null;
+		if(isName){
+			owlClass = factory.getOWLClass(IRI.create(prefix, name));
+		}else{
+			owlClass = factory.getOWLClass(IRI.create(iri));
+		}
+		for(OWLDeclarationAxiom item: ontology.getDeclarationAxioms(owlClass)){
+			manager.removeAxiom(ontology, item);
+		}
+		HashMap<OWLClass, Set<OWLClassAssertionAxiom>> individuals = getClassesAndTheirIndividuals();
+		for(OWLClass keys: individuals.keySet()) 
+			for(OWLClassAssertionAxiom item: individuals.get(keys)) 
+				manager.removeAxiom(ontology, item);
+		for(OWLSubClassOfAxiom item: ontology.getSubClassAxiomsForSuperClass(owlClass))
+			deleteClass("", item.getSubClass().toString(), false);
+		//saveOntology();
+	}
+	
+	private void saveOntology() {
 		try {
-			manager.addAxiom(ontology, axiom);
 			manager.saveOntology(ontology, new FunctionalSyntaxDocumentFormat(), new FileOutputStream(owlFile));
 		} catch (OWLOntologyStorageException | FileNotFoundException e) {
 			e.printStackTrace();
