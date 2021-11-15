@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.semanticweb.owlapi.apibinding.OWLManager;
@@ -61,16 +62,7 @@ public class OWLHandler {
 		}
 	}
 	//---------------------------------------READ---------------------------------------
-	public HashMap<OWLClass, Set<OWLSubClassOfAxiom>> getTaxonomy() {
-        Set<OWLClass> classes = ontology.getClassesInSignature();
-        HashMap<OWLClass, Set<OWLSubClassOfAxiom>> taxonomy = new HashMap<>();
-        for(OWLClass c : classes) {
-        	taxonomy.put(c, ontology.getSubClassAxiomsForSuperClass(c));
-        	System.out.println(c + " - " + taxonomy.get(c));
-        }
-        return taxonomy;
-	}
-	
+
 	//gets individuals Declaration(Individuals)
 		public Set<OWLClass> getClasses() {
 			return ontology.getClassesInSignature();
@@ -79,30 +71,41 @@ public class OWLHandler {
 	public Set<OWLNamedIndividual> getIndividuals() {
 		return ontology.getIndividualsInSignature();
 	}
-	//gets a list of individuals of a class
-	public HashMap<OWLClass, Set<OWLClassAssertionAxiom>> getClassesAndTheirIndividuals() {
-		HashMap<OWLClass, Set<OWLClassAssertionAxiom>> classesIndividuals = new HashMap<>();
-		for(OWLClass c: ontology.getClassesInSignature()) {
-			classesIndividuals.put(c, ontology.getClassAssertionAxioms(c));
-		}
-		return classesIndividuals;
-	}
-	//gets a map with the individuals and their dataproperties values dataPropertyAssertions(...)
-	public HashMap<OWLNamedIndividual, Set<OWLDataPropertyAssertionAxiom>> getindividualsProperties() {
-		HashMap<OWLNamedIndividual, Set<OWLDataPropertyAssertionAxiom>> individualsProperties = new HashMap<>();
-		for(OWLNamedIndividual individual : getIndividuals()) {
-			individualsProperties.put(individual, ontology.getDataPropertyAssertionAxioms(individual));
-		}
-		return individualsProperties;
-	}
 	//get declaration of data properties Declaration(dataProperty)
 	public Set<OWLDataProperty> getDataProperties() {
 		return ontology.getDataPropertiesInSignature();
-	}
-	
+	}	
 	//get declaration of data properties Declaration(dataProperty)
 	public Set<OWLObjectProperty> getObjectProperties() {
 		return ontology.getObjectPropertiesInSignature();
+	}
+	public HashMap<OWLClass, Set<OWLSubClassOfAxiom>> getTaxonomy() {
+        Set<OWLClass> classes = ontology.getClassesInSignature();
+        HashMap<OWLClass, Set<OWLSubClassOfAxiom>> taxonomy = new HashMap<>();
+        for(OWLClass c : classes)
+        	taxonomy.put(c, ontology.getSubClassAxiomsForSuperClass(c));
+        return taxonomy;
+	}
+	//gets a list of individuals of a class
+	public HashMap<OWLClass, Set<OWLClassAssertionAxiom>> getClassesAndTheirIndividuals() {
+		HashMap<OWLClass, Set<OWLClassAssertionAxiom>> classesIndividuals = new HashMap<>();
+		for(OWLClass c: ontology.getClassesInSignature())
+			classesIndividuals.put(c, ontology.getClassAssertionAxioms(c));
+		return classesIndividuals;
+	}
+	//gets a map with the individuals and their dataproperties values dataPropertyAssertions(...)
+	public HashMap<OWLNamedIndividual, Set<OWLDataPropertyAssertionAxiom>> getindividualsDataProperties() {
+		HashMap<OWLNamedIndividual, Set<OWLDataPropertyAssertionAxiom>> individualsProperties = new HashMap<>();
+		for(OWLNamedIndividual individual : getIndividuals())
+			individualsProperties.put(individual, ontology.getDataPropertyAssertionAxioms(individual));
+		return individualsProperties;
+	}
+	//gets a map with the individuals and their objectproperties connections objectPropertyAssertions(...)
+	public HashMap<OWLNamedIndividual, Set<OWLObjectPropertyAssertionAxiom>> getIndividualsObjectProperties() {
+		HashMap<OWLNamedIndividual, Set<OWLObjectPropertyAssertionAxiom>> individualsProperties = new HashMap<>();
+		for(OWLNamedIndividual individual: getIndividuals())
+			individualsProperties.put(individual, ontology.getObjectPropertyAssertionAxioms(individual));
+		return individualsProperties;
 	}
 	//---------------------------------------CREATE---------------------------------------
 	//Exemplo: handler.declareOWLEntity(EntityType.CLASS,"Pessoas");
@@ -176,7 +179,7 @@ public class OWLHandler {
 	}
 	
 	public boolean hasDeclaredDataPropertyAssertion(OWLNamedIndividual ind, OWLDataProperty data) {
-		for(OWLDataPropertyAssertionAxiom ax: getindividualsProperties().get(ind)) {
+		for(OWLDataPropertyAssertionAxiom ax: getindividualsDataProperties().get(ind)) {
 			if(ax.getDataPropertiesInSignature().contains(data)) {
 				return true;
 			}
@@ -252,6 +255,7 @@ public class OWLHandler {
 	
 	public void deleteClassFromIndividual(String individualName, String className) {
 		OWLClass owlClass = factory.getOWLClass(IRI.create(prefix, className));
+		
 		OWLNamedIndividual individual = factory.getOWLNamedIndividual(IRI.create(prefix,individualName));
 		for(OWLClassAssertionAxiom dp: ontology.getClassAssertionAxioms(individual))
 			if(dp.getClassExpression().equals(owlClass))
