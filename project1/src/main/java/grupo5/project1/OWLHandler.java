@@ -25,6 +25,7 @@ import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
 import org.semanticweb.owlapi.model.OWLDocumentFormat;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLEquivalentDataPropertiesAxiom;
+import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLObjectPropertyAssertionAxiom;
@@ -41,13 +42,21 @@ import org.swrlapi.sqwrl.SQWRLQueryEngine;
 import org.swrlapi.sqwrl.SQWRLResult;
 import org.swrlapi.sqwrl.exceptions.SQWRLException;
 
+import uk.ac.manchester.cs.owl.owlapi.OWLLiteralImpl;
+import uk.ac.manchester.cs.owl.owlapi.OWLLiteralImplBoolean;
+import uk.ac.manchester.cs.owl.owlapi.OWLLiteralImplDouble;
+import uk.ac.manchester.cs.owl.owlapi.OWLLiteralImplFloat;
+import uk.ac.manchester.cs.owl.owlapi.OWLLiteralImplInteger;
+import uk.ac.manchester.cs.owl.owlapi.OWLLiteralImplString;
+
 public class OWLHandler {
 
 	private File owlFile;
 	private OWLOntologyManager manager;
 	private OWLOntology ontology;
 	private OWLDataFactory factory;
-	private String prefix;
+	private String defaultprefix;
+	private String datatypePrefix;
 
 	public OWLHandler(String file) {
 		owlFile = new File(file);
@@ -55,7 +64,8 @@ public class OWLHandler {
 		try {
 			ontology =  manager.loadOntologyFromOntologyDocument(owlFile);
 			factory = ontology.getOWLOntologyManager().getOWLDataFactory();
-			prefix = manager.getOntologyFormat(ontology).asPrefixOWLOntologyFormat().getDefaultPrefix();
+			defaultprefix = manager.getOntologyFormat(ontology).asPrefixOWLOntologyFormat().getDefaultPrefix();
+			datatypePrefix = manager.getOntologyFormat(ontology).asPrefixOWLOntologyFormat().getPrefix("xsd:");
 		} catch (OWLOntologyCreationException e) {
 	    	System.err.println("Error creating OWL ontology: " + e.getMessage());
 	    	System.exit(-1);
@@ -110,15 +120,15 @@ public class OWLHandler {
 	//---------------------------------------CREATE---------------------------------------
 	//Exemplo: handler.declareOWLEntity(EntityType.CLASS,"Pessoas");
 	public <E> void declareOWLEntity(EntityType<?> type, String name) {
-		OWLEntity entity = factory.getOWLEntity(type, IRI.create(prefix, name));
+		OWLEntity entity = factory.getOWLEntity(type, IRI.create(defaultprefix, name));
 		OWLAxiom axiom = factory.getOWLDeclarationAxiom(entity);
 		manager.addAxiom(ontology, axiom);
 		saveOntology();
 	}
 	
 	public void declareClassAssertion(String classname, String individual) {
-		OWLClass entity = factory.getOWLClass(IRI.create(prefix, classname));
-		OWLNamedIndividual ind = factory.getOWLNamedIndividual(IRI.create(prefix, individual));
+		OWLClass entity = factory.getOWLClass(IRI.create(defaultprefix, classname));
+		OWLNamedIndividual ind = factory.getOWLNamedIndividual(IRI.create(defaultprefix, individual));
 		OWLAxiom axiom = factory.getOWLClassAssertionAxiom(entity, ind);
 		if(ontology.getClassesInSignature().contains(entity) && ontology.getIndividualsInSignature().contains(ind)) {
 			manager.addAxiom(ontology, axiom);
@@ -127,8 +137,8 @@ public class OWLHandler {
 	}
 	
 	public void declareSubClassOf(String sc1, String sc2) {
-		OWLClass superclass = factory.getOWLClass(IRI.create(prefix, sc1));
-		OWLClass subclass = factory.getOWLClass(IRI.create(prefix, sc2));
+		OWLClass superclass = factory.getOWLClass(IRI.create(defaultprefix, sc1));
+		OWLClass subclass = factory.getOWLClass(IRI.create(defaultprefix, sc2));
 		OWLAxiom axiom = factory.getOWLSubClassOfAxiom(superclass, subclass);
 		Set<OWLClass> allClasses = getClasses();
 		if(allClasses.contains(superclass) && allClasses.contains(subclass)) {
@@ -137,47 +147,47 @@ public class OWLHandler {
 		}
 	}
 
-	public void declareDataPropertyAssertion(String individual, String dataProperty, String value) {
-		OWLNamedIndividual ind = factory.getOWLNamedIndividual(IRI.create(prefix, individual));
-		OWLDataProperty data = factory.getOWLDataProperty(IRI.create(prefix, dataProperty));
-		OWLAxiom axiom = factory.getOWLDataPropertyAssertionAxiom(data, ind, value);
+	private void declareMainDataPropertyAssertion(String individual, String dataProperty, OWLLiteral literal) {
+		OWLNamedIndividual ind = factory.getOWLNamedIndividual(IRI.create(defaultprefix, individual));
+		OWLDataProperty data = factory.getOWLDataProperty(IRI.create(defaultprefix, dataProperty));
+		OWLAxiom axiom = factory.getOWLDataPropertyAssertionAxiom(data, ind, literal);
 		if(getDataProperties().contains(data) && getIndividuals().contains(ind) && !hasDeclaredDataPropertyAssertion(ind, data)) {
 			manager.addAxiom(ontology, axiom);
 			saveOntology();
 		}
+	}
+	
+	public void declareDataPropertyAssertion(String individual, String dataProperty, String value) {
+		OWLLiteralImplString literal = new OWLLiteralImplString(value);
+		declareMainDataPropertyAssertion(individual, dataProperty, literal);
 	}
 	
 	public void declareDataPropertyAssertion(String individual, String dataProperty, boolean value) {
-		OWLNamedIndividual ind = factory.getOWLNamedIndividual(IRI.create(prefix, individual));
-		OWLDataProperty data = factory.getOWLDataProperty(IRI.create(prefix, dataProperty));
-		OWLAxiom axiom = factory.getOWLDataPropertyAssertionAxiom(data, ind, value);
-		if(getDataProperties().contains(data) && getIndividuals().contains(ind) && !hasDeclaredDataPropertyAssertion(ind, data)) {
-			manager.addAxiom(ontology, axiom);
-			saveOntology();
-		}
+		
+		OWLDatatype datatype = factory.getOWLDatatype(IRI.create(datatypePrefix, "boolean"));
+		OWLLiteralImplBoolean literal = new OWLLiteralImplBoolean(value, datatype);
+		declareMainDataPropertyAssertion(individual, dataProperty, literal);
 	}
 	
 	public void declareDataPropertyAssertion(String individual, String dataProperty, int value) {
-		OWLNamedIndividual ind = factory.getOWLNamedIndividual(IRI.create(prefix, individual));
-		OWLDataProperty data = factory.getOWLDataProperty(IRI.create(prefix, dataProperty));
-		OWLAxiom axiom = factory.getOWLDataPropertyAssertionAxiom(data, ind, value);
-		if(getDataProperties().contains(data) && getIndividuals().contains(ind) && !hasDeclaredDataPropertyAssertion(ind, data)) {
-			manager.addAxiom(ontology, axiom);
-			saveOntology();
-		}
+		OWLDatatype datatype = factory.getOWLDatatype(IRI.create(datatypePrefix, "integer"));
+		OWLLiteralImplInteger  literal = new OWLLiteralImplInteger(value, datatype);
+		declareMainDataPropertyAssertion(individual, dataProperty, literal);
 	
 	}
 	
 	public void declareDataPropertyAssertion(String individual, String dataProperty, double value) {
-		OWLNamedIndividual ind = factory.getOWLNamedIndividual(IRI.create(prefix, individual));
-		OWLDataProperty data = factory.getOWLDataProperty(IRI.create(prefix, dataProperty));
-		OWLAxiom axiom = factory.getOWLDataPropertyAssertionAxiom(data, ind, value);
-		if(getDataProperties().contains(data) && getIndividuals().contains(ind) && !hasDeclaredDataPropertyAssertion(ind, data)) {
-			manager.addAxiom(ontology, axiom);
-			saveOntology();
-		}
+		OWLDatatype datatype = factory.getOWLDatatype(IRI.create(datatypePrefix, "double"));
+		OWLLiteralImplDouble  literal = new OWLLiteralImplDouble(value, datatype);
+		declareMainDataPropertyAssertion(individual, dataProperty, literal);
 	}
 	
+	public void declareDataPropertyAssertion(String individual, String dataProperty, float value) {
+		OWLDatatype datatype = factory.getOWLDatatype(IRI.create(datatypePrefix, "float"));
+		OWLLiteralImplFloat  literal = new OWLLiteralImplFloat(value, datatype);
+		declareMainDataPropertyAssertion(individual, dataProperty, literal);
+	}
+
 	public boolean hasDeclaredDataPropertyAssertion(OWLNamedIndividual ind, OWLDataProperty data) {
 		for(OWLDataPropertyAssertionAxiom ax: getindividualsDataProperties().get(ind)) {
 			if(ax.getDataPropertiesInSignature().contains(data)) {
@@ -188,19 +198,21 @@ public class OWLHandler {
 	}
 	
 	public void declareObjectPropertyAssertion(String op, String ind1, String ind2) {
-		OWLObjectPropertyExpression objectProperty = factory.getOWLObjectProperty(IRI.create(prefix, op));
-		OWLNamedIndividual individual1 = factory.getOWLNamedIndividual(IRI.create(prefix, ind1));
-		OWLNamedIndividual individual2 = factory.getOWLNamedIndividual(IRI.create(prefix, ind2));
-		OWLAxiom axiom = factory.getOWLObjectPropertyAssertionAxiom(objectProperty, individual1, individual2);
+		OWLObjectPropertyExpression objectProperty = factory.getOWLObjectProperty(IRI.create(defaultprefix, op));
+		OWLNamedIndividual individual1 = factory.getOWLNamedIndividual(IRI.create(defaultprefix, ind1));
+		OWLNamedIndividual individual2 = factory.getOWLNamedIndividual(IRI.create(defaultprefix, ind2));
+		OWLAxiom axiom1 = factory.getOWLObjectPropertyAssertionAxiom(objectProperty, individual1, individual2);
+		OWLAxiom axiom2 = factory.getOWLObjectPropertyAssertionAxiom(objectProperty, individual2, individual1);
 		Set<OWLNamedIndividual> allIndividuals = getIndividuals();
 		if(!ind1.equals(ind2) && getObjectProperties().contains(objectProperty) && allIndividuals.contains(individual1) && allIndividuals.contains(individual2)) {
-			manager.addAxiom(ontology, axiom);
+			manager.addAxiom(ontology, axiom1);
+			manager.addAxiom(ontology, axiom2);
 			saveOntology();
 		}
 	}
 	//---------------------------------------DELETE---------------------------------------
 	public void deleteObjectProperty(String name) {
-		OWLObjectProperty objectProperty = factory.getOWLObjectProperty(IRI.create(prefix, name));
+		OWLObjectProperty objectProperty = factory.getOWLObjectProperty(IRI.create(defaultprefix, name));
 		for(OWLNamedIndividual individual: getIndividuals()) 
 			for(OWLObjectPropertyAssertionAxiom op: ontology.getObjectPropertyAssertionAxioms(individual))
 				if(op.getProperty().equals(objectProperty))
@@ -211,9 +223,9 @@ public class OWLHandler {
 	}
 	
 	public void deleteObjectPropertyofIndividuals(String objectPropertyName, String individualName1, String individualName2) {
-		OWLObjectProperty objectProperty = factory.getOWLObjectProperty(IRI.create(prefix, objectPropertyName));
-		OWLNamedIndividual individual1 = factory.getOWLNamedIndividual(IRI.create(prefix,individualName1));
-		OWLNamedIndividual individual2 = factory.getOWLNamedIndividual(IRI.create(prefix,individualName2));
+		OWLObjectProperty objectProperty = factory.getOWLObjectProperty(IRI.create(defaultprefix, objectPropertyName));
+		OWLNamedIndividual individual1 = factory.getOWLNamedIndividual(IRI.create(defaultprefix,individualName1));
+		OWLNamedIndividual individual2 = factory.getOWLNamedIndividual(IRI.create(defaultprefix,individualName2));
 		Set<OWLObjectPropertyAssertionAxiom> assertions = ontology.getObjectPropertyAssertionAxioms(individual1);
 		assertions.addAll(ontology.getObjectPropertyAssertionAxioms(individual2));
 		for(OWLObjectPropertyAssertionAxiom op: assertions) 
@@ -223,7 +235,7 @@ public class OWLHandler {
 	}
 	
 	public void deleteDataProperty(String name){
-		OWLDataProperty dataProperty = factory.getOWLDataProperty(IRI.create(prefix, name));
+		OWLDataProperty dataProperty = factory.getOWLDataProperty(IRI.create(defaultprefix, name));
 		for(OWLNamedIndividual individual: getIndividuals()) 
 			for(OWLDataPropertyAssertionAxiom dp: ontology.getDataPropertyAssertionAxioms(individual))
 				if(dp.getProperty().equals(dataProperty))
@@ -234,8 +246,8 @@ public class OWLHandler {
 	}
 	
 	public void deleteDataPropertyOfIndividual(String individualName, String dataPropertyName) {
-		OWLDataProperty dataProperty = factory.getOWLDataProperty(IRI.create(prefix, dataPropertyName));
-		OWLNamedIndividual individual = factory.getOWLNamedIndividual(IRI.create(prefix,individualName));
+		OWLDataProperty dataProperty = factory.getOWLDataProperty(IRI.create(defaultprefix, dataPropertyName));
+		OWLNamedIndividual individual = factory.getOWLNamedIndividual(IRI.create(defaultprefix,individualName));
 		for(OWLDataPropertyAssertionAxiom dp: ontology.getDataPropertyAssertionAxioms(individual))
 			if(dp.getProperty().equals(dataProperty))
 				manager.removeAxiom(ontology, dp);
@@ -243,7 +255,7 @@ public class OWLHandler {
 	}
 	
 	public void deleteIndividual(String name) {//TODO remove his dataProperties ?
-		OWLNamedIndividual namedIndividual = factory.getOWLNamedIndividual(IRI.create(prefix,name));
+		OWLNamedIndividual namedIndividual = factory.getOWLNamedIndividual(IRI.create(defaultprefix,name));
 		for(OWLClassAssertionAxiom item: ontology.getClassAssertionAxioms(namedIndividual))
 			manager.removeAxiom(ontology, item);
 		for(OWLDataPropertyAssertionAxiom item: ontology.getDataPropertyAssertionAxioms(namedIndividual))
@@ -254,9 +266,9 @@ public class OWLHandler {
 	}
 	
 	public void deleteClassFromIndividual(String individualName, String className) {
-		OWLClass owlClass = factory.getOWLClass(IRI.create(prefix, className));
+		OWLClass owlClass = factory.getOWLClass(IRI.create(defaultprefix, className));
 		
-		OWLNamedIndividual individual = factory.getOWLNamedIndividual(IRI.create(prefix,individualName));
+		OWLNamedIndividual individual = factory.getOWLNamedIndividual(IRI.create(defaultprefix,individualName));
 		for(OWLClassAssertionAxiom dp: ontology.getClassAssertionAxioms(individual))
 			if(dp.getClassExpression().equals(owlClass))
 				manager.removeAxiom(ontology, dp);
@@ -266,7 +278,7 @@ public class OWLHandler {
 	public void deleteClass(String name, String iri, Boolean isName) {//TODO delete individuals from the class
 		OWLClass owlClass = null;
 		if(isName){
-			owlClass = factory.getOWLClass(IRI.create(prefix, name));
+			owlClass = factory.getOWLClass(IRI.create(defaultprefix, name));
 		}else{
 			owlClass = factory.getOWLClass(IRI.create(iri));
 		}
@@ -281,7 +293,16 @@ public class OWLHandler {
 			manager.removeAxiom(ontology, item);
 		saveOntology();
 	}
-	
+	//---------------------------------------UPDATE---------------------------------------
+	public void changeDataProperty(String individual, String dataProperty, int value) {
+		OWLNamedIndividual ind = factory.getOWLNamedIndividual(IRI.create(defaultprefix, individual));
+		OWLDataProperty dp = factory.getOWLDataProperty(IRI.create(defaultprefix, dataProperty));
+		OWLAxiom owlOldAxiom = factory.getOWLDataPropertyAssertionAxiom(dp, ind, value);
+		if(getIndividuals().contains(ind) && getDataProperties().contains(dp)) {
+			System.out.println(owlOldAxiom);
+		}
+	}
+		
 	private void saveOntology() {
 		try {
 			manager.saveOntology(ontology, new FunctionalSyntaxDocumentFormat(), new FileOutputStream(owlFile));
@@ -289,6 +310,7 @@ public class OWLHandler {
 			e.printStackTrace();
 		}
 	}
+	
 	
 	
 
