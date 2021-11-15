@@ -2,6 +2,7 @@ package grupo5.project1;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.http.HttpResponse;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.MergeCommand;
@@ -29,14 +30,16 @@ public class GitHandler {
 
 	public void test(String branchName) {
 		try {
-			//RefUpdate newBranch = createBranch(branchName);
+			RefUpdate newBranch = createBranch(branchName);
 			changeBranch(branchName);
 			
-			commit("Testing branch " + branchName);
+			commit("Testing branch again " + branchName);
+			push("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");
 			
 			changeBranch("master");
 			mergeBrach(branchName);
-			deleteBranch(branchName);
+			push("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");
+//			deleteBranch(branchName);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
