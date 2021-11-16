@@ -43,7 +43,6 @@ public class JSONHandler {
 		ArrayList<Integer> index = new ArrayList<>();
 		for(int i = 0; i < array.length(); i++) {
 			JSONObject object = array.getJSONObject(i);
-			System.out.println(object);
 			for(int j = 0; j < array.length(); j++) {
 				if(findAndReplaceJSONObject(array, object, j)) {
 					index.add(i);
