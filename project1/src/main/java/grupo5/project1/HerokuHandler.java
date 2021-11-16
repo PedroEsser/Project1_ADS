@@ -9,7 +9,11 @@ import org.apache.http.client.ClientProtocolException;
 
 public class HerokuHandler {
 
-	private static final String HEROKU_URI = "https://ads-tunnel.herokuapp.com/";//"http://localhost:5000/";//
+	private static final String HEROKU_URI = "http://localhost:5000/";//"https://ads-tunnel.herokuapp.com/";//
+	
+	public static void main(String[] args) {
+		listen();
+	}
 	
 	public static void listen() {
     	new Thread(new Runnable() {
@@ -18,7 +22,7 @@ public class HerokuHandler {
 			public void run() {
 				while(true) {
 		    		try {
-		    			String res = HTTPHandler.get(HEROKU_URI + "docker_connect");
+		    			String res = HTTPHandler.get(HEROKU_URI + "docker_hello");
 		    			System.out.println("Got query: " + res);
 		    			handle(res);
 		    		} catch (Exception e) {
@@ -36,12 +40,18 @@ public class HerokuHandler {
 			@Override
 			public void run() {
 				try {
-					String[] split = query.split("/");
-					String id = split[0];
-					Integer.parseInt(id);
-					String q = query.substring(query.indexOf('/') + 1);
-					String response = generateResponse(q);
-	    			respond(id, response);
+					System.out.println("Got: " + query);
+					String[] split = query.split("|");		//clien id | url tail | post
+					
+					int id = Integer.parseInt(split[0]);
+					String urlTail = split[1];
+					String post = "";
+					if(split.length == 3)
+						post = split[2];
+					
+					String response = generateResponse(urlTail, post);
+					System.out.println("id: " + id + ", Answering to:" + urlTail);
+	    			respond(id + "", response);
 	    		} catch (Exception e) {
 	    			//e.printStackTrace();
 	    		}
@@ -54,12 +64,18 @@ public class HerokuHandler {
     	HTTPHandler.post(HEROKU_URI + "docker_post", id, response);
     }
     
-    public static String generateResponse(String query) {		//fetch html file from local web server
-    	System.out.println("Answering to: " + query);
-    	if(query.isEmpty())
+    public static String generateResponse(String urlTail, String post) {		//fetch html file from local web server
+    	System.out.println("Answering to: " + urlTail);
+    	
+    	if(!post.isBlank())
+    		System.out.println("With post data = "  + post);
+    	
+    	if(urlTail.equals("/"))
 			return "Le empty page";
-		if(query.equals("mandelbrot"))
+		if(urlTail.equals("/mandelbrot"))
 			return getHTMLAsString("C:/Users/pedro/Desktop/mandelbrot.html");
+		if(urlTail.equals("/test"))
+			return getHTMLAsString("src/main/java/grupo5/project1/testFile.html");
 		
 		return "";
     }

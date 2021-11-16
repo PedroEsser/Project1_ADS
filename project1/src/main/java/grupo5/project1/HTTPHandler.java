@@ -1,11 +1,8 @@
 package grupo5.project1;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import java.net.URI;
 import java.net.http.HttpResponse.BodyHandlers;
 
