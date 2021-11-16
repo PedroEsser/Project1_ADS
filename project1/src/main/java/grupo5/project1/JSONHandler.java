@@ -15,6 +15,10 @@ import java.lang.reflect.Field;
 
 public class JSONHandler {
 
+	public static void createTableJSON() {
+		
+	}
+	
 	public static void createTaxonomyJSON(LinkedHashMap<OWLClass, ArrayList<OWLClass>> map) {
 		try {
 			FileWriter file = new FileWriter("./taxonomy.json");

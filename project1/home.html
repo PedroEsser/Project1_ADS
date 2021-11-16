@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<title>Ontology Editor</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<style>button,body,h1,h2,h3,h4,h5,h6 {font-family: "Times New Roman"}</style>
+
+<body>
+	<div class="w3-top">
+	  <div class="w3-bar w3-white w3-border w3-large">
+	  	<input id="taxonomy" type="button" value="Taxonomy" onclick="load(this)" style="cursor: pointer;" class="w3-bar-item w3-hide-small w3-padding-large w3-white"/>
+	    <input id="table" type="button" value="Ontology Table" onclick="load(this)" style="cursor: pointer;" class="w3-bar-item w3-hide-small w3-padding-large w3-white"/>
+	  	<input id="table" type="button" value="Login as Curator" onclick="load(this)" style="cursor: pointer;" class="w3-bar-item w3-hide-small w3-padding-large w3-white w3-right"/>
+	  </div>
+	</div>
+	<div id="div" class="w3-white w3-center" style="position:absolute; top:0px; right:0px; bottom:0px; left:0px; padding:100px 50px 0px 50px;"></div>
+	<script>
+		function load(element) {
+			if(element.id == "taxonomy") {
+				document.getElementById("div").innerHTML='<object style="width:100%; height:100%;" type="text/html" data="taxonomy.html" ></object>';
+			} else if(element.id == "table") {
+				document.getElementById("div").innerHTML='<object style="width:100%; height:100%;" type="text/html" data="taxonomy.html" ></object>';
+			}
+		}
+	</script>
+</body>
+
+</html>
