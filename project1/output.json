@@ -1,0 +1,23 @@
+[
+ {
+  "class": "Algorithm",
+  "_children": [
+   {
+    "class": "B",
+    "_children": [{
+     "class": "E",
+     "_children": [{"class": "F"}]
+    }]
+   },
+   {"class": "C"},
+   {"class": "D"}
+  ]
+ },
+ {
+  "class": "G",
+  "_children": [
+   {"class": "H"},
+   {"class": "I"}
+  ]
+ }
+]

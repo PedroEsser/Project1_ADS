@@ -6,6 +6,8 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Set;
 
 import org.semanticweb.owlapi.apibinding.OWLManager;
@@ -16,6 +18,7 @@ import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLDataProperty;
 import org.semanticweb.owlapi.model.OWLDataPropertyAssertionAxiom;
@@ -74,9 +77,9 @@ public class OWLHandler {
 	//---------------------------------------READ---------------------------------------
 
 	//gets individuals Declaration(Individuals)
-		public Set<OWLClass> getClasses() {
-			return ontology.getClassesInSignature();
-		}
+	public Set<OWLClass> getClasses() {
+		return ontology.getClassesInSignature();
+	}
 	//gets individuals Declaration(Individuals)
 	public Set<OWLNamedIndividual> getIndividuals() {
 		return ontology.getIndividualsInSignature();
@@ -89,11 +92,14 @@ public class OWLHandler {
 	public Set<OWLObjectProperty> getObjectProperties() {
 		return ontology.getObjectPropertiesInSignature();
 	}
-	public HashMap<OWLClass, Set<OWLSubClassOfAxiom>> getTaxonomy() {
+	public LinkedHashMap<OWLClass, ArrayList<OWLClass>> getTaxonomy() {
         Set<OWLClass> classes = ontology.getClassesInSignature();
-        HashMap<OWLClass, Set<OWLSubClassOfAxiom>> taxonomy = new HashMap<>();
-        for(OWLClass c : classes)
-        	taxonomy.put(c, ontology.getSubClassAxiomsForSuperClass(c));
+        LinkedHashMap<OWLClass, ArrayList<OWLClass>> taxonomy = new LinkedHashMap<>();
+        for(OWLClass c : classes) {
+        	taxonomy.put(c, new ArrayList<OWLClass>());
+        	for(OWLSubClassOfAxiom axiom : ontology.getSubClassAxiomsForSuperClass(c))
+        		taxonomy.get(c).add(axiom.getSubClass().asOWLClass());
+        }
         return taxonomy;
 	}
 	//gets a list of individuals of a class
