@@ -17,7 +17,7 @@ public class JSONHandler {
 
 	public static void createTaxonomyJSON(LinkedHashMap<OWLClass, ArrayList<OWLClass>> map) {
 		try {
-			FileWriter file = new FileWriter("./output.json");
+			FileWriter file = new FileWriter("./taxonomy.json");
 			JSONArray array = new JSONArray();
 			for(Entry<OWLClass, ArrayList<OWLClass>> entry : map.entrySet()) {
 				JSONObject object = new JSONObject();
