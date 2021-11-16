@@ -4,12 +4,15 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import org.openrdf.model.vocabulary.OWL;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.formats.FunctionalSyntaxDocumentFormat;
 import org.semanticweb.owlapi.model.AxiomType;
@@ -39,6 +42,7 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLOntologyStorageException;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.util.DefaultPrefixManager;
+import org.semanticweb.owlapi.util.OWLEntityRenamer;
 import org.swrlapi.factory.SWRLAPIFactory;
 import org.swrlapi.parser.SWRLParseException;
 import org.swrlapi.sqwrl.SQWRLQueryEngine;
@@ -125,7 +129,7 @@ public class OWLHandler {
 	}
 	//---------------------------------------CREATE---------------------------------------
 	//Exemplo: handler.declareOWLEntity(EntityType.CLASS,"Pessoas");
-	public <E> void declareOWLEntity(EntityType<?> type, String name) {
+	public void declareOWLEntity(EntityType<?> type, String name) {
 		OWLEntity entity = factory.getOWLEntity(type, IRI.create(defaultprefix, name));
 		OWLAxiom axiom = factory.getOWLDeclarationAxiom(entity);
 		manager.addAxiom(ontology, axiom);
@@ -300,15 +304,116 @@ public class OWLHandler {
 		saveOntology();
 	}
 	//---------------------------------------UPDATE---------------------------------------
-	public void changeDataProperty(String individual, String dataProperty, int value) {
+	public void changeClass(String oldName, String newName) {
+		Map<OWLEntity, IRI> entity2IRIMap = new HashMap<>();
+		OWLEntityRenamer renamer = new OWLEntityRenamer(manager, Collections.singleton(ontology));
+	    OWLClass ni = factory.getOWLClass(IRI.create(defaultprefix, oldName));
+
+	    for(OWLClass toRename: ontology.getClassesInSignature()) {
+			if(toRename.equals(ni)) {
+	        	entity2IRIMap.put(toRename, IRI.create(defaultprefix, newName));
+	    	}
+		}
+
+	    manager.applyChanges(renamer.changeIRI(entity2IRIMap));
+	    saveOntology();
+	}
+	
+	public void changeNamedIndividual(String oldName, String newName) {
+		Map<OWLEntity, IRI> entity2IRIMap = new HashMap<>();
+		OWLEntityRenamer renamer = new OWLEntityRenamer(manager, Collections.singleton(ontology));
+	    OWLNamedIndividual ni = factory.getOWLNamedIndividual(IRI.create(defaultprefix, oldName));
+
+	    for(OWLNamedIndividual toRename: ontology.getIndividualsInSignature()) {
+			if(toRename.equals(ni)) {
+	        	entity2IRIMap.put(toRename, IRI.create(defaultprefix, newName));
+	    	}
+		}
+
+	    manager.applyChanges(renamer.changeIRI(entity2IRIMap));
+	    saveOntology();
+	}
+	
+	public void changeObjectProperty(String oldName, String newName) {
+		Map<OWLEntity, IRI> entity2IRIMap = new HashMap<>();
+		OWLEntityRenamer renamer = new OWLEntityRenamer(manager, Collections.singleton(ontology));
+	    OWLObjectProperty ni = factory.getOWLObjectProperty(IRI.create(defaultprefix, oldName));
+
+	    for(OWLObjectProperty toRename: ontology.getObjectPropertiesInSignature()) {
+			if(toRename.equals(ni)) {
+	        	entity2IRIMap.put(toRename, IRI.create(defaultprefix, newName));
+	    	}
+		}
+
+	    manager.applyChanges(renamer.changeIRI(entity2IRIMap));
+	    saveOntology();
+	}
+	
+	public void changeDataProperty(String oldName, String newName) {
+		Map<OWLEntity, IRI> entity2IRIMap = new HashMap<>();
+		OWLEntityRenamer renamer = new OWLEntityRenamer(manager, Collections.singleton(ontology));
+	    OWLDataProperty ni = factory.getOWLDataProperty(IRI.create(defaultprefix, oldName));
+
+	    for(OWLDataProperty toRename: ontology.getDataPropertiesInSignature()) {
+			if(toRename.equals(ni)) {
+	        	entity2IRIMap.put(toRename, IRI.create(defaultprefix, newName));
+	    	}
+		}
+
+	    manager.applyChanges(renamer.changeIRI(entity2IRIMap));
+	    saveOntology();
+	}
+	
+	public void changeDataPropertyAssertion(String individual, String dataProperty, String oldValue, String newValue) {
 		OWLNamedIndividual ind = factory.getOWLNamedIndividual(IRI.create(defaultprefix, individual));
-		OWLDataProperty dp = factory.getOWLDataProperty(IRI.create(defaultprefix, dataProperty));
-		OWLAxiom owlOldAxiom = factory.getOWLDataPropertyAssertionAxiom(dp, ind, value);
-		if(getIndividuals().contains(ind) && getDataProperties().contains(dp)) {
-			System.out.println(owlOldAxiom);
+		OWLDataProperty dproperty = factory.getOWLDataProperty(IRI.create(defaultprefix, dataProperty));
+		OWLAxiom owlOldAxiom = factory.getOWLDataPropertyAssertionAxiom(dproperty, ind, oldValue);
+		if(getIndividuals().contains(ind) && getDataProperties().contains(dproperty) && getindividualsDataProperties().get(ind).contains(owlOldAxiom)) {
+			deleteDataPropertyOfIndividual(individual, dataProperty);
+			declareDataPropertyAssertion(individual, dataProperty, newValue);
 		}
 	}
-		
+	
+	public void changeDataPropertyAssertion(String individual, String dataProperty, boolean oldValue, boolean newValue) {
+		OWLNamedIndividual ind = factory.getOWLNamedIndividual(IRI.create(defaultprefix, individual));
+		OWLDataProperty dproperty = factory.getOWLDataProperty(IRI.create(defaultprefix, dataProperty));
+		OWLAxiom owlOldAxiom = factory.getOWLDataPropertyAssertionAxiom(dproperty, ind, oldValue);
+		if(getIndividuals().contains(ind) && getDataProperties().contains(dproperty) && getindividualsDataProperties().get(ind).contains(owlOldAxiom)) {
+			deleteDataPropertyOfIndividual(individual, dataProperty);
+			declareDataPropertyAssertion(individual, dataProperty, newValue);
+		}
+	}
+	
+	public void changeDataPropertyAssertion(String individual, String dataProperty, int oldValue, int newValue) {
+		OWLNamedIndividual ind = factory.getOWLNamedIndividual(IRI.create(defaultprefix, individual));
+		OWLDataProperty dproperty = factory.getOWLDataProperty(IRI.create(defaultprefix, dataProperty));
+		OWLAxiom owlOldAxiom = factory.getOWLDataPropertyAssertionAxiom(dproperty, ind, oldValue);
+		if(getIndividuals().contains(ind) && getDataProperties().contains(dproperty) && getindividualsDataProperties().get(ind).contains(owlOldAxiom)) {
+			deleteDataPropertyOfIndividual(individual, dataProperty);
+			declareDataPropertyAssertion(individual, dataProperty, newValue);
+		}
+	}
+	
+	public void changeDataPropertyAssertion(String individual, String dataProperty, double oldValue, double newValue) {
+		OWLNamedIndividual ind = factory.getOWLNamedIndividual(IRI.create(defaultprefix, individual));
+		OWLDataProperty dproperty = factory.getOWLDataProperty(IRI.create(defaultprefix, dataProperty));
+		OWLAxiom owlOldAxiom = factory.getOWLDataPropertyAssertionAxiom(dproperty, ind, oldValue);
+		if(getIndividuals().contains(ind) && getDataProperties().contains(dproperty) && getindividualsDataProperties().get(ind).contains(owlOldAxiom)) {
+			deleteDataPropertyOfIndividual(individual, dataProperty);
+			declareDataPropertyAssertion(individual, dataProperty, newValue);
+		}
+	}
+	
+	public void changeDataPropertyAssertion(String individual, String dataProperty, float oldValue, float newValue) {
+		OWLNamedIndividual ind = factory.getOWLNamedIndividual(IRI.create(defaultprefix, individual));
+		OWLDataProperty dproperty = factory.getOWLDataProperty(IRI.create(defaultprefix, dataProperty));
+		OWLAxiom owlOldAxiom = factory.getOWLDataPropertyAssertionAxiom(dproperty, ind, oldValue);
+		if(getIndividuals().contains(ind) && getDataProperties().contains(dproperty) && getindividualsDataProperties().get(ind).contains(owlOldAxiom)) {
+			deleteDataPropertyOfIndividual(individual, dataProperty);
+			declareDataPropertyAssertion(individual, dataProperty, newValue);
+		}
+	}
+	//---------------------------------------AUXILIARY FUNCTIONS---------------------------------------
 	private void saveOntology() {
 		try {
 			manager.saveOntology(ontology, new FunctionalSyntaxDocumentFormat(), new FileOutputStream(owlFile));
