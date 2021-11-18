@@ -15,6 +15,7 @@
 		<input id="edit" type="button" value="Edit" onclick="load(this)" style="font-size: 15px; cursor: pointer;"/>
 		<input id="delete" type="button" value="Delete" onclick="load(this)" style="font-size: 15px; cursor: pointer;"/>
 	</div>
+	<p id="demo"></p>
 	<script id="taxonomy" type="application/json" src="taxonomy.json"></script>
 	<script>
 		var tableDataNested = [{
@@ -644,6 +645,18 @@
 		    {title:"Class", field:"class", responsive:0},
 		    ],
 		});
+		
+		function load(element) {
+			if(element.id=="create"){
+				document.getElementById("demo").innerHTML = "TODO";
+			}else if(element.id=="edit"){
+				document.getElementById("demo").innerHTML = "TODO";
+			}else if(element.id=="delete"){
+				var selectedcell = table.getSelectedRows()[0];
+				document.getElementById("demo").innerHTML = selectedcell.getCells()[0].getValue();
+				selectedcell.delete();
+			}
+		}
 	</script>
 </body>
 

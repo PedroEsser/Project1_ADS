@@ -11,7 +11,7 @@
 	  <div class="w3-bar w3-white w3-border w3-large">
 	  	<input id="taxonomy" type="button" value="Taxonomy" onclick="load(this)" style="cursor: pointer;" class="w3-bar-item w3-hide-small w3-padding-large w3-white"/>
 	    <input id="table" type="button" value="Ontology Table" onclick="load(this)" style="cursor: pointer;" class="w3-bar-item w3-hide-small w3-padding-large w3-white"/>
-	  	<input id="table" type="button" value="Login as Curator" onclick="load(this)" style="cursor: pointer;" class="w3-bar-item w3-hide-small w3-padding-large w3-white w3-right"/>
+	  	<input id="log" type="button" value="Login as Curator" onclick="load(this)" style="cursor: pointer;" class="w3-bar-item w3-hide-small w3-padding-large w3-white w3-right"/>
 	  </div>
 	</div>
 	<div id="div" class="w3-white w3-center" style="position:absolute; top:0px; right:0px; bottom:0px; left:0px; padding:100px 50px 0px 50px;"></div>
@@ -21,6 +21,8 @@
 				document.getElementById("div").innerHTML='<object style="width:100%; height:100%;" type="text/html" data="taxonomy.html" ></object>';
 			} else if(element.id == "table") {
 				document.getElementById("div").innerHTML='<object style="width:100%; height:100%;" type="text/html" data="taxonomy.html" ></object>';
+			} else if(element.id == "log") {
+				document.getElementById("div").innerHTML='<object style="width:100%; height:100%;" type="text/html" data="login.html" ></object>';
 			}
 		}
 	</script>
