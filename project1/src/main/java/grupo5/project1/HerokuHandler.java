@@ -9,7 +9,7 @@ import org.apache.http.client.ClientProtocolException;
 
 public class HerokuHandler {
 
-	private static final String HEROKU_URI = "http://localhost:5000/";//"https://ads-tunnel.herokuapp.com/";//
+	private static final String HEROKU_URI = "https://ads-tunnel.herokuapp.com/";//"http://localhost:5000/";//
 	
 	public static void main(String[] args) {
 		listen();
@@ -40,9 +40,9 @@ public class HerokuHandler {
 			@Override
 			public void run() {
 				try {
-					System.out.println("Got: " + query);
-					String[] split = query.split("|");		//clien id | url tail | post
-					
+					String[] split = query.split("#");		//clien id | url tail | post
+					for(String a : split)
+						System.out.println(a);
 					int id = Integer.parseInt(split[0]);
 					String urlTail = split[1];
 					String post = "";
@@ -75,6 +75,8 @@ public class HerokuHandler {
 		if(urlTail.equals("/mandelbrot"))
 			return getHTMLAsString("C:/Users/pedro/Desktop/mandelbrot.html");
 		if(urlTail.equals("/test"))
+			return getHTMLAsString("C:/Users/pedro/Desktop/rick_roll.html");
+		if(urlTail.equals("/testfile"))
 			return getHTMLAsString("src/main/java/grupo5/project1/testFile.html");
 		
 		return "";
