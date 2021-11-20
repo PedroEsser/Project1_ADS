@@ -15,7 +15,67 @@
 		<input id="edit" type="button" value="Edit" onclick="load(this)" style="font-size: 15px; cursor: pointer;"/>
 		<input id="delete" type="button" value="Delete" onclick="load(this)" style="font-size: 15px; cursor: pointer;"/>
 	</div>
-	<p id="demo"></p>
+	
+	<div id="myCreateModal" class="w3-modal " style="background-color:rgba(0,0,0,0);">
+		<div class="w3-modal-content w3-center" style="width:375px; border: 1.5px solid #000000; border-radius: 10px; ">
+			<span id="cclose" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
+			<h2>Create Class</h2>
+			<form action="script.php" method="post">
+		  		<div style="margin-bottom: 15px">
+					<label for="sup" style="margin-right: 10px">Super Class:</label>
+		      		<input id="subclass" type="text" name="sup" readonly>
+				</div>
+				<div style="margin-bottom: 15px">
+					<label for="crt" style="margin-right: 10px">Class Name:</label>
+		      		<input type="text" placeholder="Enter Class Name" name="crt" required>
+				</div>
+				<div style="margin-bottom: 15px">
+					<label for="mail" style="margin-right: 15px">User Email:</label>
+			      	<input type="email" placeholder="Enter email" name="mail" required>
+				</div>
+		      	<button type="submit" style="margin-bottom: 20px">Send Proposal</button>
+	      	</form>
+		</div>
+	</div>
+	<div id="myEditModal" class="w3-modal " style="background-color:rgba(0,0,0,0);">
+		<div class="w3-modal-content w3-center" style="width:375px; border: 1.5px solid #000000; border-radius: 10px; ">
+			<span id="eclose" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
+			<h2>Edit Class</h2>
+			<form action="script.php" method="post">
+		  		<div style="margin-bottom: 15px">
+					<label for="old" style="margin-right: 10px">Old Class Name:</label>
+		      		<input id="oldclass" type="text" name="old" readonly>
+				</div>
+				<div style="margin-bottom: 15px">
+					<label for="new" style="margin-right: 5px">New Class Name:</label>
+		      		<input type="text" placeholder="Enter Class Name" name="new" required>
+				</div>
+				<div style="margin-bottom: 15px">
+					<label for="mail" style="margin-right: 41px">User Email:</label>
+			      	<input type="email" placeholder="Enter email" name="mail" required>
+				</div>
+		      	<button type="submit" style="margin-bottom: 20px">Send Proposal</button>
+	      	</form>
+		</div>
+	</div>
+	<div id="myDeleteModal" class="w3-modal " style="background-color:rgba(0,0,0,0);">
+		<div class="w3-modal-content w3-center" style="width:375px; border: 1.5px solid #000000; border-radius: 10px; ">
+			<span id="dclose" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
+			<h2>Delete Class</h2>
+			<form action="script.php" method="post">
+		  		<div style="margin-bottom: 15px">
+					<label for="dlt" style="margin-right: 10px">Deleted Class:</label>
+		      		<input id="dcname" type="text" placeholder="Enter Class Name" name="dlt" required>
+				</div>
+				<div style="margin-bottom: 15px">
+					<label for="mail" style="margin-right: 26px">User Email:</label>
+			      	<input type="email" placeholder="Enter email" name="mail" required>
+				</div>
+		      	<button type="submit" style="margin-bottom: 20px">Send Proposal</button>
+	      	</form>
+		</div>
+	</div>
+
 	<script id="taxonomy" type="application/json" src="taxonomy.json"></script>
 	<script>
 		var tableDataNested = [{
@@ -645,16 +705,57 @@
 		    {title:"Class", field:"class", responsive:0},
 		    ],
 		});
+
+		var cmodal = document.getElementById("myCreateModal");
+		var emodal = document.getElementById("myEditModal");
+		var dmodal = document.getElementById("myDeleteModal");
+		
+		var cspan = document.getElementById("cclose");
+		var espan = document.getElementById("eclose");
+		var dspan = document.getElementById("dclose");
+		
+		cspan.onclick = function() {
+			cmodal.style.display = "none";
+		}
+		espan.onclick = function() {
+			emodal.style.display = "none";
+		}
+		dspan.onclick = function() {
+			dmodal.style.display = "none";
+		}
+		
+		window.onclick = function(event) {
+			if (event.target == modal) {
+				cmodal.style.display = "none";
+				emodal.style.display = "none";
+				dmodal.style.display = "none";
+			}
+		}
 		
 		function load(element) {
 			if(element.id=="create"){
-				document.getElementById("demo").innerHTML = "TODO";
+				var selectedcell = table.getSelectedRows()[0];
+				if(selectedcell){
+					document.getElementById("subclass").defaultValue = selectedcell.getCells()[0].getValue();
+				}else{
+					document.getElementById("subclass").defaultValue = "";
+				}
+				cmodal.style.display = "block";
 			}else if(element.id=="edit"){
-				document.getElementById("demo").innerHTML = "TODO";
+				var selectedcell = table.getSelectedRows()[0];
+				if(selectedcell){
+					document.getElementById("oldclass").defaultValue = selectedcell.getCells()[0].getValue();
+					emodal.style.display = "block";
+				}
 			}else if(element.id=="delete"){
 				var selectedcell = table.getSelectedRows()[0];
-				document.getElementById("demo").innerHTML = selectedcell.getCells()[0].getValue();
-				selectedcell.delete();
+				if(selectedcell){
+					document.getElementById("dcname").defaultValue = selectedcell.getCells()[0].getValue();
+				}else{
+					document.getElementById("dcname").defaultValue = "";
+				}
+				dmodal.style.display = "block";
+				
 			}
 		}
 	</script>
