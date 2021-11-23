@@ -40,9 +40,8 @@ public class HerokuHandler {
 			@Override
 			public void run() {
 				try {
-					String[] split = query.split("#");		//clien id | url tail | post
-					for(String a : split)
-						System.out.println(a);
+					String[] split = query.split("#");		//client id # url tail # post
+					
 					int id = Integer.parseInt(split[0]);
 					String urlTail = split[1];
 					String post = "";
