@@ -1,4 +1,4 @@
-package grupo5.project1;
+package logic;
 
 import java.io.File;
 import java.io.FileNotFoundException;
