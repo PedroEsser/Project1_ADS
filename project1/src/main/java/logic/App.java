@@ -9,7 +9,7 @@ public class App
 //    	gh.test("Test_Branch");
     	
     	OWLHandler handler = new OWLHandler("animal.owl");
-    	handler.getTaxonomy();
+    	JSONHandler.createTaxonomyJSON(handler.getTaxonomy());
     }
     
 }
