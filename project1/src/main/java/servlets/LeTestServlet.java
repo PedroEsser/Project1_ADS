@@ -1,6 +1,8 @@
 package servlets;
 
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +29,10 @@ public class LeTestServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String a = req.getParameter("input1");
 		String b = req.getParameter("input2");
-		resp.getWriter().print("Le Inputs:" + a + ", " + b);
+		
+		RequestDispatcher view = req.getRequestDispatcher("home.html");
+        view.forward(req, resp);
+		//resp.getWriter().print("Le Inputs:" + a + ", " + b);
 	}
 
 	/**
