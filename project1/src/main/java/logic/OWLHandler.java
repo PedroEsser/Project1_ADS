@@ -77,7 +77,7 @@ public class OWLHandler {
 	}
 	//---------------------------------------READ---------------------------------------
 
-	//gets individuals Declaration(Individuals)
+	//gets classes Declaration(Classes)
 	public Set<OWLClass> getClasses() {
 		return ontology.getClassesInSignature();
 	}
@@ -89,19 +89,9 @@ public class OWLHandler {
 	public Set<OWLDataProperty> getDataProperties() {
 		return ontology.getDataPropertiesInSignature();
 	}	
-	//get declaration of data properties Declaration(dataProperty)
+	//get declaration of object properties Declaration(objectProperty)
 	public Set<OWLObjectProperty> getObjectProperties() {
 		return ontology.getObjectPropertiesInSignature();
-	}
-	public LinkedHashMap<OWLClass, ArrayList<OWLClass>> getTaxonomy() {
-        Set<OWLClass> classes = ontology.getClassesInSignature();
-        LinkedHashMap<OWLClass, ArrayList<OWLClass>> taxonomy = new LinkedHashMap<>();
-        for(OWLClass c : classes) {
-        	taxonomy.put(c, new ArrayList<OWLClass>());
-        	for(OWLSubClassOfAxiom axiom : ontology.getSubClassAxiomsForSuperClass(c))
-        		taxonomy.get(c).add(axiom.getSubClass().asOWLClass());
-        }
-        return taxonomy;
 	}
 	//gets a list of individuals of a class
 	public HashMap<OWLClass, Set<OWLClassAssertionAxiom>> getClassesAndTheirIndividuals() {
@@ -123,6 +113,16 @@ public class OWLHandler {
 		for(OWLNamedIndividual individual: getIndividuals())
 			individualsProperties.put(individual, ontology.getObjectPropertyAssertionAxioms(individual));
 		return individualsProperties;
+	}
+	public LinkedHashMap<OWLClass, ArrayList<OWLClass>> getTaxonomy() {
+        Set<OWLClass> classes = ontology.getClassesInSignature();
+        LinkedHashMap<OWLClass, ArrayList<OWLClass>> taxonomy = new LinkedHashMap<>();
+        for(OWLClass c : classes) {
+        	taxonomy.put(c, new ArrayList<OWLClass>());
+        	for(OWLSubClassOfAxiom axiom : ontology.getSubClassAxiomsForSuperClass(c))
+        		taxonomy.get(c).add(axiom.getSubClass().asOWLClass());
+        }
+        return taxonomy;
 	}
 	//---------------------------------------CREATE---------------------------------------
 	//Exemplo: handler.declareOWLEntity(EntityType.CLASS,"Pessoas");

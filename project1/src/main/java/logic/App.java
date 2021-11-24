@@ -8,8 +8,11 @@ public class App
 //    	
 //    	gh.test("Test_Branch");
     	
-    	OWLHandler handler = new OWLHandler("animal.owl");
+    	OWLHandler handler = new OWLHandler("ADS.owl");
     	JSONHandler.createTaxonomyJSON(handler.getTaxonomy());
+    	JSONHandler.createIndividualsJSON(handler.getClassesAndTheirIndividuals(), handler.getIndividuals());
+    	JSONHandler.createDataPropertiesJSON(handler.getDataProperties());
+    	JSONHandler.createObjectPropertiesJSON(handler.getObjectProperties());
     }
     
 }

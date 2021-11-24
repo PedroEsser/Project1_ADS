@@ -4,19 +4,84 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Set;
 import java.util.Map.Entry;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
+import org.semanticweb.owlapi.model.OWLObjectProperty;
 
 import java.lang.reflect.Field;
 
 public class JSONHandler {
 
-	public static void createTableJSON() {
-		
+	public static void createIndividualsJSON(HashMap<OWLClass, Set<OWLClassAssertionAxiom>> classIndividuals, Set<OWLNamedIndividual> independentIndividuals) {
+		try {
+			FileWriter file = new FileWriter("./individuals.json");
+			JSONArray array = new JSONArray();
+			for(Entry<OWLClass, Set<OWLClassAssertionAxiom>> entry : classIndividuals.entrySet()) {
+				for(OWLClassAssertionAxiom axiom: entry.getValue()) {
+					JSONObject object = new JSONObject();
+					setOrderedJSONOBject(object);
+					object.put("class", entry.getKey().getIRI().getShortForm());
+					object.put("individual", axiom.getIndividual().asOWLNamedIndividual().getIRI().getShortForm());
+					array.put(object);
+					if(independentIndividuals.contains(axiom.getIndividual().asOWLNamedIndividual()))
+						independentIndividuals.remove(axiom.getIndividual().asOWLNamedIndividual());
+				}
+			}
+			for(OWLNamedIndividual individual: independentIndividuals) {
+				JSONObject object = new JSONObject();
+				setOrderedJSONOBject(object);
+				object.put("class", "");
+				object.put("individual", individual.getIRI().getShortForm());
+				array.put(object);
+			}
+			file.write(array.toString(1));
+			file.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void createDataPropertiesJSON(Set<OWLDataProperty> dataProperties) {
+		try {
+			FileWriter file = new FileWriter("./data_properties.json");
+			JSONArray array = new JSONArray();
+			for(OWLDataProperty property: dataProperties) {
+				JSONObject object = new JSONObject();
+				setOrderedJSONOBject(object);
+				object.put("data property", property.getIRI().getShortForm());
+				array.put(object);
+			}
+			file.write(array.toString(1));
+			file.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void createObjectPropertiesJSON(Set<OWLObjectProperty> objectProperties) {
+		try {
+			FileWriter file = new FileWriter("./object_properties.json");
+			JSONArray array = new JSONArray();
+			for(OWLObjectProperty property: objectProperties) {
+				JSONObject object = new JSONObject();
+				setOrderedJSONOBject(object);
+				object.put("object property", property.getIRI().getShortForm());
+				array.put(object);
+			}
+			file.write(array.toString(1));
+			file.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public static void createTaxonomyJSON(LinkedHashMap<OWLClass, ArrayList<OWLClass>> map) {
