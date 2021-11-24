@@ -9,69 +9,73 @@
 <style>button,body,h1,h2,h3,h4,h5,h6 {font-family: "Times New Roman"}</style>
 
 <body>
-	<div id="example-table"></div>
-	<div class="w3-bar w3-white w3-large" style="padding-top: 5px;">
-		<input id="create" type="button" value="Create" onclick="load(this)" style="font-size: 15px; cursor: pointer;"/>
-		<input id="edit" type="button" value="Edit" onclick="load(this)" style="font-size: 15px; cursor: pointer;"/>
-		<input id="delete" type="button" value="Delete" onclick="load(this)" style="font-size: 15px; cursor: pointer;"/>
+	<div style="width: 250px;">
+		<div id="taxonomy-table"></div>
+		<div class="w3-bar w3-white w3-large" style="padding-top: 5px;">
+			<input id="create-class" type="button" value="Create" onclick="taxonomy_load(this)" style="font-size: 15px; cursor: pointer;"/>
+			<input id="edit-class" type="button" value="Edit" onclick="taxonomy_load(this)" style="font-size: 15px; cursor: pointer;"/>
+			<input id="delete-class" type="button" value="Delete" onclick="taxonomy_load(this)" style="font-size: 15px; cursor: pointer;"/>
+		</div>
 	</div>
 	
-	<div id="myCreateModal" class="w3-modal " style="background-color:rgba(0,0,0,0);">
+	<div id="create-class-modal" class="w3-modal" style="background-color: rgba(0,0,0,0);">
 		<div class="w3-modal-content w3-center" style="width:375px; border: 1.5px solid #000000; border-radius: 10px; ">
-			<span id="cclose" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
+			<span id="create-class-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
 			<h2>Create Class</h2>
 			<form action="script.php" method="post">
 		  		<div style="margin-bottom: 15px">
-					<label for="sup" style="margin-right: 10px">Super Class:</label>
-		      		<input id="subclass" type="text" name="sup" readonly>
+					<label for="super-class-input" style="margin-right: 13px">Super Class:</label>
+		      		<input id="super-class" type="text" name="super-class-input" readonly>
 				</div>
 				<div style="margin-bottom: 15px">
-					<label for="crt" style="margin-right: 10px">Class Name:</label>
-		      		<input type="text" placeholder="Enter Class Name" name="crt" required>
+					<label for="class-input" style="margin-right: 12px">Class Name:</label>
+		      		<input type="text" placeholder="Enter Class Name" name="class-input" required>
 				</div>
 				<div style="margin-bottom: 15px">
-					<label for="mail" style="margin-right: 15px">User Email:</label>
-			      	<input type="email" placeholder="Enter email" name="mail" required>
+					<label for="email-input" style="margin-right: 16px">User Email:</label>
+			      	<input type="email" placeholder="Enter Email" name="email-input" required>
 				</div>
-		      	<button type="submit" style="margin-bottom: 20px">Send Proposal</button>
+		      	<button type="submit" style="margin-bottom: 20px">Send Request</button>
 	      	</form>
 		</div>
 	</div>
-	<div id="myEditModal" class="w3-modal " style="background-color:rgba(0,0,0,0);">
+	
+	<div id="edit-class-modal" class="w3-modal " style="background-color:rgba(0,0,0,0);">
 		<div class="w3-modal-content w3-center" style="width:375px; border: 1.5px solid #000000; border-radius: 10px; ">
-			<span id="eclose" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
+			<span id="edit-class-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
 			<h2>Edit Class</h2>
 			<form action="script.php" method="post">
 		  		<div style="margin-bottom: 15px">
-					<label for="old" style="margin-right: 10px">Old Class Name:</label>
-		      		<input id="oldclass" type="text" name="old" readonly>
+					<label for="old-class-input" style="margin-right: 10px">Old Class Name:</label>
+		      		<input id="edited-class" type="text" name="old-class-input" readonly>
 				</div>
 				<div style="margin-bottom: 15px">
-					<label for="new" style="margin-right: 5px">New Class Name:</label>
-		      		<input type="text" placeholder="Enter Class Name" name="new" required>
+					<label for="new-class-input" style="margin-right: 4px">New Class Name:</label>
+		      		<input type="text" placeholder="Enter Class Name" name="new-class-input" required>
 				</div>
 				<div style="margin-bottom: 15px">
-					<label for="mail" style="margin-right: 41px">User Email:</label>
-			      	<input type="email" placeholder="Enter email" name="mail" required>
+					<label for="email-input" style="margin-right: 40px">User Email:</label>
+			      	<input type="email" placeholder="Enter Email" name="email-input" required>
 				</div>
-		      	<button type="submit" style="margin-bottom: 20px">Send Proposal</button>
+		      	<button type="submit" style="margin-bottom: 20px">Send Request</button>
 	      	</form>
 		</div>
 	</div>
-	<div id="myDeleteModal" class="w3-modal " style="background-color:rgba(0,0,0,0);">
+	
+	<div id="delete-class-modal" class="w3-modal " style="background-color:rgba(0,0,0,0);">
 		<div class="w3-modal-content w3-center" style="width:375px; border: 1.5px solid #000000; border-radius: 10px; ">
-			<span id="dclose" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
+			<span id="delete-class-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
 			<h2>Delete Class</h2>
 			<form action="script.php" method="post">
 		  		<div style="margin-bottom: 15px">
-					<label for="dlt" style="margin-right: 10px">Deleted Class:</label>
-		      		<input id="dcname" type="text" placeholder="Enter Class Name" name="dlt" required>
+					<label for="class-input" style="margin-right: 12px">Class Name:</label>
+		      		<input id="deleted-class" type="text" name="class-input" readonly>
 				</div>
 				<div style="margin-bottom: 15px">
-					<label for="mail" style="margin-right: 26px">User Email:</label>
-			      	<input type="email" placeholder="Enter email" name="mail" required>
+					<label for="email-input" style="margin-right: 16px">User Email:</label>
+			      	<input type="email" placeholder="Enter Email" name="email-input" required>
 				</div>
-		      	<button type="submit" style="margin-bottom: 20px">Send Proposal</button>
+		      	<button type="submit" style="margin-bottom: 20px">Send Request</button>
 	      	</form>
 		</div>
 	</div>
@@ -694,7 +698,7 @@
 			 ]
 			}];
 		
-		var table = new Tabulator("#example-table", {
+		var table = new Tabulator("#taxonomy-table", {
 			layout:"fitDataStretch",
 		    height:"450px",
 		    data:tableDataNested,
@@ -705,59 +709,43 @@
 		    {title:"Class", field:"class", responsive:0},
 		    ],
 		});
-
-		var cmodal = document.getElementById("myCreateModal");
-		var emodal = document.getElementById("myEditModal");
-		var dmodal = document.getElementById("myDeleteModal");
 		
-		var cspan = document.getElementById("cclose");
-		var espan = document.getElementById("eclose");
-		var dspan = document.getElementById("dclose");
-		
-		cspan.onclick = function() {
-			cmodal.style.display = "none";
+		document.getElementById("create-class-span").onclick = function() {
+			document.getElementById("create-class-modal").style.display = "none";
 		}
-		espan.onclick = function() {
-			emodal.style.display = "none";
+		document.getElementById("edit-class-span").onclick = function() {
+			document.getElementById("edit-class-modal").style.display = "none";
 		}
-		dspan.onclick = function() {
-			dmodal.style.display = "none";
+		document.getElementById("delete-class-span").onclick = function() {
+			document.getElementById("delete-class-modal").style.display = "none";
 		}
 		
 		window.onclick = function(event) {
 			if (event.target == modal) {
-				cmodal.style.display = "none";
-				emodal.style.display = "none";
-				dmodal.style.display = "none";
+				document.getElementById("create-class-modal").style.display = "none";
+				document.getElementById("edit-class-modal").style.display = "none";
+				document.getElementById("delete-class-modal").style.display = "none";
 			}
 		}
 		
-		function load(element) {
-			if(element.id=="create"){
-				var selectedcell = table.getSelectedRows()[0];
-				if(selectedcell){
-					document.getElementById("subclass").defaultValue = selectedcell.getCells()[0].getValue();
-				}else{
-					document.getElementById("subclass").defaultValue = "";
+		function taxonomy_load(element) {
+			var selectedcell = table.getSelectedRows()[0];
+			if(element.id == "create-class") {
+				if(selectedcell) document.getElementById("super-class").defaultValue = selectedcell.getCells()[0].getValue();
+				document.getElementById("create-class-modal").style.display = "block";
+			} else if(element.id == "edit-class") {
+				if(selectedcell) {
+					document.getElementById("edited-class").defaultValue = selectedcell.getCells()[0].getValue();
+					document.getElementById("edit-class-modal").style.display = "block";
 				}
-				cmodal.style.display = "block";
-			}else if(element.id=="edit"){
-				var selectedcell = table.getSelectedRows()[0];
-				if(selectedcell){
-					document.getElementById("oldclass").defaultValue = selectedcell.getCells()[0].getValue();
-					emodal.style.display = "block";
+			} else if(element.id == "delete-class") {
+				if(selectedcell) {
+					document.getElementById("deleted-class").defaultValue = selectedcell.getCells()[0].getValue();
+					document.getElementById("delete-class-modal").style.display = "block";
 				}
-			}else if(element.id=="delete"){
-				var selectedcell = table.getSelectedRows()[0];
-				if(selectedcell){
-					document.getElementById("dcname").defaultValue = selectedcell.getCells()[0].getValue();
-				}else{
-					document.getElementById("dcname").defaultValue = "";
-				}
-				dmodal.style.display = "block";
-				
 			}
 		}
+		
 	</script>
 </body>
 
