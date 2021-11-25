@@ -11,7 +11,7 @@
 <body>
 	<div class="w3-top">
 	  <div class="w3-bar w3-white w3-border w3-large">
-	  	<input id="editor" type="button" value="Ontology Editor" onclick="window.location.href='taxonomy.html'" style="cursor: pointer;" class="w3-bar-item w3-hide-small w3-padding-large w3-white"/>
+	  	<input id="editor" type="button" value="Ontology Editor" onclick="window.location.href='taxonomy.jsp'" style="cursor: pointer;" class="w3-bar-item w3-hide-small w3-padding-large w3-white"/>
 	  	<input id="log" type="button" value="Login as Curator" style="cursor: pointer;" class="w3-bar-item w3-hide-small w3-padding-large w3-white w3-right"/>
 	  </div>
 	</div>
