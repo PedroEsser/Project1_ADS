@@ -22,29 +22,30 @@
 		<div style="float: left; width: 48%;">
 			<div id="taxonomy-table"></div>
 			<div class="w3-bar w3-large" style="padding-top: 5px;">
-				<input id="create-class" type="button" value="Create Class" onclick="taxonomy_load(this)" style="font-size: 15px; cursor: pointer;"/>
-				<input id="create-individual" type="button" value="Create Individual" onclick="taxonomy_load(this)" style="font-size: 15px; cursor: pointer;"/>
-				<input id="edit-class" type="button" value="Edit Class" onclick="taxonomy_load(this)" style="font-size: 15px; cursor: pointer;"/>
-				<input id="delete-class" type="button" value="Delete Class" onclick="taxonomy_load(this)" style="font-size: 15px; cursor: pointer;"/>
+				<input id="create-class" type="button" value="Create" onclick="taxonomy_load(this)" style="font-size: 15px; cursor: pointer;"/>
+				<input id="edit-class" type="button" value="Edit" onclick="taxonomy_load(this)" style="font-size: 15px; cursor: pointer;"/>
+				<input id="delete-class" type="button" value="Delete" onclick="taxonomy_load(this)" style="font-size: 15px; cursor: pointer;"/>
 			</div>
 		</div>
+		
 		<div style="float: right; width: 48%;">
 			<div id="individuals-table"></div>
 			<div class="w3-bar w3-large" style="padding-top: 5px;">
-				<input id="edit-individual" type="button" value="Edit Individual" onclick="individuals_load(this)" style="font-size: 15px; cursor: pointer;"/>
-				<input id="delete-individual" type="button" value="Delete Individual" onclick="individuals_load(this)" style="font-size: 15px; cursor: pointer;"/>
-				<input id="link-individuals" type="button" value="Assert Object Property" onclick="individuals_load(this)" style="font-size: 15px; cursor: pointer;"/>
-				<input id="characterize-individual" type="button" value="Assert Data Property" onclick="individuals_load(this)" style="font-size: 15px; cursor: pointer;"/>
-				<input id="details-individual" type="button" value="Details" onclick="individuals_load(this)" style="font-size: 15px; cursor: pointer;"/>
+				<input id="create-individual" type="button" value="Create" onclick="taxonomy_load(this)" style="font-size: 15px; cursor: pointer;"/>
+				<input id="edit-individual" type="button" value="Edit" onclick="individuals_load(this)" style="font-size: 15px; cursor: pointer;"/>
+				<input id="delete-individual" type="button" value="Delete" onclick="individuals_load(this)" style="font-size: 15px; cursor: pointer;"/>
+				<!-- <input id="link-individuals" type="button" value="Assert Object Property" onclick="individuals_load(this)" style="font-size: 15px; cursor: pointer;"/>
+				<input id="characterize-individual" type="button" value="Assert Data Property" onclick="individuals_load(this)" style="font-size: 15px; cursor: pointer;"/> -->
+				<input id="details-individual" type="button" value="See Details" onclick="individuals_load(this)" style="font-size: 15px; cursor: pointer;"/>
 			</div>
 		</div>
 		
 		<div id="create-class-modal" class="w3-modal" style="background-color: rgba(0,0,0,0);">
-			<div class="w3-modal-content w3-center" style="width:375px; border: 1.5px solid #000000; border-radius: 10px; ">
+			<div class="w3-modal-content w3-center" style="width:375px; border: 1.5px solid #000000; border-radius: 10px;">
 				<span id="create-class-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
 				<h2>Create Class</h2>
 				<form action="script.php" method="post">
-			  		<div style="margin-bottom: 15px">
+			  		<div style="margin-top: 20px; margin-bottom: 15px">
 						<label for="super-class-input" style="margin-right: 13px">Super Class:</label>
 			      		<input id="super-class" type="text" name="super-class-input" readonly>
 					</div>
@@ -52,43 +53,21 @@
 						<label for="class-input" style="margin-right: 12px">Class Name:</label>
 			      		<input type="text" placeholder="Enter Class Name" name="class-input" required>
 					</div>
-					<div style="margin-bottom: 15px">
-						<label for="email-input" style="margin-right: 16px">User Email:</label>
+					<div style="margin-bottom: 25px">
+						<label for="email-input" style="margin-right: 17px">User Email:</label>
 				      	<input type="email" placeholder="Enter Email" name="email-input" required>
 					</div>
-			      	<button type="submit" style="margin-bottom: 20px">Send Request</button>
-		      	</form>
-			</div>
-		</div>
-		
-		<div id="create-individual-modal" class="w3-modal" style="background-color: rgba(0,0,0,0);">
-			<div class="w3-modal-content w3-center" style="width:375px; border: 1.5px solid #000000; border-radius: 10px; ">
-				<span id="create-individual-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
-				<h2>Create Individual</h2>
-				<form action="script.php" method="post">
-			  		<div style="margin-bottom: 15px">
-						<label for="class-input" style="margin-right: 42px">Class Name:</label>
-			      		<input id="class" type="text" name="class-input" readonly>
-					</div>
-					<div style="margin-bottom: 15px">
-						<label for="individual-input" style="margin-right: 12px">Individual Name:</label>
-			      		<input type="text" placeholder="Enter Individual Name" name="class-input" required>
-					</div>
-					<div style="margin-bottom: 15px">
-						<label for="email-input" style="margin-right: 46px">User Email:</label>
-				      	<input type="email" placeholder="Enter Email" name="email-input" required>
-					</div>
-			      	<button type="submit" style="margin-bottom: 20px">Send Request</button>
+			      	<button type="submit" style="margin-bottom: 25px">Send Request</button>
 		      	</form>
 			</div>
 		</div>
 		
 		<div id="edit-class-modal" class="w3-modal " style="background-color:rgba(0,0,0,0);">
-			<div class="w3-modal-content w3-center" style="width:375px; border: 1.5px solid #000000; border-radius: 10px; ">
+			<div class="w3-modal-content w3-center" style="width:400px; border: 1.5px solid #000000; border-radius: 10px; ">
 				<span id="edit-class-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
 				<h2>Edit Class</h2>
 				<form action="script.php" method="post">
-			  		<div style="margin-bottom: 15px">
+			  		<div style="margin-top: 20px; margin-bottom: 15px">
 						<label for="old-class-input" style="margin-right: 10px">Old Class Name:</label>
 			      		<input id="edited-class" type="text" name="old-class-input" readonly>
 					</div>
@@ -96,11 +75,11 @@
 						<label for="new-class-input" style="margin-right: 4px">New Class Name:</label>
 			      		<input type="text" placeholder="Enter Class Name" name="new-class-input" required>
 					</div>
-					<div style="margin-bottom: 15px">
-						<label for="email-input" style="margin-right: 40px">User Email:</label>
+					<div style="margin-bottom: 25px">
+						<label for="email-input" style="margin-right: 41px">User Email:</label>
 				      	<input type="email" placeholder="Enter Email" name="email-input" required>
 					</div>
-			      	<button type="submit" style="margin-bottom: 20px">Send Request</button>
+			      	<button type="submit" style="margin-bottom: 25px">Send Request</button>
 		      	</form>
 			</div>
 		</div>
@@ -110,25 +89,47 @@
 				<span id="delete-class-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
 				<h2>Delete Class</h2>
 				<form action="script.php" method="post">
-			  		<div style="margin-bottom: 15px">
+			  		<div style="margin-top: 20px; margin-bottom: 15px">
 						<label for="class-input" style="margin-right: 12px">Class Name:</label>
 			      		<input id="deleted-class" type="text" name="class-input" readonly>
 					</div>
-					<div style="margin-bottom: 15px">
-						<label for="email-input" style="margin-right: 16px">User Email:</label>
+					<div style="margin-bottom: 25px">
+						<label for="email-input" style="margin-right: 17px">User Email:</label>
 				      	<input type="email" placeholder="Enter Email" name="email-input" required>
 					</div>
-			      	<button type="submit" style="margin-bottom: 20px">Send Request</button>
+			      	<button type="submit" style="margin-bottom: 25px">Send Request</button>
+		      	</form>
+			</div>
+		</div>
+		
+		<div id="create-individual-modal" class="w3-modal" style="background-color: rgba(0,0,0,0);">
+			<div class="w3-modal-content w3-center" style="width:400px; border: 1.5px solid #000000; border-radius: 10px; ">
+				<span id="create-individual-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
+				<h2>Create Individual</h2>
+				<form action="script.php" method="post">
+			  		<div style="margin-top: 20px; margin-bottom: 15px">
+						<label for="class-input" style="margin-right: 42px">Class Name:</label>
+			      		<input id="class" type="text" name="class-input" readonly>
+					</div>
+					<div style="margin-bottom: 15px">
+						<label for="individual-input" style="margin-right: 12px">Individual Name:</label>
+			      		<input type="text" placeholder="Enter Individual Name" name="class-input" required>
+					</div>
+					<div style="margin-bottom: 25px">
+						<label for="email-input" style="margin-right: 46px">User Email:</label>
+				      	<input type="email" placeholder="Enter Email" name="email-input" required>
+					</div>
+			      	<button type="submit" style="margin-bottom: 25px">Send Request</button>
 		      	</form>
 			</div>
 		</div>
 			
 		<div id="edit-individual-modal" class="w3-modal " style="background-color:rgba(0,0,0,0);">
-			<div class="w3-modal-content w3-center" style="width:400px; border: 1.5px solid #000000; border-radius: 10px; ">
+			<div class="w3-modal-content w3-center" style="width:425px; border: 1.5px solid #000000; border-radius: 10px; ">
 				<span id="edit-individual-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
 				<h2>Edit Individual</h2>
 				<form action="script.php" method="post">
-			  		<div style="margin-bottom: 15px">
+			  		<div style="margin-top: 20px; margin-bottom: 15px">
 						<label for="old-individual-input" style="margin-right: 10px">Old Individual Name:</label>
 			      		<input id="edited-individual" type="text" name="old-individual-input" readonly>
 					</div>
@@ -136,29 +137,29 @@
 						<label for="new-individual-input" style="margin-right: 4px">New Individual Name:</label>
 			      		<input type="text" placeholder="Enter Individual Name" name="new-individual-input" required>
 					</div>
-					<div style="margin-bottom: 15px">
+					<div style="margin-bottom: 25px">
 						<label for="email-input" style="margin-right: 70px">User Email:</label>
 				      	<input type="email" placeholder="Enter Email" name="email-input" required>
 					</div>
-			      	<button type="submit" style="margin-bottom: 20px">Send Request</button>
+			      	<button type="submit" style="margin-bottom: 25px">Send Request</button>
 		      	</form>
 			</div>
 		</div>
 			
 		<div id="delete-individual-modal" class="w3-modal " style="background-color:rgba(0,0,0,0);">
-			<div class="w3-modal-content w3-center" style="width:375px; border: 1.5px solid #000000; border-radius: 10px; ">
+			<div class="w3-modal-content w3-center" style="width:400px; border: 1.5px solid #000000; border-radius: 10px; ">
 				<span id="delete-individual-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
 				<h2>Delete Individual</h2>
 				<form action="script.php" method="post">
-			  		<div style="margin-bottom: 15px">
+			  		<div style="margin-top: 20px; margin-bottom: 15px">
 						<label for="individual-input" style="margin-right: 12px">Individual Name:</label>
 			      		<input id="deleted-individual" type="text" name="individual-input" readonly>
 					</div>
-					<div style="margin-bottom: 15px">
+					<div style="margin-bottom: 25px">
 						<label for="email-input" style="margin-right: 45px">User Email:</label>
 				      	<input type="email" placeholder="Enter Email" name="email-input" required>
 					</div>
-			      	<button type="submit" style="margin-bottom: 20px">Send Request</button>
+			      	<button type="submit" style="margin-bottom: 25px">Send Request</button>
 		      	</form>
 			</div>
 		</div>
@@ -168,7 +169,7 @@
 				<span id="link-individuals-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
 				<h2>Link Individuals</h2>
 				<form action="script.php" method="post">
-			  		<div style="margin-bottom: 15px">
+			  		<div style="margin-top: 20px; margin-bottom: 15px">
 						<label for="individual-input" style="margin-right: 12px">Individual Name (1):</label>
 			      		<input id="linked-individual-1" type="text" name="individual-input" readonly>
 					</div>
@@ -180,11 +181,11 @@
 						<label for="object-property-input" style="margin-right: 30px">Object Property:</label>
 			      		<select id="object-property" name="object-property-input"></select>
 					</div>
-					<div style="margin-bottom: 15px">
+					<div style="margin-bottom: 25px">
 						<label for="email-input" style="margin-right: 57px">User Email:</label>
 				      	<input type="email" placeholder="Enter Email" name="email-input" required>
 					</div>
-			      	<button type="submit" style="margin-bottom: 20px">Send Request</button>
+			      	<button type="submit" style="margin-bottom: 25px">Send Request</button>
 		      	</form>
 			</div>
 		</div>
@@ -200,6 +201,23 @@
 	<script id="taxonomy" type="application/json" src="taxonomy.json"></script>
 	<script>
 		var taxonomy_data = <% out.print(JSONHandler.convertJSONToString(application.getResourceAsStream("taxonomy.json"))); %>
+		var individuals_data = <% out.print(JSONHandler.convertJSONToString(application.getResourceAsStream("individuals.json"))); %>
+		var dt_properties_data = <% out.print(JSONHandler.convertJSONToString(application.getResourceAsStream("data_properties.json"))); %>
+		var obj_properties_data = <% out.print(JSONHandler.convertJSONToString(application.getResourceAsStream("object_properties.json"))); %>
+		
+		var sel_obj = document.getElementById('object-property');
+		for(var i = 0; i < obj_properties_data.length; i++) {
+		    var opt = document.createElement('option');
+		    opt.innerHTML = obj_properties_data[i]['object property'];
+		    sel_obj.appendChild(opt);
+		}
+		
+//		var sel_dt = document.getElementById('data-property');
+//		for(var i = 0; i < dt_properties_data.length; i++) {
+//		    var opt = document.createElement('option');
+//		    opt.innerHTML = dt_properties_data[i]['data property'];
+//		    sel_dt.appendChild(opt);
+//		}
 		
 		var taxonomy_table = new Tabulator("#taxonomy-table", {
 			layout:"fitDataStretch",
@@ -213,7 +231,13 @@
 		    ],
 		});
 		
-		var individuals_data = <% out.print(JSONHandler.convertJSONToString(application.getResourceAsStream("individuals.json"))); %>
+		taxonomy_table.on("cellClick", function(e, cell){
+			if(cell.getRow().isSelected()) {
+				individuals_table.setFilter([{field:"class", type:"=", value:cell.getValue()}]);
+			} else {
+				individuals_table.clearFilter();
+			}
+		});
 		
 		var individuals_table = new Tabulator("#individuals-table", {
 			layout:"fitDataStretch",
@@ -224,53 +248,6 @@
 		    {title:"Individual", field:"individual", responsive:0},
 		    ],
 		});
-		
-		taxonomy_table.on("cellClick", function(e, cell){
-			if(cell.getRow().isSelected()) {
-				individuals_table.setFilter([{field:"class", type:"=", value:cell.getValue()}]);
-			} else {
-				individuals_table.clearFilter();
-			}
-		});
-		
-		document.getElementById("create-class-span").onclick = function() {
-			document.getElementById("create-class-modal").style.display = "none";
-		}
-		document.getElementById("edit-class-span").onclick = function() {
-			document.getElementById("edit-class-modal").style.display = "none";
-		}
-		document.getElementById("delete-class-span").onclick = function() {
-			document.getElementById("delete-class-modal").style.display = "none";
-		}
-		document.getElementById("create-individual-span").onclick = function() {
-			document.getElementById("create-individual-modal").style.display = "none";
-		}
-		document.getElementById("edit-individual-span").onclick = function() {
-			document.getElementById("edit-individual-modal").style.display = "none";
-		}
-		document.getElementById("delete-individual-span").onclick = function() {
-			document.getElementById("delete-individual-modal").style.display = "none";
-		}
-		document.getElementById("link-individuals-span").onclick = function() {
-			document.getElementById("link-individuals-modal").style.display = "none";
-		}
-		
-		window.onclick = function(event) {
-			if (event.target == document.getElementById("create-class-modal"))
-				document.getElementById("create-class-modal").style.display = "none";
-			if (event.target == document.getElementById("edit-class-modal"))
-				document.getElementById("edit-class-modal").style.display = "none";
-			if (event.target == document.getElementById("delete-class-modal"))
-				document.getElementById("delete-class-modal").style.display = "none";
-			if (event.target == document.getElementById("create-individual-modal"))
-				document.getElementById("create-individual-modal").style.display = "none";
-			if (event.target == document.getElementById("edit-individual-modal"))
-				document.getElementById("edit-individual-modal").style.display = "none";
-			if (event.target == document.getElementById("delete-individual-modal"))
-				document.getElementById("delete-individual-modal").style.display = "none";
-			if (event.target == document.getElementById("link-individuals-modal"))
-				document.getElementById("link-individuals-modal").style.display = "none";
-		}
 		
 		function taxonomy_load(element) {
 			var selectedcell = taxonomy_table.getSelectedRows()[0];
@@ -322,26 +299,44 @@
 			}
 		}
 		
-		var obj_properties_data = [{"object property": "Friends"}];
-		
-		var sel_obj = document.getElementById('object-property');
-		for(var i = 0; i < obj_properties_data.length; i++) {
-		    var opt = document.createElement('option');
-		    opt.innerHTML = obj_properties_data[i]['object property'];
-		    sel_obj.appendChild(opt);
+		document.getElementById("create-class-span").onclick = function() {
+			document.getElementById("create-class-modal").style.display = "none";
+		}
+		document.getElementById("edit-class-span").onclick = function() {
+			document.getElementById("edit-class-modal").style.display = "none";
+		}
+		document.getElementById("delete-class-span").onclick = function() {
+			document.getElementById("delete-class-modal").style.display = "none";
+		}
+		document.getElementById("create-individual-span").onclick = function() {
+			document.getElementById("create-individual-modal").style.display = "none";
+		}
+		document.getElementById("edit-individual-span").onclick = function() {
+			document.getElementById("edit-individual-modal").style.display = "none";
+		}
+		document.getElementById("delete-individual-span").onclick = function() {
+			document.getElementById("delete-individual-modal").style.display = "none";
+		}
+		document.getElementById("link-individuals-span").onclick = function() {
+			document.getElementById("link-individuals-modal").style.display = "none";
 		}
 		
-//		var dt_properties_data = [
-//			 {"data property": "maxObjectivesAlgorithmIsAbleToDealWith"},
-//			 {"data property": "minObjectivesAlgorithmIsAbleToDealWith"}
-//			];
-		
-//		var sel_dt = document.getElementById('data-property');
-//		for(var i = 0; i < dt_properties_data.length; i++) {
-//		    var opt = document.createElement('option');
-//		    opt.innerHTML = dt_properties_data[i]['data property'];
-//		    sel_dt.appendChild(opt);
-//		}
+		window.onclick = function(event) {
+			if (event.target == document.getElementById("create-class-modal"))
+				document.getElementById("create-class-modal").style.display = "none";
+			if (event.target == document.getElementById("edit-class-modal"))
+				document.getElementById("edit-class-modal").style.display = "none";
+			if (event.target == document.getElementById("delete-class-modal"))
+				document.getElementById("delete-class-modal").style.display = "none";
+			if (event.target == document.getElementById("create-individual-modal"))
+				document.getElementById("create-individual-modal").style.display = "none";
+			if (event.target == document.getElementById("edit-individual-modal"))
+				document.getElementById("edit-individual-modal").style.display = "none";
+			if (event.target == document.getElementById("delete-individual-modal"))
+				document.getElementById("delete-individual-modal").style.display = "none";
+			if (event.target == document.getElementById("link-individuals-modal"))
+				document.getElementById("link-individuals-modal").style.display = "none";
+		}
 			
 	</script>
 </body>

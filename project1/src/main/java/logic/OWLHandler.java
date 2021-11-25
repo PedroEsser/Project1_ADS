@@ -6,16 +6,12 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.openrdf.model.vocabulary.OWL;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.formats.FunctionalSyntaxDocumentFormat;
-import org.semanticweb.owlapi.model.AxiomType;
 import org.semanticweb.owlapi.model.EntityType;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
@@ -24,12 +20,9 @@ import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLDataProperty;
 import org.semanticweb.owlapi.model.OWLDataPropertyAssertionAxiom;
-import org.semanticweb.owlapi.model.OWLDataPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLDatatype;
 import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
-import org.semanticweb.owlapi.model.OWLDocumentFormat;
 import org.semanticweb.owlapi.model.OWLEntity;
-import org.semanticweb.owlapi.model.OWLEquivalentDataPropertiesAxiom;
 import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
@@ -41,11 +34,6 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLOntologyStorageException;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.util.OWLEntityRenamer;
-import org.swrlapi.factory.SWRLAPIFactory;
-import org.swrlapi.parser.SWRLParseException;
-import org.swrlapi.sqwrl.SQWRLQueryEngine;
-import org.swrlapi.sqwrl.SQWRLResult;
-import org.swrlapi.sqwrl.exceptions.SQWRLException;
 
 import uk.ac.manchester.cs.owl.owlapi.OWLLiteralImplBoolean;
 import uk.ac.manchester.cs.owl.owlapi.OWLLiteralImplDouble;
@@ -75,45 +63,62 @@ public class OWLHandler {
 	    	System.exit(-1);
 		}
 	}
+	
 	//---------------------------------------READ---------------------------------------
 
-	//gets classes Declaration(Classes)
+	//gets all the classes (Declaration(Class))
 	public Set<OWLClass> getClasses() {
 		return ontology.getClassesInSignature();
 	}
-	//gets individuals Declaration(Individuals)
+	
+	//gets all the individuals (Declaration(Individual))
 	public Set<OWLNamedIndividual> getIndividuals() {
 		return ontology.getIndividualsInSignature();
 	}
-	//get declaration of data properties Declaration(dataProperty)
+	
+	//gets all the data properties (Declaration(DataProperty))
 	public Set<OWLDataProperty> getDataProperties() {
 		return ontology.getDataPropertiesInSignature();
-	}	
-	//get declaration of object properties Declaration(objectProperty)
+	}
+	
+	//gets all the object properties (Declaration(ObjectProperty))
 	public Set<OWLObjectProperty> getObjectProperties() {
 		return ontology.getObjectPropertiesInSignature();
 	}
-	//gets a list of individuals of a class
-	public HashMap<OWLClass, Set<OWLClassAssertionAxiom>> getClassesAndTheirIndividuals() {
+	
+	//gets all the classes and their individuals
+	public HashMap<OWLClass, Set<OWLClassAssertionAxiom>> getClassesIndividuals() {
 		HashMap<OWLClass, Set<OWLClassAssertionAxiom>> classesIndividuals = new HashMap<>();
 		for(OWLClass c: ontology.getClassesInSignature())
 			classesIndividuals.put(c, ontology.getClassAssertionAxioms(c));
 		return classesIndividuals;
 	}
-	//gets a map with the individuals and their dataproperties values dataPropertyAssertions(...)
-	public HashMap<OWLNamedIndividual, Set<OWLDataPropertyAssertionAxiom>> getindividualsDataProperties() {
+	
+	//gets all the individuals and their classes
+	public HashMap<OWLNamedIndividual, Set<OWLClassAssertionAxiom>> getIndividualsClasses() {
+		HashMap<OWLNamedIndividual, Set<OWLClassAssertionAxiom>> individualsClasses = new HashMap<>();
+		for(OWLNamedIndividual individual: getIndividuals())
+			individualsClasses.put(individual, ontology.getClassAssertionAxioms(individual));
+		return individualsClasses;
+	}
+	
+	//gets all the individuals and their data properties
+	public HashMap<OWLNamedIndividual, Set<OWLDataPropertyAssertionAxiom>> getIndividualsDataProperties() {
 		HashMap<OWLNamedIndividual, Set<OWLDataPropertyAssertionAxiom>> individualsProperties = new HashMap<>();
 		for(OWLNamedIndividual individual : getIndividuals())
 			individualsProperties.put(individual, ontology.getDataPropertyAssertionAxioms(individual));
 		return individualsProperties;
 	}
-	//gets a map with the individuals and their objectproperties connections objectPropertyAssertions(...)
+	
+	//gets all the individuals and their object properties
 	public HashMap<OWLNamedIndividual, Set<OWLObjectPropertyAssertionAxiom>> getIndividualsObjectProperties() {
 		HashMap<OWLNamedIndividual, Set<OWLObjectPropertyAssertionAxiom>> individualsProperties = new HashMap<>();
 		for(OWLNamedIndividual individual: getIndividuals())
 			individualsProperties.put(individual, ontology.getObjectPropertyAssertionAxioms(individual));
 		return individualsProperties;
 	}
+	
+	//gets the class taxonomy
 	public LinkedHashMap<OWLClass, ArrayList<OWLClass>> getTaxonomy() {
         Set<OWLClass> classes = ontology.getClassesInSignature();
         LinkedHashMap<OWLClass, ArrayList<OWLClass>> taxonomy = new LinkedHashMap<>();
@@ -124,8 +129,10 @@ public class OWLHandler {
         }
         return taxonomy;
 	}
+	
 	//---------------------------------------CREATE---------------------------------------
 	//Exemplo: handler.declareOWLEntity(EntityType.CLASS,"Pessoas");
+	
 	public void declareOWLEntity(EntityType<?> type, String name) {
 		OWLEntity entity = factory.getOWLEntity(type, IRI.create(defaultprefix, name));
 		OWLAxiom axiom = factory.getOWLDeclarationAxiom(entity);
@@ -196,7 +203,7 @@ public class OWLHandler {
 	}
 
 	public boolean hasDeclaredDataPropertyAssertion(OWLNamedIndividual ind, OWLDataProperty data) {
-		for(OWLDataPropertyAssertionAxiom ax: getindividualsDataProperties().get(ind)) {
+		for(OWLDataPropertyAssertionAxiom ax: getIndividualsDataProperties().get(ind)) {
 			if(ax.getDataPropertiesInSignature().contains(data)) {
 				return true;
 			}
@@ -217,7 +224,9 @@ public class OWLHandler {
 			saveOntology();
 		}
 	}
+	
 	//---------------------------------------DELETE---------------------------------------
+	
 	public void deleteObjectProperty(String name) {
 		OWLObjectProperty objectProperty = factory.getOWLObjectProperty(IRI.create(defaultprefix, name));
 		for(OWLNamedIndividual individual: getIndividuals()) 
@@ -261,7 +270,7 @@ public class OWLHandler {
 		saveOntology();
 	}
 	
-	public void deleteIndividual(String name) {//TODO remove his dataProperties ?
+	public void deleteIndividual(String name) {
 		OWLNamedIndividual namedIndividual = factory.getOWLNamedIndividual(IRI.create(defaultprefix,name));
 		for(OWLClassAssertionAxiom item: ontology.getClassAssertionAxioms(namedIndividual))
 			manager.removeAxiom(ontology, item);
@@ -291,7 +300,7 @@ public class OWLHandler {
 		}
 		for(OWLSubClassOfAxiom item: ontology.getSubClassAxiomsForSuperClass(owlClass))//delete all subclasses
 			deleteClass("", item.getSubClass().toString().replaceAll("(<|>)", ""), false);
-		HashMap<OWLClass, Set<OWLClassAssertionAxiom>> individuals = getClassesAndTheirIndividuals();
+		HashMap<OWLClass, Set<OWLClassAssertionAxiom>> individuals = getClassesIndividuals();
 		for(OWLClassAssertionAxiom item: individuals.get(owlClass))//delete all individuals from the owlClass
 			manager.removeAxiom(ontology, item);
 		for(OWLSubClassOfAxiom item: ontology.getSubClassAxiomsForSubClass(owlClass))//delete all axioms from the owlClass
@@ -300,7 +309,9 @@ public class OWLHandler {
 			manager.removeAxiom(ontology, item);
 		saveOntology();
 	}
+	
 	//---------------------------------------UPDATE---------------------------------------
+	
 	public void changeClass(String oldName, String newName) {
 		Map<OWLEntity, IRI> entity2IRIMap = new HashMap<>();
 		OWLEntityRenamer renamer = new OWLEntityRenamer(manager, Collections.singleton(ontology));
@@ -365,7 +376,7 @@ public class OWLHandler {
 		OWLNamedIndividual ind = factory.getOWLNamedIndividual(IRI.create(defaultprefix, individual));
 		OWLDataProperty dproperty = factory.getOWLDataProperty(IRI.create(defaultprefix, dataProperty));
 		OWLAxiom owlOldAxiom = factory.getOWLDataPropertyAssertionAxiom(dproperty, ind, oldValue);
-		if(getIndividuals().contains(ind) && getDataProperties().contains(dproperty) && getindividualsDataProperties().get(ind).contains(owlOldAxiom)) {
+		if(getIndividuals().contains(ind) && getDataProperties().contains(dproperty) && getIndividualsDataProperties().get(ind).contains(owlOldAxiom)) {
 			deleteDataPropertyOfIndividual(individual, dataProperty);
 			declareDataPropertyAssertion(individual, dataProperty, newValue);
 		}
@@ -375,7 +386,7 @@ public class OWLHandler {
 		OWLNamedIndividual ind = factory.getOWLNamedIndividual(IRI.create(defaultprefix, individual));
 		OWLDataProperty dproperty = factory.getOWLDataProperty(IRI.create(defaultprefix, dataProperty));
 		OWLAxiom owlOldAxiom = factory.getOWLDataPropertyAssertionAxiom(dproperty, ind, oldValue);
-		if(getIndividuals().contains(ind) && getDataProperties().contains(dproperty) && getindividualsDataProperties().get(ind).contains(owlOldAxiom)) {
+		if(getIndividuals().contains(ind) && getDataProperties().contains(dproperty) && getIndividualsDataProperties().get(ind).contains(owlOldAxiom)) {
 			deleteDataPropertyOfIndividual(individual, dataProperty);
 			declareDataPropertyAssertion(individual, dataProperty, newValue);
 		}
@@ -385,7 +396,7 @@ public class OWLHandler {
 		OWLNamedIndividual ind = factory.getOWLNamedIndividual(IRI.create(defaultprefix, individual));
 		OWLDataProperty dproperty = factory.getOWLDataProperty(IRI.create(defaultprefix, dataProperty));
 		OWLAxiom owlOldAxiom = factory.getOWLDataPropertyAssertionAxiom(dproperty, ind, oldValue);
-		if(getIndividuals().contains(ind) && getDataProperties().contains(dproperty) && getindividualsDataProperties().get(ind).contains(owlOldAxiom)) {
+		if(getIndividuals().contains(ind) && getDataProperties().contains(dproperty) && getIndividualsDataProperties().get(ind).contains(owlOldAxiom)) {
 			deleteDataPropertyOfIndividual(individual, dataProperty);
 			declareDataPropertyAssertion(individual, dataProperty, newValue);
 		}
@@ -395,7 +406,7 @@ public class OWLHandler {
 		OWLNamedIndividual ind = factory.getOWLNamedIndividual(IRI.create(defaultprefix, individual));
 		OWLDataProperty dproperty = factory.getOWLDataProperty(IRI.create(defaultprefix, dataProperty));
 		OWLAxiom owlOldAxiom = factory.getOWLDataPropertyAssertionAxiom(dproperty, ind, oldValue);
-		if(getIndividuals().contains(ind) && getDataProperties().contains(dproperty) && getindividualsDataProperties().get(ind).contains(owlOldAxiom)) {
+		if(getIndividuals().contains(ind) && getDataProperties().contains(dproperty) && getIndividualsDataProperties().get(ind).contains(owlOldAxiom)) {
 			deleteDataPropertyOfIndividual(individual, dataProperty);
 			declareDataPropertyAssertion(individual, dataProperty, newValue);
 		}
@@ -405,12 +416,14 @@ public class OWLHandler {
 		OWLNamedIndividual ind = factory.getOWLNamedIndividual(IRI.create(defaultprefix, individual));
 		OWLDataProperty dproperty = factory.getOWLDataProperty(IRI.create(defaultprefix, dataProperty));
 		OWLAxiom owlOldAxiom = factory.getOWLDataPropertyAssertionAxiom(dproperty, ind, oldValue);
-		if(getIndividuals().contains(ind) && getDataProperties().contains(dproperty) && getindividualsDataProperties().get(ind).contains(owlOldAxiom)) {
+		if(getIndividuals().contains(ind) && getDataProperties().contains(dproperty) && getIndividualsDataProperties().get(ind).contains(owlOldAxiom)) {
 			deleteDataPropertyOfIndividual(individual, dataProperty);
 			declareDataPropertyAssertion(individual, dataProperty, newValue);
 		}
 	}
+	
 	//---------------------------------------AUXILIARY FUNCTIONS---------------------------------------
+	
 	private void saveOntology() {
 		try {
 			manager.saveOntology(ontology, new FunctionalSyntaxDocumentFormat(), new FileOutputStream(owlFile));

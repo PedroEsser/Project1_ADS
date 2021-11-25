@@ -16,8 +16,10 @@ import org.json.JSONObject;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLDataPropertyAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
+import org.semanticweb.owlapi.model.OWLObjectPropertyAssertionAxiom;
 
 import java.lang.reflect.Field;
 import java.nio.charset.StandardCharsets;
@@ -33,26 +35,28 @@ public class JSONHandler {
 		}
 	}
 
-	public static void createIndividualsJSON(HashMap<OWLClass, Set<OWLClassAssertionAxiom>> classIndividuals, Set<OWLNamedIndividual> independentIndividuals) {
+	public static void createIndividualsJSON(HashMap<OWLNamedIndividual, Set<OWLClassAssertionAxiom>> individualsClasses, 
+			HashMap<OWLNamedIndividual, Set<OWLDataPropertyAssertionAxiom>> individualsDataProperties, 
+			HashMap<OWLNamedIndividual, Set<OWLObjectPropertyAssertionAxiom>> individualsObjectProperties) {
 		try {
 			FileWriter file = new FileWriter("./src/main/webapp/individuals.json");
 			JSONArray array = new JSONArray();
-			for(Entry<OWLClass, Set<OWLClassAssertionAxiom>> entry : classIndividuals.entrySet()) {
-				for(OWLClassAssertionAxiom axiom: entry.getValue()) {
-					JSONObject object = new JSONObject();
-					setOrderedJSONOBject(object);
-					object.put("class", entry.getKey().getIRI().getShortForm());
-					object.put("individual", axiom.getIndividual().asOWLNamedIndividual().getIRI().getShortForm());
-					array.put(object);
-					if(independentIndividuals.contains(axiom.getIndividual().asOWLNamedIndividual()))
-						independentIndividuals.remove(axiom.getIndividual().asOWLNamedIndividual());
-				}
-			}
-			for(OWLNamedIndividual individual: independentIndividuals) {
+			Set<OWLNamedIndividual> individuals = individualsClasses.keySet();
+			for(OWLNamedIndividual individual : individuals) {
 				JSONObject object = new JSONObject();
 				setOrderedJSONOBject(object);
-				object.put("class", "");
 				object.put("individual", individual.getIRI().getShortForm());
+				for(OWLClassAssertionAxiom classAssertion : individualsClasses.get(individual))
+					for(OWLClass c : classAssertion.getClassesInSignature())
+						object.put("class", c.getIRI().getShortForm());
+				JSONArray dataProperties = new JSONArray();
+				for(OWLDataPropertyAssertionAxiom dataPropertyAssertion : individualsDataProperties.get(individual))
+					dataProperties.put(dataPropertyAssertion);
+				object.put("data properties", dataProperties);
+				JSONArray objectProperties = new JSONArray();
+				for(OWLObjectPropertyAssertionAxiom objectPropertyAssertion : individualsObjectProperties.get(individual))
+					objectProperties.put(objectPropertyAssertion);
+				object.put("object properties", objectProperties);
 				array.put(object);
 			}
 			file.write(array.toString(1));

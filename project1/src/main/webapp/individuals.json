@@ -1,18 +1,38 @@
 [
  {
-  "class": "Algorithm",
-  "individual": "nsgaiii"
- },
- {
-  "class": "Algorithm",
-  "individual": "smsemoa"
- },
- {
-  "class": "Algorithm",
-  "individual": "nsgaii"
- },
- {
+  "individual": "classb",
   "class": "B",
-  "individual": "classb"
+  "data properties": [
+   "DataPropertyAssertion(<http://www.semanticweb.org/vbasto/ontologies/2020/9/untitled-ontology-74#minObjectivesAlgorithmIsAbleToDealWith> <http://www.semanticweb.org/vbasto/ontologies/2020/9/untitled-ontology-74#classb> \"1\"^^xsd:integer)",
+   "DataPropertyAssertion(<http://www.semanticweb.org/vbasto/ontologies/2020/9/untitled-ontology-74#maxObjectivesAlgorithmIsAbleToDealWith> <http://www.semanticweb.org/vbasto/ontologies/2020/9/untitled-ontology-74#classb> \"5\"^^xsd:integer)"
+  ],
+  "object properties": []
+ },
+ {
+  "individual": "nsgaiii",
+  "class": "Algorithm",
+  "data properties": [
+   "DataPropertyAssertion(<http://www.semanticweb.org/vbasto/ontologies/2020/9/untitled-ontology-74#maxObjectivesAlgorithmIsAbleToDealWith> <http://www.semanticweb.org/vbasto/ontologies/2020/9/untitled-ontology-74#nsgaiii> \"10000\"^^xsd:integer)",
+   "DataPropertyAssertion(<http://www.semanticweb.org/vbasto/ontologies/2020/9/untitled-ontology-74#minObjectivesAlgorithmIsAbleToDealWith> <http://www.semanticweb.org/vbasto/ontologies/2020/9/untitled-ontology-74#nsgaiii> \"3\"^^xsd:integer)"
+  ],
+  "object properties": []
+ },
+ {
+  "individual": "nsgaii",
+  "class": "Algorithm",
+  "data properties": [
+   "DataPropertyAssertion(<http://www.semanticweb.org/vbasto/ontologies/2020/9/untitled-ontology-74#maxObjectivesAlgorithmIsAbleToDealWith> <http://www.semanticweb.org/vbasto/ontologies/2020/9/untitled-ontology-74#nsgaii> \"3\"^^xsd:integer)",
+   "DataPropertyAssertion(<http://www.semanticweb.org/vbasto/ontologies/2020/9/untitled-ontology-74#minObjectivesAlgorithmIsAbleToDealWith> <http://www.semanticweb.org/vbasto/ontologies/2020/9/untitled-ontology-74#nsgaii> \"2\"^^xsd:integer)"
+  ],
+  "object properties": ["ObjectPropertyAssertion(<http://www.semanticweb.org/vbasto/ontologies/2020/9/untitled-ontology-74#Friends> <http://www.semanticweb.org/vbasto/ontologies/2020/9/untitled-ontology-74#nsgaii> <http://www.semanticweb.org/vbasto/ontologies/2020/9/untitled-ontology-74#nsgaiii>)"]
+ },
+ {
+  "individual": "smsemoa",
+  "class": "Algorithm",
+  "data properties": [
+   "DataPropertyAssertion(<http://www.semanticweb.org/vbasto/ontologies/2020/9/untitled-ontology-74#minObjectivesAlgorithmIsAbleToDealWith> <http://www.semanticweb.org/vbasto/ontologies/2020/9/untitled-ontology-74#smsemoa> \"2\"^^xsd:integer)",
+   "DataPropertyAssertion(<http://www.semanticweb.org/vbasto/ontologies/2020/9/untitled-ontology-74#maxObjectivesAlgorithmIsAbleToDealWith> <http://www.semanticweb.org/vbasto/ontologies/2020/9/untitled-ontology-74#smsemoa> \"3\"^^xsd:integer)"
+  ],
+  "object properties": ["ObjectPropertyAssertion(<http://www.semanticweb.org/vbasto/ontologies/2020/9/untitled-ontology-74#Friends> <http://www.semanticweb.org/vbasto/ontologies/2020/9/untitled-ontology-74#smsemoa> <http://www.semanticweb.org/vbasto/ontologies/2020/9/untitled-ontology-74#nsgaiii>)"]
  }
 ]

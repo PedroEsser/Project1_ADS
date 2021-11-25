@@ -18,12 +18,12 @@
 
 	<div id="div" class="w3-center" style="position:absolute; top:0px; right:0px; bottom:0px; left:0px; padding:100px 50px 0px 50px;">
 		<h1 style="margin-bottom: 30px">Welcome</h1>
-		<form action="script.php" method="post">
+		<form action="login" method="post">
 			<div style="margin-bottom: 15px">
 				<label for="uname" style="margin-right: 7px">Username:</label>
 		      	<input type="text" placeholder="Enter Username" name="uname" required>
 			</div>
-	  		<div style="margin-bottom: 15px">
+	  		<div style="margin-bottom: 25px">
 				<label for="psw" style="margin-right: 10px">Password:</label>
 	      		<input type="password" placeholder="Enter Password" name="psw" required>
 			</div>
