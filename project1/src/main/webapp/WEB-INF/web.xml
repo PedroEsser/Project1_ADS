@@ -16,4 +16,8 @@
 	<url-pattern>/leTest</url-pattern>
 </servlet-mapping>
 
+<welcome-file-list>
+	<welcome-file>taxonomy.jsp</welcome-file>
+</welcome-file-list>
+
 </web-app>

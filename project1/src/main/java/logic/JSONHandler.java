@@ -2,6 +2,7 @@ package logic;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -9,6 +10,7 @@ import java.util.LinkedHashMap;
 import java.util.Set;
 import java.util.Map.Entry;
 
+import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.semanticweb.owlapi.model.OWLClass;
@@ -18,12 +20,22 @@ import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 
 import java.lang.reflect.Field;
+import java.nio.charset.StandardCharsets;
 
 public class JSONHandler {
+	
+	public static String convertJSONToString(InputStream in) {
+		try {
+			return IOUtils.toString(in, StandardCharsets.UTF_8);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 
 	public static void createIndividualsJSON(HashMap<OWLClass, Set<OWLClassAssertionAxiom>> classIndividuals, Set<OWLNamedIndividual> independentIndividuals) {
 		try {
-			FileWriter file = new FileWriter("./individuals.json");
+			FileWriter file = new FileWriter("./src/main/webapp/individuals.json");
 			JSONArray array = new JSONArray();
 			for(Entry<OWLClass, Set<OWLClassAssertionAxiom>> entry : classIndividuals.entrySet()) {
 				for(OWLClassAssertionAxiom axiom: entry.getValue()) {
@@ -52,7 +64,7 @@ public class JSONHandler {
 	
 	public static void createDataPropertiesJSON(Set<OWLDataProperty> dataProperties) {
 		try {
-			FileWriter file = new FileWriter("./data_properties.json");
+			FileWriter file = new FileWriter("./src/main/webapp/data_properties.json");
 			JSONArray array = new JSONArray();
 			for(OWLDataProperty property: dataProperties) {
 				JSONObject object = new JSONObject();
@@ -69,7 +81,7 @@ public class JSONHandler {
 	
 	public static void createObjectPropertiesJSON(Set<OWLObjectProperty> objectProperties) {
 		try {
-			FileWriter file = new FileWriter("./object_properties.json");
+			FileWriter file = new FileWriter("./src/main/webapp/object_properties.json");
 			JSONArray array = new JSONArray();
 			for(OWLObjectProperty property: objectProperties) {
 				JSONObject object = new JSONObject();
@@ -86,7 +98,7 @@ public class JSONHandler {
 	
 	public static void createTaxonomyJSON(LinkedHashMap<OWLClass, ArrayList<OWLClass>> map) {
 		try {
-			FileWriter file = new FileWriter("./taxonomy.json");
+			FileWriter file = new FileWriter("./src/main/webapp/taxonomy.json");
 			JSONArray array = new JSONArray();
 			for(Entry<OWLClass, ArrayList<OWLClass>> entry : map.entrySet()) {
 				JSONObject object = new JSONObject();
