@@ -225,6 +225,40 @@ public class OWLHandler {
 		}
 	}
 	
+	public void declareObjectPropertyAssertion(String objectProperty, String characteristic) {
+		OWLObjectProperty obj = factory.getOWLObjectProperty(IRI.create(defaultprefix, objectProperty));
+		OWLAxiom axiom;
+		if(getObjectProperties().contains(obj)) {
+			switch (characteristic) {
+				case "Functional":
+					axiom = factory.getOWLFunctionalObjectPropertyAxiom(obj);
+					break;
+				case "InverseFunctional":
+					axiom = factory.getOWLInverseFunctionalObjectPropertyAxiom(obj);
+					break;
+				case "Transitive":
+					axiom = factory.getOWLTransitiveObjectPropertyAxiom(obj);
+					break;
+				case "Symmetric":
+					axiom = factory.getOWLSymmetricObjectPropertyAxiom(obj);
+					break;
+				case "Assymmetric":
+					axiom = factory.getOWLAsymmetricObjectPropertyAxiom(obj);
+					break;
+				case "Reflexive":
+					axiom = factory.getOWLReflexiveObjectPropertyAxiom(obj);
+					break;
+				case "Irreflexive":
+					axiom = factory.getOWLIrreflexiveObjectPropertyAxiom(obj);
+					break;
+				default:
+					return;
+			}
+			manager.addAxiom(ontology, axiom);
+			saveOntology();
+		}
+	}
+	
 	//---------------------------------------DELETE---------------------------------------
 	
 	public void deleteObjectProperty(String name) {
@@ -307,6 +341,38 @@ public class OWLHandler {
 			manager.removeAxiom(ontology, item);
 		for(OWLDeclarationAxiom item: ontology.getDeclarationAxioms(owlClass))//deletes owlClass declaration
 			manager.removeAxiom(ontology, item);
+		saveOntology();
+	}
+	
+	public void deleteObjectPropertyAssertion(String objectProperty, String characteristic) {
+		OWLObjectProperty obj = factory.getOWLObjectProperty(IRI.create(defaultprefix, objectProperty));
+		OWLAxiom axiom;
+		switch (characteristic) {
+			case "Functional":
+				axiom = factory.getOWLFunctionalObjectPropertyAxiom(obj);
+				break;
+			case "InverseFunctional":
+				axiom = factory.getOWLInverseFunctionalObjectPropertyAxiom(obj);
+				break;
+			case "Transitive":
+				axiom = factory.getOWLTransitiveObjectPropertyAxiom(obj);
+				break;
+			case "Symmetric":
+				axiom = factory.getOWLSymmetricObjectPropertyAxiom(obj);
+				break;
+			case "Assymmetric":
+				axiom = factory.getOWLAsymmetricObjectPropertyAxiom(obj);
+				break;
+			case "Reflexive":
+				axiom = factory.getOWLReflexiveObjectPropertyAxiom(obj);
+				break;
+			case "Irreflexive":
+				axiom = factory.getOWLIrreflexiveObjectPropertyAxiom(obj);
+				break;
+			default:
+				return;
+		}
+		manager.removeAxiom(ontology, axiom);
 		saveOntology();
 	}
 	
@@ -422,8 +488,6 @@ public class OWLHandler {
 		}
 	}
 	
-	//---------------------------------------AUXILIARY FUNCTIONS---------------------------------------
-	
 	private void saveOntology() {
 		try {
 			manager.saveOntology(ontology, new FunctionalSyntaxDocumentFormat(), new FileOutputStream(owlFile));
@@ -431,9 +495,6 @@ public class OWLHandler {
 			e.printStackTrace();
 		}
 	}
-	
-	
-	
 
 //	public void leOWLTest() {
 //    	
