@@ -34,6 +34,10 @@ public class JSONHandler {
 			return null;
 		}
 	}
+	
+	public static JSONObject convertStringToJSON(String json) {
+		return new JSONObject(json);
+	}
 
 	public static void createIndividualsJSON(HashMap<OWLNamedIndividual, Set<OWLClassAssertionAxiom>> individualsClasses, 
 			HashMap<OWLNamedIndividual, Set<OWLDataPropertyAssertionAxiom>> individualsDataProperties, 

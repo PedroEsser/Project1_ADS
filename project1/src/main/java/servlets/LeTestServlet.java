@@ -22,15 +22,15 @@ public class LeTestServlet extends HttpServlet {
     public LeTestServlet() {
         super();
     }
-
+    
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String a = req.getParameter("input1");
-		String b = req.getParameter("input2");
+		String a = req.getParameter("uname");
+		String b = req.getParameter("pwd");
 		
-		RequestDispatcher view = req.getRequestDispatcher("home.html");
+		RequestDispatcher view = req.getRequestDispatcher("test.jsp");
         view.forward(req, resp);
 		//resp.getWriter().print("Le Inputs:" + a + ", " + b);
 	}
@@ -38,9 +38,12 @@ public class LeTestServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String a = (String)req.getParameter("uname");
+		String b = (String)req.getParameter("psw");
+		
+		resp.sendRedirect("test.jsp");
+		System.out.println(a + ", " + b);
 	}
 
 }
