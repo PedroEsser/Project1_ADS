@@ -224,10 +224,11 @@
 		    height:"450px",
 		    data:taxonomy_data,
 		    dataTree:true,
+		    dataTreeStartExpanded:true,
 		    dataTreeChildIndent:15,
 		    selectable:1,
 		    columns:[
-		    {title:"Class", field:"class", responsive:0},
+		    {title:"Classes (Taxonomy)", field:"class", responsive:0},
 		    ],
 		});
 		
@@ -245,7 +246,7 @@
 		    data:individuals_data,
 		    selectable:2,
 		    columns:[
-		    {title:"Individual", field:"individual", responsive:0},
+		    {title:"Individuals", field:"individual", responsive:0, headerFilter:true},
 		    ],
 		});
 		

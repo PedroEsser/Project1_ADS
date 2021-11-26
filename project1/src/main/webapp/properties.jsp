@@ -172,7 +172,7 @@
 		    data:dt_properties_data,
 		    selectable:1,
 		    columns:[
-		    {title:"Data Property", field:"data property", responsive:0},
+		    {title:"Data Properties", field:"data property", responsive:0, headerFilter:true},
 		    ],
 		});
 		
@@ -182,7 +182,7 @@
 		    data:obj_properties_data,
 		    selectable:1,
 		    columns:[
-		    {title:"Object Property", field:"object property", responsive:0},
+		    {title:"Object Properties", field:"object property", responsive:0, headerFilter:true},
 		    ],
 		});
 		
