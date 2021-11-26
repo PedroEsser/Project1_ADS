@@ -7,9 +7,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import logic.JSONHandler;
-
 /**
  * Servlet implementation class LeTestServlet2
  */
@@ -32,7 +29,7 @@ public class LeTestServlet extends HttpServlet {
 		
 		RequestDispatcher view = req.getRequestDispatcher("test.jsp");
         view.forward(req, resp);
-		//resp.getWriter().print("Le Inputs:" + a + ", " + b);
+        System.out.println("GET: " + a + ", " + b);
 	}
 
 	/**
@@ -42,8 +39,10 @@ public class LeTestServlet extends HttpServlet {
 		String a = (String)req.getParameter("uname");
 		String b = (String)req.getParameter("psw");
 		
-		resp.sendRedirect("test.jsp");
-		System.out.println(a + ", " + b);
+//		resp.sendRedirect("test.jsp");
+		RequestDispatcher view = req.getRequestDispatcher("test.jsp");
+		view.forward(req, resp);
+		System.out.println("POST: " + a + ", " + b);
 	}
 
 }
