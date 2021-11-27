@@ -3,11 +3,18 @@ package logic;
 import java.io.File;
 import java.io.IOException;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.ListBranchCommand.ListMode;
 import org.eclipse.jgit.api.MergeCommand;
 import org.eclipse.jgit.api.MergeResult;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.api.errors.InvalidRemoteException;
+import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
@@ -31,14 +38,14 @@ public class GitHandler {
 	public void test(String branchName) {
 		try {
 			RefUpdate newBranch = createBranch(branchName);
-			changeBranch(branchName);
+//			changeBranch(branchName);
 			
 			commit("Testing branch again " + branchName);
-			push("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");
+			push("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");
 			
-			changeBranch("master");
-			mergeBrach(branchName);
-			push("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");
+//			changeBranch("master");
+//			mergeBrach(branchName);
+//			push("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");
 //			deleteBranch(branchName);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -106,4 +113,30 @@ public class GitHandler {
 		}
 	}
 
+	private List<String> getGitBranches() {
+		List<String> branchesNames = new ArrayList<>();
+		try {
+			List<Ref> call = new Git(repository).branchList().setListMode(null).call();
+			for (Ref ref : call) {
+				branchesNames.add(ref.getName().replace("refs/heads/", ""));
+			}
+		} catch (GitAPIException e) {
+			e.printStackTrace();
+		}
+		return branchesNames;
+	}
+	
+	public String getNextBranchName(String email) {
+		List<String> branchesNames = getGitBranches();
+		int emailNumber = 0;
+		for(String name: branchesNames) {
+			if(!name.equals("master") && name.contains(email)) {
+				int number = Integer.parseInt(name.replace( email + "_", ""));
+				if(number >= emailNumber) {
+					emailNumber = number + 1;
+				}
+			}
+		}
+		return email + "_" + emailNumber;
+	}
 }
