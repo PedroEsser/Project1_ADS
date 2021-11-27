@@ -18,13 +18,14 @@
 	  </div>
 	</div>
 	
-	<div style="position:relative; padding:100px 50px 0px 50px;">
+	<div style="padding:100px 50px 0px 50px;">
 		<div style="float: left; width: 48%;">
 			<div id="data-properties-table"></div>
 			<div class="w3-bar w3-large" style="padding-top: 5px;">
 				<input id="create-data-property" type="button" value="Create" onclick="data_properties_load(this)" style="font-size: 15px; cursor: pointer;"/>
 				<input id="edit-data-property" type="button" value="Edit" onclick="data_properties_load(this)" style="font-size: 15px; cursor: pointer;"/>
 				<input id="delete-data-property" type="button" value="Delete" onclick="data_properties_load(this)" style="font-size: 15px; cursor: pointer;"/>
+				<div id="data-properties-warning" style="float: right; font-size: 15px; color:red;"></div>
 			</div>
 		</div>
 		
@@ -34,6 +35,7 @@
 				<input id="create-object-property" type="button" value="Create" onclick="object_properties_load(this)" style="font-size: 15px; cursor: pointer;"/>
 				<input id="edit-object-property" type="button" value="Edit" onclick="object_properties_load(this)" style="font-size: 15px; cursor: pointer;"/>
 				<input id="delete-object-property" type="button" value="Delete" onclick="object_properties_load(this)" style="font-size: 15px; cursor: pointer;"/>
+				<div id="object-properties-warning" style="float: right; font-size: 15px; color:red;"></div>
 			</div>
 		</div>
 		
@@ -161,7 +163,6 @@
 	  	<a style="margin-right: 10px;" href="properties.jsp">&raquo;</a>
 	</div>
 	
-	<script id="taxonomy" type="application/json" src="taxonomy.json"></script>
 	<script>
 		var dt_properties_data = <% out.print(JSONHandler.convertJSONToString(application.getResourceAsStream("data_properties.json"))); %>
 		var obj_properties_data = <% out.print(JSONHandler.convertJSONToString(application.getResourceAsStream("object_properties.json"))); %>
@@ -172,7 +173,7 @@
 		    data:dt_properties_data,
 		    selectable:1,
 		    columns:[
-		    {title:"Data Properties", field:"data property", responsive:0, headerFilter:true},
+		    {title:"Data Properties", field:"data property", responsive:0, headerFilter:true, headerFilterPlaceholder:"Filter..."},
 		    ],
 		});
 		
@@ -182,7 +183,7 @@
 		    data:obj_properties_data,
 		    selectable:1,
 		    columns:[
-		    {title:"Object Properties", field:"object property", responsive:0, headerFilter:true},
+		    {title:"Object Properties", field:"object property", responsive:0, headerFilter:true, headerFilterPlaceholder:"Filter..."},
 		    ],
 		});
 		
@@ -190,15 +191,22 @@
 			var selectedcell = dt_properties_table.getSelectedRows()[0];
 			if(element.id == "create-data-property") {
 				document.getElementById("create-data-property-modal").style.display = "block";
+				document.getElementById("data-properties-warning").textContent = "";
 			} else if(element.id == "edit-data-property") {
 				if(selectedcell) {
 					document.getElementById("edited-data-property").defaultValue = selectedcell.getCells()[0].getValue();
 					document.getElementById("edit-data-property-modal").style.display = "block";
+					document.getElementById("data-properties-warning").textContent = "";
+				} else {
+					document.getElementById("data-properties-warning").textContent = "Select a Data Property!";
 				}
 			} else if(element.id == "delete-data-property") {
 				if(selectedcell) {
 					document.getElementById("deleted-data-property").defaultValue = selectedcell.getCells()[0].getValue();
 					document.getElementById("delete-data-property-modal").style.display = "block";
+					document.getElementById("data-properties-warning").textContent = "";
+				} else {
+					document.getElementById("data-properties-warning").textContent = "Select a Data Property!";
 				}
 			}
 		}
@@ -207,15 +215,22 @@
 			var selectedcell = obj_properties_table.getSelectedRows()[0];
 			if(element.id == "create-object-property") {
 				document.getElementById("create-object-property-modal").style.display = "block";
+				document.getElementById("object-properties-warning").textContent = "";
 			} else if(element.id == "edit-object-property") {
 				if(selectedcell) {
 					document.getElementById("edited-object-property").defaultValue = selectedcell.getCells()[0].getValue();
 					document.getElementById("edit-object-property-modal").style.display = "block";
+					document.getElementById("object-properties-warning").textContent = "";
+				} else {
+					document.getElementById("object-properties-warning").textContent = "Select an Object Property!";
 				}
 			} else if(element.id == "delete-object-property") {
 				if(selectedcell) {
 					document.getElementById("deleted-object-property").defaultValue = selectedcell.getCells()[0].getValue();
 					document.getElementById("delete-object-property-modal").style.display = "block";
+					document.getElementById("object-properties-warning").textContent = "";
+				} else {
+					document.getElementById("object-properties-warning").textContent = "Select an Object Property!";
 				}
 			}
 		}

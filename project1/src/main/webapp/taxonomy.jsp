@@ -18,13 +18,14 @@
 	  </div>
 	</div>
 	
-	<div style="position:relative; padding:100px 50px 0px 50px;">
+	<div style="padding:100px 50px 0px 50px;">
 		<div style="float: left; width: 48%;">
 			<div id="taxonomy-table"></div>
 			<div class="w3-bar w3-large" style="padding-top: 5px;">
 				<input id="create-class" type="button" value="Create" onclick="taxonomy_load(this)" style="font-size: 15px; cursor: pointer;"/>
 				<input id="edit-class" type="button" value="Edit" onclick="taxonomy_load(this)" style="font-size: 15px; cursor: pointer;"/>
 				<input id="delete-class" type="button" value="Delete" onclick="taxonomy_load(this)" style="font-size: 15px; cursor: pointer;"/>
+				<div id="class-warning" style="float: right; font-size: 15px; color:red;"></div>
 			</div>
 		</div>
 		
@@ -34,9 +35,8 @@
 				<input id="create-individual" type="button" value="Create" onclick="taxonomy_load(this)" style="font-size: 15px; cursor: pointer;"/>
 				<input id="edit-individual" type="button" value="Edit" onclick="individuals_load(this)" style="font-size: 15px; cursor: pointer;"/>
 				<input id="delete-individual" type="button" value="Delete" onclick="individuals_load(this)" style="font-size: 15px; cursor: pointer;"/>
-				<!-- <input id="link-individuals" type="button" value="Assert Object Property" onclick="individuals_load(this)" style="font-size: 15px; cursor: pointer;"/>
-				<input id="characterize-individual" type="button" value="Assert Data Property" onclick="individuals_load(this)" style="font-size: 15px; cursor: pointer;"/> -->
-				<input id="details-individual" type="button" value="See Details" onclick="individuals_load(this)" style="font-size: 15px; cursor: pointer;"/>
+				<input id="individual-details" type="button" value="See Details" onclick="individuals_load(this)" style="font-size: 15px; cursor: pointer;"/>
+				<div id="individual-warning" style="float: right; font-size: 15px; color:red;"></div>
 			</div>
 		</div>
 		
@@ -44,10 +44,10 @@
 			<div class="w3-modal-content w3-center" style="width:375px; border: 1.5px solid #000000; border-radius: 10px;">
 				<span id="create-class-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
 				<h2>Create Class</h2>
-				<form action="script.php" method="post">
+				<form action="create_class" method="post">
 			  		<div style="margin-top: 20px; margin-bottom: 15px">
 						<label for="super-class-input" style="margin-right: 13px">Super Class:</label>
-			      		<input id="super-class" type="text" name="super-class-input" readonly>
+			      		<input id="super-class" type="text" placeholder="Select a Class (Optional)" name="super-class-input" readonly>
 					</div>
 					<div style="margin-bottom: 15px">
 						<label for="class-input" style="margin-right: 12px">Class Name:</label>
@@ -164,28 +164,27 @@
 			</div>
 		</div>
 		
-		<div id="link-individuals-modal" class="w3-modal " style="background-color:rgba(0,0,0,0);">
-			<div class="w3-modal-content w3-center" style="width:400px; border: 1.5px solid #000000; border-radius: 10px; ">
-				<span id="link-individuals-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
-				<h2>Link Individuals</h2>
-				<form action="script.php" method="post">
-			  		<div style="margin-top: 20px; margin-bottom: 15px">
-						<label for="individual-input" style="margin-right: 12px">Individual Name (1):</label>
-			      		<input id="linked-individual-1" type="text" name="individual-input" readonly>
-					</div>
-					<div style="margin-bottom: 15px">
-						<label for="individual-input" style="margin-right: 12px">Individual Name (2):</label>
-			      		<input id="linked-individual-2" type="text" name="individual-input" readonly>
-					</div>
-					<div style="margin-bottom: 15px">
-						<label for="object-property-input" style="margin-right: 30px">Object Property:</label>
-			      		<select id="object-property" name="object-property-input"></select>
-					</div>
-					<div style="margin-bottom: 25px">
-						<label for="email-input" style="margin-right: 57px">User Email:</label>
-				      	<input type="email" placeholder="Enter Email" name="email-input" required>
-					</div>
+		<div id="individual-details-modal" class="w3-modal " style="background-color:rgba(0,0,0,0);">
+			<div class="w3-modal-content" style="width:765px; border: 1.5px solid #000000; border-radius: 10px; ">
+				<span id="individual-details-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
+				<h2 id="individual-name" class="w3-center"></h2>
+				<p style="margin-left: 40px"><i><u>Class</u></i></p>
+				<div id="individual-class" style="margin-left: 40px"></div>
+				<p style="margin-left: 40px"><i><u>Object Properties</u></i></p>
+				<div id="object-properties-list"></div>
+				<form action="script.php" method="post" style="margin-left: 40px">
+			      	<select id="object-property" name="object-property-input" style="width: 191px; height: 28px"></select>
+			      	<select id="linked-individual" name="object-property-value" style="width: 191px; height: 28px"></select>
+				    <input type="email" placeholder="Enter Email" name="email-input" required>
 			      	<button type="submit" style="margin-bottom: 25px">Send Request</button>
+		      	</form>
+				<p style="margin-left: 40px"><i><u>Data Properties</u></i></p>
+				<div id="data-properties-list"></div>
+				<form action="script.php" method="post" style="margin-left: 40px">
+			      	<select id="data-property" name="data-property-input" style="width: 191px; height: 28px"></select>
+			      	<input type="text" placeholder="Data Property Value" name="data-property-value" required>
+				    <input type="email" placeholder="Enter Email" name="email-input" required>
+			      	<button type="submit" style="margin-bottom: 40px">Send Request</button>
 		      	</form>
 			</div>
 		</div>
@@ -198,26 +197,11 @@
 	  	<a style="margin-right: 10px;" href="properties.jsp">&raquo;</a>
 	</div>
 	
-	<script id="taxonomy" type="application/json" src="taxonomy.json"></script>
 	<script>
 		var taxonomy_data = <% out.print(JSONHandler.convertJSONToString(application.getResourceAsStream("taxonomy.json"))); %>
 		var individuals_data = <% out.print(JSONHandler.convertJSONToString(application.getResourceAsStream("individuals.json"))); %>
 		var dt_properties_data = <% out.print(JSONHandler.convertJSONToString(application.getResourceAsStream("data_properties.json"))); %>
 		var obj_properties_data = <% out.print(JSONHandler.convertJSONToString(application.getResourceAsStream("object_properties.json"))); %>
-		
-		var sel_obj = document.getElementById('object-property');
-		for(var i = 0; i < obj_properties_data.length; i++) {
-		    var opt = document.createElement('option');
-		    opt.innerHTML = obj_properties_data[i]['object property'];
-		    sel_obj.appendChild(opt);
-		}
-		
-//		var sel_dt = document.getElementById('data-property');
-//		for(var i = 0; i < dt_properties_data.length; i++) {
-//		    var opt = document.createElement('option');
-//		    opt.innerHTML = dt_properties_data[i]['data property'];
-//		    sel_dt.appendChild(opt);
-//		}
 		
 		var taxonomy_table = new Tabulator("#taxonomy-table", {
 			layout:"fitDataStretch",
@@ -244,33 +228,41 @@
 			layout:"fitDataStretch",
 		    height:"450px",
 		    data:individuals_data,
-		    selectable:2,
+		    selectable:1,
 		    columns:[
-		    {title:"Individuals", field:"individual", responsive:0, headerFilter:true},
+		    {title:"Individuals", field:"individual", responsive:0, headerFilter:true, headerFilterPlaceholder:"Filter..."},
 		    ],
 		});
 		
 		function taxonomy_load(element) {
 			var selectedcell = taxonomy_table.getSelectedRows()[0];
 			if(element.id == "create-class") {
-				if(selectedcell) {
-					document.getElementById("super-class").defaultValue = selectedcell.getCells()[0].getValue();
-				}
+				document.getElementById("super-class").defaultValue = selectedcell ? selectedcell.getCells()[0].getValue() : "";
 				document.getElementById("create-class-modal").style.display = "block";
+				document.getElementById("class-warning").textContent = "";
 			} else if(element.id == "create-individual") {
 				if(selectedcell) {
 					document.getElementById("class").defaultValue = selectedcell.getCells()[0].getValue();
 					document.getElementById("create-individual-modal").style.display = "block";
+					document.getElementById("individual-warning").textContent = "";
+				} else {
+					document.getElementById("individual-warning").textContent = "Select a Class!";
 				}
 			} else if(element.id == "edit-class") {
 				if(selectedcell) {
 					document.getElementById("edited-class").defaultValue = selectedcell.getCells()[0].getValue();
 					document.getElementById("edit-class-modal").style.display = "block";
+					document.getElementById("class-warning").textContent = "";
+				} else {
+					document.getElementById("class-warning").textContent = "Select a Class!";
 				}
 			} else if(element.id == "delete-class") {
 				if(selectedcell) {
 					document.getElementById("deleted-class").defaultValue = selectedcell.getCells()[0].getValue();
 					document.getElementById("delete-class-modal").style.display = "block";
+					document.getElementById("class-warning").textContent = "";
+				} else {
+					document.getElementById("class-warning").textContent = "Select a Class!";
 				}
 			}
 		}
@@ -281,22 +273,80 @@
 				if(selectedcell) {
 					document.getElementById("edited-individual").defaultValue = selectedcell.getCells()[0].getValue();
 					document.getElementById("edit-individual-modal").style.display = "block";
+					document.getElementById("individual-warning").textContent = "";
+				} else {
+					document.getElementById("individual-warning").textContent = "Select an Individual!";
 				}
 			} else if(element.id == "delete-individual") {
 				if(selectedcell) {
 					document.getElementById("deleted-individual").defaultValue = selectedcell.getCells()[0].getValue();
 					document.getElementById("delete-individual-modal").style.display = "block";
+					document.getElementById("individual-warning").textContent = "";
+				} else {
+					document.getElementById("individual-warning").textContent = "Select an Individual!";
 				}
-			} else if(element.id == "link-individuals") {
-				if(individuals_table.getSelectedRows()[0] && individuals_table.getSelectedRows()[1]) {
-					document.getElementById("linked-individual-1").defaultValue = individuals_table.getSelectedRows()[0].getCells()[0].getValue();
-					document.getElementById("linked-individual-2").defaultValue = individuals_table.getSelectedRows()[1].getCells()[0].getValue();
-					document.getElementById("link-individuals-modal").style.display = "block";
+			} else if(element.id == "individual-details") {
+				if(selectedcell) {
+					document.getElementById("individual-name").textContent = selectedcell.getCells()[0].getValue();
+					document.getElementById("individual-class").textContent = selectedcell.getData()["class"];
+					clear_element_children(document.getElementById("object-properties-list"));
+					clear_element_children(document.getElementById("data-properties-list"));
+					clear_element_children(document.getElementById('data-property'))
+					clear_element_children(document.getElementById('object-property'))
+					clear_element_children(document.getElementById('linked-individual'))
+					append_children_to_element(document.getElementById("object-properties-list"), selectedcell.getData()["object properties"]);
+					append_children_to_element(document.getElementById("data-properties-list"), selectedcell.getData()["data properties"]);
+					set_property_options_lists();
+					set_linked_individual_options_list(selectedcell.getCells()[0].getValue());
+					document.getElementById("individual-details-modal").style.display = "block";
+					document.getElementById("individual-warning").textContent = "";
+				} else {
+					document.getElementById("individual-warning").textContent = "Select an Individual!";
 				}
-			} else if(element.id == "characterize-individual") {
-							
-			} else if(element.id == "details-individual") {
-				
+			}
+		}
+		
+		function clear_element_children(element) {
+			while (element.hasChildNodes()) {  
+				element.removeChild(element.firstChild);
+			}
+		}
+		
+		function append_children_to_element(element, list) {
+			for(var i = 0; i < list.length; i++) {
+				var aux = document.createElement('div');
+				aux.textContent = list[i];
+				aux.style.marginLeft = "40px";
+				aux.style.marginRight = "40px";
+				element.appendChild(aux);
+			}
+		}
+		
+		function set_property_options_lists() {
+			var sel_dt = document.getElementById('data-property');
+			for(var i = 0; i < dt_properties_data.length; i++) {
+			    var opt = document.createElement('option');
+			    opt.innerHTML = dt_properties_data[i]['data property'];
+			    sel_dt.appendChild(opt);
+			}
+			var sel_obj = document.getElementById('object-property');
+			for(var i = 0; i < obj_properties_data.length; i++) {
+			    var opt = document.createElement('option');
+			    opt.innerHTML = obj_properties_data[i]['object property'];
+			    sel_obj.appendChild(opt);
+			}
+		}
+		
+		function set_linked_individual_options_list(selectedIndividual) {
+			var sel_ind = document.getElementById('linked-individual');
+			for(var i = 0; i < individuals_data.length; i++) {
+				console.log(individuals_data[i]['individual']);
+				console.log(selectedIndividual);
+				if(individuals_data[i]['individual'] != selectedIndividual) {
+					var opt = document.createElement('option');
+					opt.innerHTML = individuals_data[i]['individual'];
+					sel_ind.appendChild(opt);
+				}
 			}
 		}
 		
@@ -318,8 +368,8 @@
 		document.getElementById("delete-individual-span").onclick = function() {
 			document.getElementById("delete-individual-modal").style.display = "none";
 		}
-		document.getElementById("link-individuals-span").onclick = function() {
-			document.getElementById("link-individuals-modal").style.display = "none";
+		document.getElementById("individual-details-span").onclick = function() {
+			document.getElementById("individual-details-modal").style.display = "none";
 		}
 		
 		window.onclick = function(event) {
@@ -335,8 +385,8 @@
 				document.getElementById("edit-individual-modal").style.display = "none";
 			if (event.target == document.getElementById("delete-individual-modal"))
 				document.getElementById("delete-individual-modal").style.display = "none";
-			if (event.target == document.getElementById("link-individuals-modal"))
-				document.getElementById("link-individuals-modal").style.display = "none";
+			if (event.target == document.getElementById("individual-details-modal"))
+				document.getElementById("individual-details-modal").style.display = "none";
 		}
 			
 	</script>

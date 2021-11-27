@@ -54,12 +54,20 @@ public class JSONHandler {
 					for(OWLClass c : classAssertion.getClassesInSignature())
 						object.put("class", c.getIRI().getShortForm());
 				JSONArray dataProperties = new JSONArray();
-				for(OWLDataPropertyAssertionAxiom dataPropertyAssertion : individualsDataProperties.get(individual))
-					dataProperties.put(dataPropertyAssertion);
+				for(OWLDataPropertyAssertionAxiom dataPropertyAssertion : individualsDataProperties.get(individual)) {
+					JSONArray aux = new JSONArray();
+					aux.put(dataPropertyAssertion.getProperty().asOWLDataProperty().getIRI().getShortForm());
+					aux.put(dataPropertyAssertion.getObject().getLiteral());
+					dataProperties.put(aux);
+				}
 				object.put("data properties", dataProperties);
 				JSONArray objectProperties = new JSONArray();
-				for(OWLObjectPropertyAssertionAxiom objectPropertyAssertion : individualsObjectProperties.get(individual))
-					objectProperties.put(objectPropertyAssertion);
+				for(OWLObjectPropertyAssertionAxiom objectPropertyAssertion : individualsObjectProperties.get(individual)) {
+					JSONArray aux = new JSONArray();
+					aux.put(objectPropertyAssertion.getProperty().asOWLObjectProperty().getIRI().getShortForm());
+					aux.put(objectPropertyAssertion.getObject().asOWLNamedIndividual().getIRI().getShortForm());
+					objectProperties.put(aux);
+				}
 				object.put("object properties", objectProperties);
 				array.put(object);
 			}
