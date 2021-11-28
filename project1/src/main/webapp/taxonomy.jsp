@@ -62,7 +62,7 @@
 			</div>
 		</div>
 		
-		<div id="edit-class-modal" class="w3-modal " style="background-color:rgba(0,0,0,0);">
+		<div id="edit-class-modal" class="w3-modal" style="background-color:rgba(0,0,0,0);">
 			<div class="w3-modal-content w3-center" style="width:400px; border: 1.5px solid #000000; border-radius: 10px; ">
 				<span id="edit-class-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
 				<h2>Edit Class</h2>
@@ -84,7 +84,7 @@
 			</div>
 		</div>
 		
-		<div id="delete-class-modal" class="w3-modal " style="background-color:rgba(0,0,0,0);">
+		<div id="delete-class-modal" class="w3-modal" style="background-color:rgba(0,0,0,0);">
 			<div class="w3-modal-content w3-center" style="width:375px; border: 1.5px solid #000000; border-radius: 10px; ">
 				<span id="delete-class-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
 				<h2>Delete Class</h2>
@@ -124,7 +124,7 @@
 			</div>
 		</div>
 			
-		<div id="edit-individual-modal" class="w3-modal " style="background-color:rgba(0,0,0,0);">
+		<div id="edit-individual-modal" class="w3-modal" style="background-color:rgba(0,0,0,0);">
 			<div class="w3-modal-content w3-center" style="width:425px; border: 1.5px solid #000000; border-radius: 10px; ">
 				<span id="edit-individual-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
 				<h2>Edit Individual</h2>
@@ -146,7 +146,7 @@
 			</div>
 		</div>
 			
-		<div id="delete-individual-modal" class="w3-modal " style="background-color:rgba(0,0,0,0);">
+		<div id="delete-individual-modal" class="w3-modal" style="background-color:rgba(0,0,0,0);">
 			<div class="w3-modal-content w3-center" style="width:400px; border: 1.5px solid #000000; border-radius: 10px; ">
 				<span id="delete-individual-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
 				<h2>Delete Individual</h2>
@@ -164,7 +164,7 @@
 			</div>
 		</div>
 		
-		<div id="individual-details-modal" class="w3-modal " style="background-color:rgba(0,0,0,0);">
+		<div id="individual-details-modal" class="w3-modal" style="background-color:rgba(0,0,0,0);">
 			<div class="w3-modal-content" style="width:890px; border: 1.5px solid #000000; border-radius: 10px; ">
 				<span id="individual-details-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
 				<h2 id="individual-name" class="w3-center"></h2>
@@ -176,7 +176,7 @@
 			      	<select id="object-property" name="object-property-input" style="width: 225px; height: 28px" required></select>
 			      	<select id="linked-individual" name="object-property-value" style="width: 225px; height: 28px" required></select>
 				    <input type="email" placeholder="Enter Email" name="email-input" style="width: 225px;" required>
-			      	<button type="submit" style="margin-bottom: 25px">(+) Send Request</button>
+			      	<button type="submit" style="margin-bottom: 25px">Send Request (+)</button>
 		      	</form>
 				<p style="margin-left: 40px"><i><u>Data Properties</u></i></p>
 				<div id="data-properties-list"></div>
@@ -184,7 +184,7 @@
 			      	<select id="data-property" name="data-property-input" style="width: 225px; height: 28px" required></select>
 			      	<input type="text" placeholder="Enter Data Property Value" name="data-property-value" style="width: 225px;" required>
 				    <input type="email" placeholder="Enter Email" name="email-input" style="width: 225px;" required>
-			      	<button type="submit" style="margin-bottom: 40px">(+) Send Request</button>
+			      	<button type="submit" style="margin-bottom: 40px">Send Request (+)</button>
 		      	</form>
 			</div>
 		</div>
@@ -294,8 +294,8 @@
 					clear_element_children(document.getElementById('data-property'))
 					clear_element_children(document.getElementById('object-property'))
 					clear_element_children(document.getElementById('linked-individual'))
-					append_forms_to_element(document.getElementById("object-properties-list"), selectedcell.getData()["object properties"], "object-property", "script.php");
-					append_forms_to_element(document.getElementById("data-properties-list"), selectedcell.getData()["data properties"], "data-property", "script.php");
+					append_forms_to_div(document.getElementById("object-properties-list"), selectedcell.getData()["object properties"], "object-property", "script.php");
+					append_forms_to_div(document.getElementById("data-properties-list"), selectedcell.getData()["data properties"], "data-property", "script.php");
 					set_property_options_lists();
 					set_linked_individual_options_list(selectedcell.getCells()[0].getValue());
 					document.getElementById("individual-details-modal").style.display = "block";
@@ -312,7 +312,7 @@
 			}
 		}
 		
-		function append_forms_to_element(element, list, name, action) {
+		function append_forms_to_div(div, list, name, action) {
 			for(var i = 0; i < list.length; i++) {
 				var form = document.createElement('form');
 				form.method = "post";
@@ -327,7 +327,7 @@
 				form.appendChild(button);
 				form.style.marginLeft = "40px";
 				form.style.marginRight = "40px";
-				element.appendChild(form);
+				div.appendChild(form);
 			}
 		}
 		
@@ -356,8 +356,9 @@
 		
 		function create_button() {
 			var button = document.createElement('button');
+			button.style.width = "120px";
 			button.type = "submit";
-			button.innerHTML = "(-) Send Request";
+			button.innerHTML = "Send Request (-)";
 			return button;
 		}
 		
