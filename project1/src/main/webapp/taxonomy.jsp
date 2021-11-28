@@ -165,7 +165,7 @@
 		</div>
 		
 		<div id="individual-details-modal" class="w3-modal " style="background-color:rgba(0,0,0,0);">
-			<div class="w3-modal-content" style="width:765px; border: 1.5px solid #000000; border-radius: 10px; ">
+			<div class="w3-modal-content" style="width:890px; border: 1.5px solid #000000; border-radius: 10px; ">
 				<span id="individual-details-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
 				<h2 id="individual-name" class="w3-center"></h2>
 				<p style="margin-left: 40px"><i><u>Class</u></i></p>
@@ -173,18 +173,18 @@
 				<p style="margin-left: 40px"><i><u>Object Properties</u></i></p>
 				<div id="object-properties-list"></div>
 				<form action="script.php" method="post" style="margin-left: 40px">
-			      	<select id="object-property" name="object-property-input" style="width: 191px; height: 28px"></select>
-			      	<select id="linked-individual" name="object-property-value" style="width: 191px; height: 28px"></select>
-				    <input type="email" placeholder="Enter Email" name="email-input" required>
-			      	<button type="submit" style="margin-bottom: 25px">Send Request</button>
+			      	<select id="object-property" name="object-property-input" style="width: 225px; height: 28px" required></select>
+			      	<select id="linked-individual" name="object-property-value" style="width: 225px; height: 28px" required></select>
+				    <input type="email" placeholder="Enter Email" name="email-input" style="width: 225px;" required>
+			      	<button type="submit" style="margin-bottom: 25px">(+) Send Request</button>
 		      	</form>
 				<p style="margin-left: 40px"><i><u>Data Properties</u></i></p>
 				<div id="data-properties-list"></div>
 				<form action="script.php" method="post" style="margin-left: 40px">
-			      	<select id="data-property" name="data-property-input" style="width: 191px; height: 28px"></select>
-			      	<input type="text" placeholder="Data Property Value" name="data-property-value" required>
-				    <input type="email" placeholder="Enter Email" name="email-input" required>
-			      	<button type="submit" style="margin-bottom: 40px">Send Request</button>
+			      	<select id="data-property" name="data-property-input" style="width: 225px; height: 28px" required></select>
+			      	<input type="text" placeholder="Enter Data Property Value" name="data-property-value" style="width: 225px;" required>
+				    <input type="email" placeholder="Enter Email" name="email-input" style="width: 225px;" required>
+			      	<button type="submit" style="margin-bottom: 40px">(+) Send Request</button>
 		      	</form>
 			</div>
 		</div>
@@ -294,8 +294,8 @@
 					clear_element_children(document.getElementById('data-property'))
 					clear_element_children(document.getElementById('object-property'))
 					clear_element_children(document.getElementById('linked-individual'))
-					append_children_to_element(document.getElementById("object-properties-list"), selectedcell.getData()["object properties"]);
-					append_children_to_element(document.getElementById("data-properties-list"), selectedcell.getData()["data properties"]);
+					append_forms_to_element(document.getElementById("object-properties-list"), selectedcell.getData()["object properties"], "object-property", "script.php");
+					append_forms_to_element(document.getElementById("data-properties-list"), selectedcell.getData()["data properties"], "data-property", "script.php");
 					set_property_options_lists();
 					set_linked_individual_options_list(selectedcell.getCells()[0].getValue());
 					document.getElementById("individual-details-modal").style.display = "block";
@@ -312,24 +312,65 @@
 			}
 		}
 		
-		function append_children_to_element(element, list) {
+		function append_forms_to_element(element, list, name, action) {
 			for(var i = 0; i < list.length; i++) {
-				var aux = document.createElement('div');
-				aux.textContent = list[i];
-				aux.style.marginLeft = "40px";
-				aux.style.marginRight = "40px";
-				element.appendChild(aux);
+				var form = document.createElement('form');
+				form.method = "post";
+				form.action = action;
+				var input1 = create_data_input(name + "-input", list[i][0]);
+				var input2 = create_data_input(name + "-value", list[i][1]);
+				var input3 = create_email_input();
+				var button = create_button();
+				form.appendChild(input1);
+				form.appendChild(input2);
+				form.appendChild(input3);
+				form.appendChild(button);
+				form.style.marginLeft = "40px";
+				form.style.marginRight = "40px";
+				element.appendChild(form);
 			}
+		}
+		
+		function create_data_input(name, value) {
+			var input = document.createElement('input');
+			input.setAttribute("readonly", "readonly");
+			input.style.width = "225px";
+			input.style.marginRight = "4px";
+			input.style.marginBottom = "4px";
+			input.name = name;
+			input.value = value;
+			return input;
+		}
+		
+		function create_email_input(name, placeholder) {
+			var input = document.createElement('input');
+			input.setAttribute("required", "required");
+			input.style.width = "225px";
+			input.style.marginRight = "4px";
+			input.style.marginBottom = "4px";
+			input.type = "email";
+			input.name = "email-input";
+			input.placeholder = "Enter Email";
+			return input;
+		}
+		
+		function create_button() {
+			var button = document.createElement('button');
+			button.type = "submit";
+			button.innerHTML = "(-) Send Request";
+			return button;
 		}
 		
 		function set_property_options_lists() {
 			var sel_dt = document.getElementById('data-property');
+			var sel_obj = document.getElementById('object-property');
+			set_default_option(sel_dt, "Select Data Property");
+			set_default_option(sel_obj, "Select Object Property");
 			for(var i = 0; i < dt_properties_data.length; i++) {
 			    var opt = document.createElement('option');
 			    opt.innerHTML = dt_properties_data[i]['data property'];
 			    sel_dt.appendChild(opt);
 			}
-			var sel_obj = document.getElementById('object-property');
 			for(var i = 0; i < obj_properties_data.length; i++) {
 			    var opt = document.createElement('option');
 			    opt.innerHTML = obj_properties_data[i]['object property'];
@@ -339,15 +380,23 @@
 		
 		function set_linked_individual_options_list(selectedIndividual) {
 			var sel_ind = document.getElementById('linked-individual');
+			set_default_option(sel_ind, "Select Individual");
 			for(var i = 0; i < individuals_data.length; i++) {
-				console.log(individuals_data[i]['individual']);
-				console.log(selectedIndividual);
 				if(individuals_data[i]['individual'] != selectedIndividual) {
 					var opt = document.createElement('option');
 					opt.innerHTML = individuals_data[i]['individual'];
 					sel_ind.appendChild(opt);
 				}
 			}
+		}
+		
+		function set_default_option(select, message) {
+			var opt = document.createElement('option');
+			opt.innerHTML = message;
+			opt.setAttribute("value", "");
+			opt.setAttribute("selected", "selected");
+			opt.setAttribute("disabled", "disabled");
+			select.appendChild(opt);
 		}
 		
 		document.getElementById("create-class-span").onclick = function() {
