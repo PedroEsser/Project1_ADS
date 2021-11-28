@@ -6,9 +6,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.openrdf.model.vocabulary.OWL;
-import org.semanticweb.owlapi.model.EntityType;
-
 import logic.OWLHandler;
 import logic.GitHandler;
 

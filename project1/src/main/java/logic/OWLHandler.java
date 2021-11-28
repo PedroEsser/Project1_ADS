@@ -488,6 +488,8 @@ public class OWLHandler {
 		}
 	}
 	
+	//---------------------------------------AUXILIARY FUNCTIONS---------------------------------------
+	
 	private void saveOntology() {
 		try {
 			manager.saveOntology(ontology, new FunctionalSyntaxDocumentFormat(), new FileOutputStream(owlFile));

@@ -13,7 +13,7 @@
 
 	<div class="w3-top">
 	  <div class="w3-bar w3-white w3-border w3-large">
-	  	<input id="editor" type="button" value="Ontology Editor" style="cursor: pointer;" class="w3-bar-item w3-hide-small w3-padding-large w3-white"/>
+	  	<input id="editor" type="button" value="Ontology Editor" onclick="window.location.href='taxonomy.jsp'" style="cursor: pointer;" class="w3-bar-item w3-hide-small w3-padding-large w3-white"/>
 	  	<input id="log" type="button" value="Login as Curator" onclick="window.location.href='login.jsp'" style="cursor: pointer;" class="w3-bar-item w3-hide-small w3-padding-large w3-white w3-right"/>
 	  </div>
 	</div>
@@ -159,8 +159,8 @@
 	<div class="w3-bottom w3-center" style="padding:0px 0px 50px 0px;">
 		<a style="margin-right: 10px;" href="taxonomy.jsp">&laquo;</a>
 	  	<a style="margin-right: 10px;" href="taxonomy.jsp">Classes & Individuals</a>
-	  	<a style="margin-right: 10px;" href="properties.jsp">Properties</a>
-	  	<a style="margin-right: 10px;" href="properties.jsp">&raquo;</a>
+	  	<a style="margin-right: 10px;">Properties</a>
+	  	<a style="margin-right: 10px;">&raquo;</a>
 	</div>
 	
 	<script>

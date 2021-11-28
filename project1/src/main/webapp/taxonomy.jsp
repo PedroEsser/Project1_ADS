@@ -172,7 +172,7 @@
 				<div id="individual-class" style="margin-left: 40px"></div>
 				<p style="margin-left: 40px"><i><u>Object Properties</u></i></p>
 				<div id="object-properties-list"></div>
-				<form action="script.php" method="post" style="margin-left: 40px">
+				<form action="script.php" method="post" style="margin-left: 40px; margin-top: 15px">
 			      	<select id="object-property" name="object-property-input" style="width: 225px; height: 28px" required></select>
 			      	<select id="linked-individual" name="object-property-value" style="width: 225px; height: 28px" required></select>
 				    <input type="email" placeholder="Enter Email" name="email-input" style="width: 225px;" required>
@@ -180,7 +180,7 @@
 		      	</form>
 				<p style="margin-left: 40px"><i><u>Data Properties</u></i></p>
 				<div id="data-properties-list"></div>
-				<form action="script.php" method="post" style="margin-left: 40px">
+				<form action="script.php" method="post" style="margin-left: 40px; margin-top: 15px">
 			      	<select id="data-property" name="data-property-input" style="width: 225px; height: 28px" required></select>
 			      	<input type="text" placeholder="Enter Data Property Value" name="data-property-value" style="width: 225px;" required>
 				    <input type="email" placeholder="Enter Email" name="email-input" style="width: 225px;" required>
@@ -191,8 +191,8 @@
 	</div>
 	
 	<div class="w3-bottom w3-center" style="padding:0px 0px 50px 0px;">
-		<a style="margin-right: 10px;" href="taxonomy.jsp">&laquo;</a>
-	  	<a style="margin-right: 10px;" href="taxonomy.jsp">Classes & Individuals</a>
+		<a style="margin-right: 10px;">&laquo;</a>
+	  	<a style="margin-right: 10px;">Classes & Individuals</a>
 	  	<a style="margin-right: 10px;" href="properties.jsp">Properties</a>
 	  	<a style="margin-right: 10px;" href="properties.jsp">&raquo;</a>
 	</div>
