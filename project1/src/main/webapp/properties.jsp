@@ -164,8 +164,8 @@
 	</div>
 	
 	<script>
-		var dt_properties_data = <% out.print(JSONHandler.convertJSONToString(application.getResourceAsStream("data_properties.json"))); %>
-		var obj_properties_data = <% out.print(JSONHandler.convertJSONToString(application.getResourceAsStream("object_properties.json"))); %>
+		var dt_properties_data = <%= JSONHandler.convertJSONToString("resources/data_properties.json") %>
+		var obj_properties_data = <%= JSONHandler.convertJSONToString("resources/object_properties.json") %>
 		
 		var dt_properties_table = new Tabulator("#data-properties-table", {
 			layout:"fitDataStretch",

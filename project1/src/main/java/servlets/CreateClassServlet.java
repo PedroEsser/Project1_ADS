@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.semanticweb.owlapi.model.EntityType;
+
 import logic.OWLHandler;
 import logic.GitHandler;
 
@@ -43,7 +45,7 @@ public class CreateClassServlet extends HttpServlet {
 		String branchName = git.getNextBranchName(email);
 		git.createBranch(branchName);
 		git.changeBranch(branchName);
-		//owl.declareOWLEntity(EntityType.CLASS, className);
+		owl.declareOWLEntity(EntityType.CLASS, className);
 		git.commit(email + " has created a new class!");
 		git.push("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");
 		//TODO send email to curator
