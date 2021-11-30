@@ -42,7 +42,7 @@ public class JSONHandler {
 			HashMap<OWLNamedIndividual, Set<OWLDataPropertyAssertionAxiom>> individualsDataProperties, 
 			HashMap<OWLNamedIndividual, Set<OWLObjectPropertyAssertionAxiom>> individualsObjectProperties) {
 		try {
-			FileWriter file = new FileWriter("resources/individuals.json");
+			FileWriter file = new FileWriter("src/main/webapp/resources/individuals.json");
 			JSONArray array = new JSONArray();
 			Set<OWLNamedIndividual> individuals = individualsClasses.keySet();
 			for(OWLNamedIndividual individual : individuals) {
@@ -79,7 +79,7 @@ public class JSONHandler {
 	
 	public static void createDataPropertiesJSON(Set<OWLDataProperty> dataProperties) {
 		try {
-			FileWriter file = new FileWriter("resources/data_properties.json");
+			FileWriter file = new FileWriter("src/main/webapp/resources/data_properties.json");
 			JSONArray array = new JSONArray();
 			for(OWLDataProperty property: dataProperties) {
 				JSONObject object = new JSONObject();
@@ -96,7 +96,7 @@ public class JSONHandler {
 	
 	public static void createObjectPropertiesJSON(Set<OWLObjectProperty> objectProperties) {
 		try {
-			FileWriter file = new FileWriter("resources/object_properties.json");
+			FileWriter file = new FileWriter("src/main/webapp/resources/object_properties.json");
 			JSONArray array = new JSONArray();
 			for(OWLObjectProperty property: objectProperties) {
 				JSONObject object = new JSONObject();
@@ -113,7 +113,7 @@ public class JSONHandler {
 	
 	public static void createTaxonomyJSON(LinkedHashMap<OWLClass, ArrayList<OWLClass>> map) {
 		try {
-			FileWriter file = new FileWriter("resources/taxonomy.json");
+			FileWriter file = new FileWriter("src/main/webapp/resources/taxonomy.json");
 			JSONArray array = new JSONArray();
 			for(Entry<OWLClass, ArrayList<OWLClass>> entry : map.entrySet()) {
 				JSONObject object = new JSONObject();

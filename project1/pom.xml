@@ -9,10 +9,6 @@
   <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
 
-  <name>ads-webserver Maven Webapp</name>
-  <!-- FIXME change it to the project's website -->
-  <url>http://www.example.com</url>
-
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
@@ -20,18 +16,13 @@
   </properties>
 
   <dependencies>
+  
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.11</version>
-      <scope>test</scope>
+      	<groupId>junit</groupId>
+      	<artifactId>junit</artifactId>
+      	<version>4.11</version>
+      	<scope>test</scope>
     </dependency>
-    
-    <dependency>
-		<groupId>javax.servlet</groupId>
-		<artifactId>javax.servlet-api</artifactId>
-		<version>3.1.0</version>
-	</dependency>
 	
 	<dependency>
 	    <groupId>org.eclipse.jgit</groupId>
@@ -75,17 +66,45 @@
 	    <version>20210307</version>
 	</dependency>
 	
+	<dependency>
+	 	<groupId>javax.servlet</groupId>
+	  	<artifactId>javax.servlet-api</artifactId>
+	  	<version>3.1.0</version>
+	</dependency>
+	
+	<dependency>
+	    <groupId>org.eclipse.jetty</groupId>
+	    <artifactId>jetty-server</artifactId>
+	    <version>9.3.25.v20180904</version>
+	</dependency>
+	
+	<dependency>
+	    <groupId>org.eclipse.jetty</groupId>
+	    <artifactId>jetty-webapp</artifactId>
+	    <version>9.3.25.v20180904</version>
+	</dependency>
+	
+	<dependency>
+	    <groupId>org.eclipse.jetty</groupId>
+	    <artifactId>apache-jsp</artifactId>
+	    <version>9.3.25.v20180904</version>
+	</dependency>
+	
+	<dependency>
+	    <groupId>org.eclipse.jetty</groupId>
+	    <artifactId>jetty-annotations</artifactId>
+	    <version>9.3.25.v20180904</version>
+	</dependency>
+	
   </dependencies>
 
   <build>
-    <finalName>ads-webserver</finalName>
-    <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
+    <pluginManagement>
       <plugins>
         <plugin>
           <artifactId>maven-clean-plugin</artifactId>
           <version>3.1.0</version>
         </plugin>
-        <!-- see http://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_war_packaging -->
         <plugin>
           <artifactId>maven-resources-plugin</artifactId>
           <version>3.0.2</version>

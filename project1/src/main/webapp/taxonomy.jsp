@@ -198,10 +198,10 @@
 	</div>
 	
 	<script>
-		var taxonomy_data = <%= JSONHandler.convertJSONToString("resources/taxonomy.json") %>
-		var individuals_data = <%= JSONHandler.convertJSONToString("resources/individuals.json") %>
-		var dt_properties_data = <%= JSONHandler.convertJSONToString("resources/data_properties.json") %>
-		var obj_properties_data = <%= JSONHandler.convertJSONToString("resources/object_properties.json") %>
+		var taxonomy_data = <%= JSONHandler.convertJSONToString("src/main/webapp/resources/taxonomy.json") %>
+		var individuals_data = <%= JSONHandler.convertJSONToString("src/main/webapp/resources/individuals.json") %>
+		var dt_properties_data = <%= JSONHandler.convertJSONToString("src/main/webapp/resources/data_properties.json") %>
+		var obj_properties_data = <%= JSONHandler.convertJSONToString("src/main/webapp/resources/object_properties.json") %>
 		
 		var taxonomy_table = new Tabulator("#taxonomy-table", {
 			layout:"fitDataStretch",
