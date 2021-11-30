@@ -8,21 +8,21 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.semanticweb.owlapi.model.EntityType;
 
-import logic.OWLHandler;
 import logic.GitHandler;
-
+import logic.OWLHandler;
 
 /**
- * Servlet implementation class CreateClassServlet
+ * Servlet implementation class EditClassServlet
  */
-public class CreateClassServlet extends HttpServlet {
+public class EditClassServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CreateClassServlet() {
+    public EditClassServlet() {
         super();
+        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -37,18 +37,15 @@ public class CreateClassServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String parentClass = (String)request.getParameter("super-class-input");
-		String className = (String)request.getParameter("class-input");
+		String oldClass = (String)request.getParameter("old-class-input");
+		String newClass = (String)request.getParameter("new-class-input");
 		String email = (String)request.getParameter("email-input");
 		OWLHandler owl = new OWLHandler("C:\\Users\\Utilizador\\Documents\\GitHub\\Knowledge_Base\\ontology.owl");
 		GitHandler git = new GitHandler("C:\\Users\\Utilizador\\Documents\\GitHub\\Knowledge_Base\\.git");
 		String branchName = git.getNextBranchName(email);
-		git.changeBranch("master");
 		git.createAndChangeBranch(branchName);
-		owl.declareOWLEntity(EntityType.CLASS, className);
-		if(!parentClass.isEmpty())
-			owl.declareSubClassOf(parentClass, className);
-		git.commitAndPush(email + " has created a new class!", "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");
+		owl.changeClass(oldClass, newClass);
+		git.commitAndPush(email + " has change the class name!", "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");
 		//TODO send email to curator
 		response.sendRedirect("taxonomy.jsp");
 	}
