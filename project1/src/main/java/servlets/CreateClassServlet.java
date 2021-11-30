@@ -43,14 +43,15 @@ public class CreateClassServlet extends HttpServlet {
 		OWLHandler owl = new OWLHandler("C:\\Users\\Utilizador\\Documents\\GitHub\\Knowledge_Base\\ontology.owl");
 		GitHandler git = new GitHandler("C:\\Users\\Utilizador\\Documents\\GitHub\\Knowledge_Base\\.git");
 		String branchName = git.getNextBranchName(email);
-		git.changeBranch("master");
-		git.createAndChangeBranch(branchName);
+		git.createBranch(branchName);
+		git.changeBranch(branchName);
 		owl.declareOWLEntity(EntityType.CLASS, className);
-		if(!parentClass.isEmpty())
-			owl.declareSubClassOf(parentClass, className);
-		git.commitAndPush(email + " has created a new class!", "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");
+		git.commit(email + " has created a new class!");
+		git.push("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");
 		//TODO send email to curator
+		git.changeBranch("master");
 		response.sendRedirect("taxonomy.jsp");
+		System.out.println(parentClass + ", " + className + ", " + email);
 	}
 
 }

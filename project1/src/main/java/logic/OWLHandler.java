@@ -150,10 +150,10 @@ public class OWLHandler {
 		}
 	}
 	
-	public void declareSubClassOf(String superClassString, String subClassString) {
-		OWLClass superclass = factory.getOWLClass(IRI.create(defaultprefix, superClassString));
-		OWLClass subclass = factory.getOWLClass(IRI.create(defaultprefix, subClassString));
-		OWLAxiom axiom = factory.getOWLSubClassOfAxiom(subclass, superclass);
+	public void declareSubClassOf(String sc1, String sc2) {
+		OWLClass superclass = factory.getOWLClass(IRI.create(defaultprefix, sc1));
+		OWLClass subclass = factory.getOWLClass(IRI.create(defaultprefix, sc2));
+		OWLAxiom axiom = factory.getOWLSubClassOfAxiom(superclass, subclass);
 		Set<OWLClass> allClasses = getClasses();
 		if(allClasses.contains(superclass) && allClasses.contains(subclass)) {
 			manager.addAxiom(ontology, axiom);

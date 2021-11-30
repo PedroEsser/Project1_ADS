@@ -15,12 +15,10 @@ import org.eclipse.jgit.api.MergeResult;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
 import org.eclipse.jgit.api.errors.TransportException;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
-import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 
 public class GitHandler {
@@ -32,7 +30,6 @@ public class GitHandler {
 		try {
 			repository = new FileRepositoryBuilder().setGitDir(new File(gitDir)).build();
 			master = repository.getRef("master");
-			Git git = new Git(repository);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -141,16 +138,5 @@ public class GitHandler {
 			}
 		}
 		return email + "_" + emailNumber;
-	}
-	
-	public void createAndChangeBranch(String branchName) {
-		createBranch(branchName);
-		changeBranch(branchName);
-	}
-	
-	public void commitAndPush(String commitMsg, String token) {
-		commit(commitMsg);
-		push(token);
-		changeBranch("master");
 	}
 }
