@@ -20,6 +20,10 @@
 		<servlet-name>CreateClassServlet</servlet-name>
 		<servlet-class>servlets.CreateClassServlet</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>EditClassServlet</servlet-name>
+		<servlet-class>servlets.EditClassServlet</servlet-class>
+	</servlet>
 	
 	<servlet-mapping>
 		<servlet-name>LeTestServlet</servlet-name>
@@ -32,6 +36,10 @@
 	<servlet-mapping>
 		<servlet-name>CreateClassServlet</servlet-name>
 		<url-pattern>/create_class</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>EditClassServlet</servlet-name>
+		<url-pattern>/edit_class</url-pattern>
 	</servlet-mapping>
 	
 	<welcome-file-list>
