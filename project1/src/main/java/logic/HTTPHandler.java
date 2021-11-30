@@ -3,14 +3,13 @@ package logic;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.net.URI;
-import java.net.http.HttpResponse.BodyHandlers;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
@@ -20,14 +19,11 @@ import org.json.JSONObject;
 public class HTTPHandler {
 	
 	public static String get(String uri) throws Exception {
-		java.net.http.HttpClient client = java.net.http.HttpClient.newHttpClient();
-		java.net.http.HttpRequest request = java.net.http.HttpRequest.newBuilder()
-	          .uri(URI.create(uri))
-	          .build();
-
-		java.net.http.HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
-
-	    return response.body();
+		HttpGet post = new HttpGet (uri);
+		HttpClient client = new DefaultHttpClient();
+		HttpResponse responseGET = client.execute(post);
+		
+	    return EntityUtils.toString(responseGET.getEntity());
 	}
 	
 	public static String post(String uri, List<NameValuePair> params) throws ClientProtocolException, IOException {
@@ -39,7 +35,7 @@ public class HTTPHandler {
 		HttpClient client = new DefaultHttpClient();
 		HttpResponse responsePOST = client.execute(post);
 		String response = EntityUtils.toString(responsePOST.getEntity());
-		System.out.println("POST to " + uri + " with response = " + response);
+		//System.out.println("POST to " + uri + " with response = " + response);
 		return response;
 	}
 	

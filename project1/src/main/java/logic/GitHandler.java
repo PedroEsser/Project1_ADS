@@ -25,14 +25,17 @@ import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 
 public class GitHandler {
 
+	private final static String TOKEN_KEY = "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";
 	private Repository repository;
 	private Ref master;
-
+	private Git git;
+	
+	
 	public GitHandler(String gitDir) {
 		try {
 			repository = new FileRepositoryBuilder().setGitDir(new File(gitDir)).build();
 			master = repository.getRef("master");
-			Git git = new Git(repository);
+			git = new Git(repository);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -41,12 +44,12 @@ public class GitHandler {
 	public void test(String branchName) {
 		try {
 			RefUpdate newBranch = createBranch(branchName);
-//			changeBranch(branchName);
+			changeBranch(branchName);
 			
 			commit("Testing branch again " + branchName);
-			push("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");
-			
-//			changeBranch("master");
+			push();
+			publishBranch(branchName);
+			changeBranch("master");
 //			mergeBrach(branchName);
 //			push("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");
 //			deleteBranch(branchName);
@@ -66,6 +69,15 @@ public class GitHandler {
 		}
 		return null;
 	}
+	
+	public void publishBranch(String branchName) throws InvalidRemoteException, TransportException, GitAPIException {
+		System.out.println("Publishing branch " + branchName);
+		git.push()
+		.setCredentialsProvider(new UsernamePasswordCredentialsProvider("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", ""))
+	    .setRemote("origin")
+	    .setRefSpecs(new RefSpec(branchName + ":" + branchName))
+	    .call();
+	}
 
 	public void deleteBranch(String branchName) {
 		try {
@@ -79,7 +91,7 @@ public class GitHandler {
 
 	public void changeBranch(String branchName) {
 		try {
-			Git.wrap(repository).checkout().setCreateBranch(false).setName(branchName).call();
+			git.checkout().setCreateBranch(false).setName(branchName).call();
 		} catch (GitAPIException e) {
 			e.printStackTrace();
 		}
@@ -87,7 +99,7 @@ public class GitHandler {
 	
 	public void mergeBrach(String branchName) {
 		try {
-			MergeCommand mgCmd = Git.wrap(repository).merge();
+			MergeCommand mgCmd = git.merge();
 			mgCmd.include(repository.getRef(branchName)).setCommit(true).setMessage("Merging branch " + branchName + " into master, i hope :)");
 			
 			MergeResult res = mgCmd.call();
@@ -100,9 +112,9 @@ public class GitHandler {
 		}
 	}
 
-	public void push(String token) {
+	public void push() {			// Pushes to current branch
 		try {
-			Git.wrap(repository).push().setCredentialsProvider(new UsernamePasswordCredentialsProvider(token, "")).call();
+			git.push().setCredentialsProvider(new UsernamePasswordCredentialsProvider(TOKEN_KEY, "")).call();
 		} catch (GitAPIException e) {
 			e.printStackTrace();
 		}
@@ -110,7 +122,7 @@ public class GitHandler {
 	
 	public void commit(String message) {
 		try {
-			Git.wrap(repository).commit().setAll(true).setMessage(message).call();
+			git.commit().setAll(true).setMessage(message).call();
 		} catch (GitAPIException e) {
 			e.printStackTrace();
 		}
@@ -148,9 +160,9 @@ public class GitHandler {
 		changeBranch(branchName);
 	}
 	
-	public void commitAndPush(String commitMsg, String token) {
+	public void commitAndPush(String commitMsg) {
 		commit(commitMsg);
-		push(token);
+		push();
 		changeBranch("master");
 	}
 }

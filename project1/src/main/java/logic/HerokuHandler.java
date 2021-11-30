@@ -11,8 +11,8 @@ import org.json.JSONObject;
 public class HerokuHandler {
 
 	private static final int DOCKER_CLIENTS = 5;
-	private static final String HEROKU_URI = "http://localhost:5000";//"https://ads-tunnel.herokuapp.com";//
-	private static final String LOCAL_URI = "http://localhost:8080/project1";
+	private static final String HEROKU_URI = "https://ads-tunnel.herokuapp.com";//"http://localhost:5000";//
+	private static final String LOCAL_URI = "http://localhost:8080";
 	
 	public static void main(String[] args) {
 		startServing();

@@ -45,7 +45,7 @@ public class EditClassServlet extends HttpServlet {
 		String branchName = git.getNextBranchName(email);
 		git.createAndChangeBranch(branchName);
 		owl.changeClass(oldClass, newClass);
-		git.commitAndPush(email + " has change the class name!", "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");
+		git.commitAndPush(email + " has change the class name!");
 		//TODO send email to curator
 		response.sendRedirect("taxonomy.jsp");
 	}
