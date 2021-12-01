@@ -20,12 +20,13 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
+import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 
 public class GitHandler {
 
-	private final static String TOKEN_KEY = "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";
+	private final static CredentialsProvider CREDENTIALS = new UsernamePasswordCredentialsProvider("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", "");
 	private Repository repository;
 	private Ref master;
 	private Git git;
@@ -73,7 +74,7 @@ public class GitHandler {
 	public void publishBranch(String branchName) throws InvalidRemoteException, TransportException, GitAPIException {
 		System.out.println("Publishing branch " + branchName);
 		git.push()
-		.setCredentialsProvider(new UsernamePasswordCredentialsProvider("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", ""))
+		.setCredentialsProvider(CREDENTIALS)
 	    .setRemote("origin")
 	    .setRefSpecs(new RefSpec(branchName + ":" + branchName))
 	    .call();
@@ -114,7 +115,7 @@ public class GitHandler {
 
 	public void push() {			// Pushes to current branch
 		try {
-			git.push().setCredentialsProvider(new UsernamePasswordCredentialsProvider(TOKEN_KEY, "")).call();
+			git.push().setCredentialsProvider(CREDENTIALS).call();
 		} catch (GitAPIException e) {
 			e.printStackTrace();
 		}
