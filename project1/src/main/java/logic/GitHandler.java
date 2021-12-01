@@ -103,8 +103,7 @@ public class GitHandler {
 	}
 
 	public void deleteAllBranches() {
-		List<String> allBranches = getGitBranches();
-		allBranches.remove("master");
+		List<String> allBranches = getRemoteBranches();
 		changeBranch("master");
 		for(String branch: allBranches)
 			deleteBranch(branch);
@@ -160,14 +159,16 @@ public class GitHandler {
 			e.printStackTrace();
 		}
 	}
-
-	public List<String> getGitBranches() {
+	
+	public List<String> getRemoteBranches() {
 		List<String> branchesNames = new ArrayList<>();
 		try {
-			List<Ref> call = new Git(repository).branchList().setListMode(null).call();
+			List<Ref> call = new Git(repository).branchList().setListMode(ListMode.REMOTE).call();
 			for (Ref ref : call) {
-				branchesNames.add(ref.getName().replace("refs/heads/", ""));
+				branchesNames.add(ref.getName().replace("refs/remotes/origin/", ""));
 			}
+			branchesNames.remove("HEAD");
+			branchesNames.remove("master");
 		} catch (GitAPIException e) {
 			e.printStackTrace();
 		}
@@ -175,7 +176,7 @@ public class GitHandler {
 	}
 	
 	public String getNextBranchName(String email) {
-		List<String> branchesNames = getGitBranches();
+		List<String> branchesNames = getRemoteBranches();
 		int emailNumber = 0;
 		for(String name: branchesNames) {
 			if(!name.equals("master") && name.contains(email)) {

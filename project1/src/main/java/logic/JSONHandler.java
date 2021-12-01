@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Set;
 import java.util.Map.Entry;
 
@@ -36,6 +37,23 @@ public class JSONHandler {
 	
 	public static JSONObject convertStringToJSON(String json) {
 		return new JSONObject(json);
+	}
+	
+	public static void createBranchesJSON(List<String> branches) {
+		try {
+			FileWriter file = new FileWriter("src/main/webapp/resources/branches.json");
+			JSONArray array = new JSONArray();
+			for(String branch: branches) {
+				JSONObject object = new JSONObject();
+				setOrderedJSONOBject(object);
+				object.put("branch", branch);
+				array.put(object);
+			}
+			file.write(array.toString(1));
+			file.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static void createIndividualsJSON(HashMap<OWLNamedIndividual, Set<OWLClassAssertionAxiom>> individualsClasses, 
