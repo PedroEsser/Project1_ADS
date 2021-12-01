@@ -35,7 +35,7 @@ public class HTTPHandler {
 		HttpClient client = new DefaultHttpClient();
 		HttpResponse responsePOST = client.execute(post);
 		String response = EntityUtils.toString(responsePOST.getEntity());
-		System.out.println("POST to " + uri + " with response = " + response);
+		//System.out.println("POST to " + uri + " with response = " + response);
 		return response;
 	}
 	
