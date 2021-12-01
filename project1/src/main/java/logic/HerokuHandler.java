@@ -18,7 +18,7 @@ public class HerokuHandler {
 		startServing();
 	}
 	
-	private static void startServing() {
+	public static void startServing() {
 		for(int i = 0 ; i < DOCKER_CLIENTS ; i++)
 			listen();
 	}

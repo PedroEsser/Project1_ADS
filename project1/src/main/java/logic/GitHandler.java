@@ -26,7 +26,8 @@ import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 
 public class GitHandler {
 
-	private final static CredentialsProvider CREDENTIALS = new UsernamePasswordCredentialsProvider("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", "");
+	private final static CredentialsProvider CREDENTIALS = new UsernamePasswordCredentialsProvider("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", "");
+	//private final static CredentialsProvider CREDENTIALS = new UsernamePasswordCredentialsProvider("ADSDummyUser", "bi2xrqq72nu2tk6");
 	private Repository repository;
 	private Ref master;
 	private Git git;
@@ -71,25 +72,44 @@ public class GitHandler {
 		return null;
 	}
 	
-	public void publishBranch(String branchName) throws InvalidRemoteException, TransportException, GitAPIException {
+	public void publishBranch(String branchName){
 		System.out.println("Publishing branch " + branchName);
-		git.push()
-		.setCredentialsProvider(CREDENTIALS)
-	    .setRemote("origin")
-	    .setRefSpecs(new RefSpec(branchName + ":" + branchName))
-	    .call();
-	}
-
-	public void deleteBranch(String branchName) {
 		try {
-			RefUpdate deleteBranch = repository.updateRef("refs/heads/" + branchName);
-			deleteBranch.setForceUpdate(true);
-			deleteBranch.delete();
-		} catch (IOException e) {
+			git.push()
+			.setCredentialsProvider(CREDENTIALS)
+			.setRemote("origin")
+			.setRefSpecs(new RefSpec(branchName + ":" + branchName))
+			.call();
+		} catch (GitAPIException e) {
 			e.printStackTrace();
 		}
 	}
 
+	public void deleteBranch(String branchToDelete) {
+		try {
+			git.branchDelete().setForce(true).setBranchNames(branchToDelete).call();
+			
+			RefSpec refSpec = new RefSpec()
+			        .setSource(null)
+			        .setDestination("refs/heads/" + branchToDelete);
+			git.push().setCredentialsProvider(CREDENTIALS).setRefSpecs(refSpec).setRemote("origin").call();
+			
+//			RefUpdate deleteBranch = repository.updateRef("refs/heads/" + branchName);
+//			deleteBranch.setForceUpdate(true);
+//			deleteBranch.delete();
+		} catch (GitAPIException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void deleteAllBranches() {
+		List<String> allBranches = getGitBranches();
+		allBranches.remove("master");
+		changeBranch("master");
+		for(String branch: allBranches)
+			deleteBranch(branch);
+	}
+	
 	public void changeBranch(String branchName) {
 		try {
 			git.checkout().setCreateBranch(false).setName(branchName).call();
@@ -112,6 +132,18 @@ public class GitHandler {
 			e.printStackTrace();
 		}
 	}
+	
+//	public void deleteBranch(String name) {
+//		try {
+//			git.branchDelete().setBranchNames(name).call();
+//			RefSpec refSpec = new RefSpec()
+//			        .setSource(null)
+//			        .setDestination("refs/heads/branchToDelete");
+//			git.push().setRefSpecs(refSpec).setRemote("origin").call();
+//		} catch (GitAPIException e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 	public void push() {			// Pushes to current branch
 		try {
@@ -129,7 +161,7 @@ public class GitHandler {
 		}
 	}
 
-	private List<String> getGitBranches() {
+	public List<String> getGitBranches() {
 		List<String> branchesNames = new ArrayList<>();
 		try {
 			List<Ref> call = new Git(repository).branchList().setListMode(null).call();
@@ -164,6 +196,5 @@ public class GitHandler {
 	public void commitAndPush(String commitMsg) {
 		commit(commitMsg);
 		push();
-		changeBranch("master");
 	}
 }
