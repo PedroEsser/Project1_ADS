@@ -43,9 +43,10 @@ public class EditClassServlet extends HttpServlet {
 		OWLHandler owl = new OWLHandler("C:\\Users\\Utilizador\\Documents\\GitHub\\Knowledge_Base\\ontology.owl");
 		GitHandler git = new GitHandler("C:\\Users\\Utilizador\\Documents\\GitHub\\Knowledge_Base\\.git");
 		String branchName = git.getNextBranchName(email);
+		git.changeBranch("master");
 		git.createAndChangeBranch(branchName);
 		owl.changeClass(oldClass, newClass);
-		git.commitAndPush(email + " has change the class name!");
+		git.commitAndPush(email + " has change the class name!", branchName);
 		//TODO send email to curator
 		response.sendRedirect("taxonomy.jsp");
 	}

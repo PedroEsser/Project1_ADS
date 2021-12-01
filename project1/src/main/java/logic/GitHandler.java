@@ -27,7 +27,6 @@ import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 public class GitHandler {
 
 	private final static CredentialsProvider CREDENTIALS = new UsernamePasswordCredentialsProvider("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", "");
-	//private final static CredentialsProvider CREDENTIALS = new UsernamePasswordCredentialsProvider("ADSDummyUser", "bi2xrqq72nu2tk6");
 	private Repository repository;
 	private Ref master;
 	private Git git;
@@ -73,7 +72,6 @@ public class GitHandler {
 	}
 	
 	public void publishBranch(String branchName){
-		System.out.println("Publishing branch " + branchName);
 		try {
 			git.push()
 			.setCredentialsProvider(CREDENTIALS)
@@ -83,6 +81,7 @@ public class GitHandler {
 		} catch (GitAPIException e) {
 			e.printStackTrace();
 		}
+
 	}
 
 	public void deleteBranch(String branchToDelete) {
@@ -93,10 +92,6 @@ public class GitHandler {
 			        .setSource(null)
 			        .setDestination("refs/heads/" + branchToDelete);
 			git.push().setCredentialsProvider(CREDENTIALS).setRefSpecs(refSpec).setRemote("origin").call();
-			
-//			RefUpdate deleteBranch = repository.updateRef("refs/heads/" + branchName);
-//			deleteBranch.setForceUpdate(true);
-//			deleteBranch.delete();
 		} catch (GitAPIException e) {
 			e.printStackTrace();
 		}
@@ -194,8 +189,9 @@ public class GitHandler {
 		changeBranch(branchName);
 	}
 	
-	public void commitAndPush(String commitMsg) {
+	public void commitAndPush(String commitMsg, String branchName) {
 		commit(commitMsg);
 		push();
+		publishBranch(branchName);
 	}
 }

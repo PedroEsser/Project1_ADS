@@ -48,9 +48,8 @@ public class CreateClassServlet extends HttpServlet {
 		owl.declareOWLEntity(EntityType.CLASS, className);
 		if(!parentClass.isEmpty())
 			owl.declareSubClassOf(parentClass, className);
-		git.commitAndPush(email + " has created a new class!");
+		git.commitAndPush(email + " has created a new class!", branchName);
 		//TODO send email to curator
 		response.sendRedirect("taxonomy.jsp");
 	}
-
 }
