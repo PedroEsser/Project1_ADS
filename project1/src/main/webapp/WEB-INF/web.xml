@@ -24,6 +24,10 @@
 		<servlet-name>EditClassServlet</servlet-name>
 		<servlet-class>servlets.EditClassServlet</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>DeleteClassServlet</servlet-name>
+		<servlet-class>servlets.DeleteClassServlet</servlet-class>
+	</servlet>
 	
 	<servlet-mapping>
 		<servlet-name>LeTestServlet</servlet-name>
@@ -40,6 +44,10 @@
 	<servlet-mapping>
 		<servlet-name>EditClassServlet</servlet-name>
 		<url-pattern>/edit_class</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>DeleteClassServlet</servlet-name>
+		<url-pattern>/delete_class</url-pattern>
 	</servlet-mapping>
 	
 	<welcome-file-list>

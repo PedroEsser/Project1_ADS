@@ -10,6 +10,10 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.checkerframework.checker.initialization.qual.Initialized;
+import org.checkerframework.checker.javari.qual.Mutable;
+import org.checkerframework.checker.nullness.qual.KeyForBottom;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.formats.FunctionalSyntaxDocumentFormat;
 import org.semanticweb.owlapi.model.EntityType;
@@ -312,6 +316,8 @@ public class OWLHandler {
 			manager.removeAxiom(ontology, item);
 		for(OWLDeclarationAxiom item: ontology.getDeclarationAxioms(namedIndividual))
 			manager.removeAxiom(ontology, item);
+		for(OWLObjectPropertyAssertionAxiom item: ontology.getObjectPropertyAssertionAxioms(namedIndividual))
+			manager.removeAxiom(ontology, item);
 		saveOntology();
 	}
 	
@@ -336,7 +342,7 @@ public class OWLHandler {
 			deleteClass("", item.getSubClass().toString().replaceAll("(<|>)", ""), false);
 		HashMap<OWLClass, Set<OWLClassAssertionAxiom>> individuals = getClassesIndividuals();
 		for(OWLClassAssertionAxiom item: individuals.get(owlClass))//delete all individuals from the owlClass
-			manager.removeAxiom(ontology, item);
+			item.getIndividual().getIndividualsInSignature().forEach(ind -> deleteIndividual(ind.getIRI().getShortForm()));
 		for(OWLSubClassOfAxiom item: ontology.getSubClassAxiomsForSubClass(owlClass))//delete all axioms from the owlClass
 			manager.removeAxiom(ontology, item);
 		for(OWLDeclarationAxiom item: ontology.getDeclarationAxioms(owlClass))//deletes owlClass declaration

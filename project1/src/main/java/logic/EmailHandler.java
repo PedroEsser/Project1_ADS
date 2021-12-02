@@ -29,7 +29,7 @@ public class EmailHandler {
 			message.setFrom(new InternetAddress(username));
 			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(destination));
 			message.setSubject(title);
-			message.setText("Dear Curator,\n\n" + text);
+			message.setText(text);
 			Transport.send(message);
 
 		} catch (MessagingException e) {

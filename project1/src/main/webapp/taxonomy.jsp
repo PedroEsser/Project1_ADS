@@ -88,7 +88,7 @@
 			<div class="w3-modal-content w3-center" style="width:375px; border: 1.5px solid #000000; border-radius: 10px; ">
 				<span id="delete-class-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
 				<h2>Delete Class</h2>
-				<form action="script.php" method="post">
+				<form action="delete_class" method="post">
 			  		<div style="margin-top: 20px; margin-bottom: 15px">
 						<label for="class-input" style="margin-right: 12px">Class Name:</label>
 			      		<input id="deleted-class" type="text" name="class-input" readonly>

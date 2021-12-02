@@ -1,6 +1,8 @@
 package servlets;
 
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -9,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.semanticweb.owlapi.model.EntityType;
 
 import logic.OWLHandler;
+import logic.EmailHandler;
 import logic.GitHandler;
 
 
@@ -50,6 +53,10 @@ public class CreateClassServlet extends HttpServlet {
 			owl.declareSubClassOf(parentClass, className);
 		git.commitAndPush(email + " has created a new class!", branchName);
 		//TODO send email to curator
-		response.sendRedirect("taxonomy.jsp");
+//		String curatorEmail = ""; 
+//		sendGmail(curatorEmail, "New proposal received", "Dear Curator \n\nA proposal for a new class by the name of '" + className + "' as been submited.");
+//		sendGmail(email, "Proposal Received", "Dear user \n\nYour proposal has been received, thanks for the suggestion!");
+		RequestDispatcher view = request.getRequestDispatcher("taxonomy.jsp");
+        view.forward(request, response);
 	}
 }

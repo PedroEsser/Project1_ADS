@@ -4,23 +4,16 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.net.http.HttpResponse;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-import org.eclipse.jgit.api.DiffCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.ListBranchCommand.ListMode;
 import org.eclipse.jgit.api.MergeCommand;
 import org.eclipse.jgit.api.MergeResult;
 import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.api.errors.InvalidRemoteException;
-import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.diff.DiffFormatter;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -37,7 +30,7 @@ import com.google.common.collect.Lists;
 
 public class GitHandler {
 
-	private final static CredentialsProvider CREDENTIALS = new UsernamePasswordCredentialsProvider("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", "");
+	private final static CredentialsProvider CREDENTIALS = new UsernamePasswordCredentialsProvider("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", "");
 	private Repository repository;
 	private Ref master;
 	private Git git;
@@ -137,19 +130,6 @@ public class GitHandler {
 			e.printStackTrace();
 		}
 	}
-	
-//	public void deleteBranch(String name) {
-//		try {
-//			git.branchDelete().setBranchNames(name).call();
-//			RefSpec refSpec = new RefSpec()
-//			        .setSource(null)
-//			        .setDestination("refs/heads/branchToDelete");
-//			git.push().setRefSpecs(refSpec).setRemote("origin").call();
-//		} catch (GitAPIException e) {
-//			e.printStackTrace();
-//		}
-//	}
-	
 	public void commit(String message) {
 		try {
 			git.commit().setAll(true).setMessage(message).call();
