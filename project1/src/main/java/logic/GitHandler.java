@@ -30,7 +30,7 @@ import com.google.common.collect.Lists;
 
 public class GitHandler {
 
-	private final static CredentialsProvider CREDENTIALS = new UsernamePasswordCredentialsProvider("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", "");
+	private final static CredentialsProvider CREDENTIALS = new UsernamePasswordCredentialsProvider("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", "");
 	private Repository repository;
 	private Ref master;
 	private Git git;

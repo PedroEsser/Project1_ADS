@@ -28,6 +28,18 @@
 		<servlet-name>DeleteClassServlet</servlet-name>
 		<servlet-class>servlets.DeleteClassServlet</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>CreateIndividualServlet</servlet-name>
+		<servlet-class>servlets.CreateIndividualServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>EditIndividualServlet</servlet-name>
+		<servlet-class>servlets.EditIndividualServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>DeleteIndividualServlet</servlet-name>
+		<servlet-class>servlets.DeleteIndividualServlet</servlet-class>
+	</servlet>
 	
 	<servlet-mapping>
 		<servlet-name>LeTestServlet</servlet-name>
@@ -48,6 +60,18 @@
 	<servlet-mapping>
 		<servlet-name>DeleteClassServlet</servlet-name>
 		<url-pattern>/delete_class</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>CreateIndividualServlet</servlet-name>
+		<url-pattern>/create_individual</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>EditIndividualServlet</servlet-name>
+		<url-pattern>/edit_individual</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>DeleteIndividualServlet</servlet-name>
+		<url-pattern>/delete_individual</url-pattern>
 	</servlet-mapping>
 	
 	<welcome-file-list>
