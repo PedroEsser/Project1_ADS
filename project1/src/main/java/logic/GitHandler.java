@@ -1,13 +1,17 @@
 package logic;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
+import org.eclipse.jgit.api.DiffCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.ListBranchCommand.ListMode;
 import org.eclipse.jgit.api.MergeCommand;
@@ -15,14 +19,21 @@ import org.eclipse.jgit.api.MergeResult;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
 import org.eclipse.jgit.api.errors.TransportException;
+import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
+import org.eclipse.jgit.treewalk.AbstractTreeIterator;
+import org.eclipse.jgit.treewalk.CanonicalTreeParser;
+
+import com.google.common.collect.Lists;
 
 public class GitHandler {
 
@@ -98,7 +109,7 @@ public class GitHandler {
 	}
 
 	public void deleteAllBranches() {
-		List<String> allBranches = getRemoteBranches();
+		List<String> allBranches = getRemoteBranchesNames();
 		changeBranch("master");
 		for(String branch: allBranches)
 			deleteBranch(branch);
@@ -138,14 +149,6 @@ public class GitHandler {
 //			e.printStackTrace();
 //		}
 //	}
-
-	public void push() {			// Pushes to current branch
-		try {
-			git.push().setCredentialsProvider(CREDENTIALS).call();
-		} catch (GitAPIException e) {
-			e.printStackTrace();
-		}
-	}
 	
 	public void commit(String message) {
 		try {
@@ -155,23 +158,41 @@ public class GitHandler {
 		}
 	}
 	
-	public List<String> getRemoteBranches() {
-		List<String> branchesNames = new ArrayList<>();
+	public void push() {			// Pushes to current branch
 		try {
-			List<Ref> call = new Git(repository).branchList().setListMode(ListMode.REMOTE).call();
-			for (Ref ref : call) {
-				branchesNames.add(ref.getName().replace("refs/remotes/origin/", ""));
-			}
-			branchesNames.remove("HEAD");
-			branchesNames.remove("master");
+			git.push().setCredentialsProvider(CREDENTIALS).call();
 		} catch (GitAPIException e) {
 			e.printStackTrace();
 		}
-		return branchesNames;
+	}
+	
+	public void commitAndPush(String commitMsg, String branchName) {
+		commit(commitMsg);
+		push();
+		publishBranch(branchName);
+	}
+	
+	public List<Ref> getRemoteBranches() {
+		try {
+			List<Ref> branches = git.branchList().setListMode(ListMode.REMOTE).call();
+			branches.removeIf(r -> r.getName().equals("refs/remotes/origin/HEAD"));
+			return branches;
+		} catch (GitAPIException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public List<String> getRemoteBranchesNames() {
+		List<String> names = new ArrayList<>();
+		List<Ref> branches = getRemoteBranches();
+		branches.forEach(r -> names.add(r.getName().replace("refs/remotes/origin/", "")));
+		names.remove("master");
+		return names;
 	}
 	
 	public String getNextBranchName(String email) {
-		List<String> branchesNames = getRemoteBranches();
+		List<String> branchesNames = getRemoteBranchesNames();
 		int emailNumber = 0;
 		for(String name: branchesNames) {
 			if(!name.equals("master") && name.contains(email)) {
@@ -189,9 +210,39 @@ public class GitHandler {
 		changeBranch(branchName);
 	}
 	
-	public void commitAndPush(String commitMsg, String branchName) {
-		commit(commitMsg);
-		push();
-		publishBranch(branchName);
+	public HashMap<String, RevCommit> getBranchesLastCommit() {
+		try {
+			HashMap<String, RevCommit> branchesLastCommit = new HashMap<>();
+			List<Ref> branches = getRemoteBranches();
+			for (Ref branch : branches) {
+				String treeName = branch.getName();
+				List<RevCommit> commits = Lists.newArrayList(git.log().add(repository.resolve(treeName)).call().iterator());
+				branchesLastCommit.put(treeName.replace("refs/remotes/origin/", ""), commits.get(0));
+			}
+			return branchesLastCommit;
+		} catch (GitAPIException | IOException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
+	
+	public String getCommitDiff(String branch) {
+		try {
+			HashMap<String, RevCommit> branchesLastCommit = getBranchesLastCommit();
+			RevCommit oldCommit = branchesLastCommit.get("master");
+			RevCommit newCommit = branchesLastCommit.get(branch);
+		    ObjectReader reader = repository.newObjectReader();
+		    AbstractTreeIterator oldTreeIterator = new CanonicalTreeParser(null, reader, oldCommit.getTree().getId());	
+		    AbstractTreeIterator newTreeIterator = new CanonicalTreeParser(null, reader, newCommit.getTree().getId());
+		    OutputStream outputStream = new ByteArrayOutputStream();
+		    DiffFormatter formatter = new DiffFormatter(outputStream);
+		    formatter.setRepository(repository);
+		    formatter.format(oldTreeIterator, newTreeIterator);
+		    return outputStream.toString();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 }
