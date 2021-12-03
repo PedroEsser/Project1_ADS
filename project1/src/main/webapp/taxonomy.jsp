@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link href="https://unpkg.com/tabulator-tables@5.0.7/dist/css/tabulator.min.css" rel="stylesheet">
 <script type="text/javascript" src="https://unpkg.com/tabulator-tables@5.0.7/dist/js/tabulator.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js" type="text/javascript"></script>
 <style>button,body,h1,h2,h3,h4,h5,h6 {font-family: "Times New Roman"}</style>
 
 <body>
@@ -14,7 +15,7 @@
 	<div class="w3-top">
 	  <div class="w3-bar w3-white w3-border w3-large">
 	  	<input id="editor" type="button" value="Ontology Editor" style="cursor: pointer;" class="w3-bar-item w3-hide-small w3-padding-large w3-white"/>
-	  	<input id="log" type="button" value="Login as Curator" onclick="window.location.href='login.jsp'" style="cursor: pointer;" class="w3-bar-item w3-hide-small w3-padding-large w3-white w3-right"/>
+	  	<input id="log" type="button" value="Request Manager" onclick="window.location.href='login.jsp'" style="cursor: pointer;" class="w3-bar-item w3-hide-small w3-padding-large w3-white"/>
 	  </div>
 	</div>
 	
@@ -44,7 +45,7 @@
 			<div class="w3-modal-content w3-center" style="width:375px; border: 1.5px solid #000000; border-radius: 10px;">
 				<span id="create-class-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
 				<h2>Create Class</h2>
-				<form action="create_class" method="post">
+				<form name="create_class" method="post">
 			  		<div style="margin-top: 20px; margin-bottom: 15px">
 						<label for="super-class-input" style="margin-right: 13px">Super Class:</label>
 			      		<input id="super-class" type="text" placeholder="Select a Class (Optional)" name="super-class-input" readonly>
@@ -66,7 +67,7 @@
 			<div class="w3-modal-content w3-center" style="width:400px; border: 1.5px solid #000000; border-radius: 10px; ">
 				<span id="edit-class-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
 				<h2>Edit Class</h2>
-				<form action="edit_class" method="post">
+				<form name="edit_class" method="post">
 			  		<div style="margin-top: 20px; margin-bottom: 15px">
 						<label for="old-class-input" style="margin-right: 10px">Old Class Name:</label>
 			      		<input id="edited-class" type="text" name="old-class-input" readonly>
@@ -88,7 +89,7 @@
 			<div class="w3-modal-content w3-center" style="width:375px; border: 1.5px solid #000000; border-radius: 10px; ">
 				<span id="delete-class-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
 				<h2>Delete Class</h2>
-				<form action="delete_class" method="post">
+				<form name="delete_class" method="post">
 			  		<div style="margin-top: 20px; margin-bottom: 15px">
 						<label for="class-input" style="margin-right: 12px">Class Name:</label>
 			      		<input id="deleted-class" type="text" name="class-input" readonly>
@@ -106,14 +107,14 @@
 			<div class="w3-modal-content w3-center" style="width:400px; border: 1.5px solid #000000; border-radius: 10px; ">
 				<span id="create-individual-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
 				<h2>Create Individual</h2>
-				<form action="script.php" method="post">
+				<form name="create_individual" method="post">
 			  		<div style="margin-top: 20px; margin-bottom: 15px">
 						<label for="class-input" style="margin-right: 42px">Class Name:</label>
 			      		<input id="class" type="text" name="class-input" readonly>
 					</div>
 					<div style="margin-bottom: 15px">
 						<label for="individual-input" style="margin-right: 12px">Individual Name:</label>
-			      		<input type="text" placeholder="Enter Individual Name" name="class-input" required>
+			      		<input type="text" placeholder="Enter Individual Name" name="individual-input" required>
 					</div>
 					<div style="margin-bottom: 25px">
 						<label for="email-input" style="margin-right: 46px">User Email:</label>
@@ -128,7 +129,7 @@
 			<div class="w3-modal-content w3-center" style="width:425px; border: 1.5px solid #000000; border-radius: 10px; ">
 				<span id="edit-individual-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
 				<h2>Edit Individual</h2>
-				<form action="script.php" method="post">
+				<form name="edit_individual" method="post">
 			  		<div style="margin-top: 20px; margin-bottom: 15px">
 						<label for="old-individual-input" style="margin-right: 10px">Old Individual Name:</label>
 			      		<input id="edited-individual" type="text" name="old-individual-input" readonly>
@@ -150,7 +151,7 @@
 			<div class="w3-modal-content w3-center" style="width:400px; border: 1.5px solid #000000; border-radius: 10px; ">
 				<span id="delete-individual-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
 				<h2>Delete Individual</h2>
-				<form action="script.php" method="post">
+				<form name="delete_individual" method="post">
 			  		<div style="margin-top: 20px; margin-bottom: 15px">
 						<label for="individual-input" style="margin-right: 12px">Individual Name:</label>
 			      		<input id="deleted-individual" type="text" name="individual-input" readonly>
@@ -172,7 +173,7 @@
 				<div id="individual-class" style="margin-left: 40px"></div>
 				<p style="margin-left: 40px"><i><u>Object Properties</u></i></p>
 				<div id="object-properties-list"></div>
-				<form action="script.php" method="post" style="margin-left: 40px; margin-top: 15px">
+				<form name="script.php" method="post" style="margin-left: 40px; margin-top: 15px">
 			      	<select id="object-property" name="object-property-input" style="width: 225px; height: 28px" required></select>
 			      	<select id="linked-individual" name="object-property-value" style="width: 225px; height: 28px" required></select>
 				    <input type="email" placeholder="Enter Email" name="email-input" style="width: 225px;" required>
@@ -180,7 +181,7 @@
 		      	</form>
 				<p style="margin-left: 40px"><i><u>Data Properties</u></i></p>
 				<div id="data-properties-list"></div>
-				<form action="script.php" method="post" style="margin-left: 40px; margin-top: 15px">
+				<form name="script.php" method="post" style="margin-left: 40px; margin-top: 15px">
 			      	<select id="data-property" name="data-property-input" style="width: 225px; height: 28px" required></select>
 			      	<input type="text" placeholder="Enter Data Property Value" name="data-property-value" style="width: 225px;" required>
 				    <input type="email" placeholder="Enter Email" name="email-input" style="width: 225px;" required>
@@ -316,7 +317,7 @@
 			for(var i = 0; i < list.length; i++) {
 				var form = document.createElement('form');
 				form.method = "post";
-				form.action = action;
+				form.name = action;
 				var input1 = create_data_input(name + "-input", list[i][0]);
 				var input2 = create_data_input(name + "-value", list[i][1]);
 				var input3 = create_email_input();
@@ -342,7 +343,7 @@
 			return input;
 		}
 		
-		function create_email_input(name, placeholder) {
+		function create_email_input() {
 			var input = document.createElement('input');
 			input.setAttribute("required", "required");
 			input.style.width = "225px";
@@ -438,7 +439,21 @@
 			if (event.target == document.getElementById("individual-details-modal"))
 				document.getElementById("individual-details-modal").style.display = "none";
 		}
-			
+		
+		$(document).on("submit", "form", function (e) {
+		    var dataString = $(this).serialize();
+		    var name = $(this).attr('name');
+		    $.ajax({
+		      type: "POST",
+		      url: name,
+		      data: dataString,
+		      success: function () {
+		        console.log(dataString);
+		      }
+		    });
+		    e.preventDefault();
+		});
+		
 	</script>
 </body>
 

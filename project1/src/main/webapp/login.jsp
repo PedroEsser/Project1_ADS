@@ -12,7 +12,7 @@
 	<div class="w3-top">
 	  <div class="w3-bar w3-white w3-border w3-large">
 	  	<input id="editor" type="button" value="Ontology Editor" onclick="window.location.href='taxonomy.jsp'" style="cursor: pointer;" class="w3-bar-item w3-hide-small w3-padding-large w3-white"/>
-	  	<input id="log" type="button" value="Login as Curator" style="cursor: pointer;" class="w3-bar-item w3-hide-small w3-padding-large w3-white w3-right"/>
+	  	<input id="log" type="button" value="Request Manager" style="cursor: pointer;" class="w3-bar-item w3-hide-small w3-padding-large w3-white"/>
 	  </div>
 	</div>
 
@@ -27,7 +27,7 @@
 				<label for="psw" style="margin-right: 10px">Password:</label>
 	      		<input type="password" placeholder="Enter Password" name="psw" required>
 			</div>
-	      	<button type="submit">Login</button>
+	      	<button type="submit">Access</button>
       	</form>
 	</div>
 </body>

@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Set;
 import java.util.Map.Entry;
 
@@ -39,16 +38,17 @@ public class JSONHandler {
 		return new JSONObject(json);
 	}
 	
-	public static void createBranchesJSON(List<String> branches) {
+	public static void createBranchesJSON(HashMap<String, String> branchesCommitDiff) {
 		try {
 			FileWriter file = new FileWriter("src/main/webapp/resources/branches.json");
 			JSONArray array = new JSONArray();
-			for(String branch: branches) {
+			branchesCommitDiff.forEach((branch, diff) -> {
 				JSONObject object = new JSONObject();
 				setOrderedJSONOBject(object);
 				object.put("branch", branch);
+				object.put("diff", diff);
 				array.put(object);
-			}
+			});
 			file.write(array.toString(1));
 			file.close();
 		} catch (IOException e) {

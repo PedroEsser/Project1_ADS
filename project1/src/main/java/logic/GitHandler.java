@@ -50,7 +50,6 @@ public class GitHandler {
 		try {
 			RefUpdate newBranch = createBranch(branchName);
 			changeBranch(branchName);
-			
 			commit("Testing branch again " + branchName);
 			push();
 			publishBranch(branchName);
@@ -75,6 +74,19 @@ public class GitHandler {
 		return null;
 	}
 	
+	public void changeBranch(String branchName) {
+		try {
+			git.checkout().setCreateBranch(false).setName(branchName).call();
+		} catch (GitAPIException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void createAndChangeBranch(String branchName) {
+		createBranch(branchName);
+		changeBranch(branchName);
+	}
+	
 	public void publishBranch(String branchName){
 		try {
 			git.push()
@@ -85,13 +97,24 @@ public class GitHandler {
 		} catch (GitAPIException e) {
 			e.printStackTrace();
 		}
-
+	}
+	
+	public void mergeBrach(String branchName) {
+		try {
+			MergeCommand mgCmd = git.merge();
+			mgCmd.include(repository.getRef(branchName)).setCommit(true).setMessage("Merging branch " + branchName + " into master, i hope :)");
+			MergeResult res = mgCmd.call();
+			if (res.getMergeStatus().equals(MergeResult.MergeStatus.CONFLICTING)){
+			   System.out.println(res.getConflicts().toString());
+			}
+		} catch (IOException | GitAPIException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void deleteBranch(String branchToDelete) {
 		try {
 			git.branchDelete().setForce(true).setBranchNames(branchToDelete).call();
-			
 			RefSpec refSpec = new RefSpec()
 			        .setSource(null)
 			        .setDestination("refs/heads/" + branchToDelete);
@@ -100,36 +123,33 @@ public class GitHandler {
 			e.printStackTrace();
 		}
 	}
+	
+	public List<Ref> getAllBranches() {
+		try {
+			List<Ref> branches = git.branchList().setListMode(ListMode.REMOTE).call();
+			branches.removeIf(r -> r.getName().equals("refs/remotes/origin/HEAD"));
+			return branches;
+		} catch (GitAPIException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public List<String> getAllBranchesNames() {
+		List<String> names = new ArrayList<>();
+		List<Ref> branches = getAllBranches();
+		branches.forEach(r -> names.add(r.getName().replace("refs/remotes/origin/", "")));
+		names.remove("master");
+		return names;
+	}
 
 	public void deleteAllBranches() {
-		List<String> allBranches = getRemoteBranchesNames();
+		List<String> allBranches = getAllBranchesNames();
 		changeBranch("master");
 		for(String branch: allBranches)
 			deleteBranch(branch);
 	}
 	
-	public void changeBranch(String branchName) {
-		try {
-			git.checkout().setCreateBranch(false).setName(branchName).call();
-		} catch (GitAPIException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void mergeBrach(String branchName) {
-		try {
-			MergeCommand mgCmd = git.merge();
-			mgCmd.include(repository.getRef(branchName)).setCommit(true).setMessage("Merging branch " + branchName + " into master, i hope :)");
-			
-			MergeResult res = mgCmd.call();
-		
-			if (res.getMergeStatus().equals(MergeResult.MergeStatus.CONFLICTING)){
-			   System.out.println(res.getConflicts().toString());
-			}
-		} catch (IOException | GitAPIException e) {
-			e.printStackTrace();
-		}
-	}
 	public void commit(String message) {
 		try {
 			git.commit().setAll(true).setMessage(message).call();
@@ -138,7 +158,8 @@ public class GitHandler {
 		}
 	}
 	
-	public void push() {			// Pushes to current branch
+	// Pushes to current branch
+	public void push() {
 		try {
 			git.push().setCredentialsProvider(CREDENTIALS).call();
 		} catch (GitAPIException e) {
@@ -152,48 +173,10 @@ public class GitHandler {
 		publishBranch(branchName);
 	}
 	
-	public List<Ref> getRemoteBranches() {
-		try {
-			List<Ref> branches = git.branchList().setListMode(ListMode.REMOTE).call();
-			branches.removeIf(r -> r.getName().equals("refs/remotes/origin/HEAD"));
-			return branches;
-		} catch (GitAPIException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-	
-	public List<String> getRemoteBranchesNames() {
-		List<String> names = new ArrayList<>();
-		List<Ref> branches = getRemoteBranches();
-		branches.forEach(r -> names.add(r.getName().replace("refs/remotes/origin/", "")));
-		names.remove("master");
-		return names;
-	}
-	
-	public String getNextBranchName(String email) {
-		List<String> branchesNames = getRemoteBranchesNames();
-		int emailNumber = 0;
-		for(String name: branchesNames) {
-			if(!name.equals("master") && name.contains(email)) {
-				int number = Integer.parseInt(name.replace( email + "_", ""));
-				if(number >= emailNumber) {
-					emailNumber = number + 1;
-				}
-			}
-		}
-		return email + "_" + emailNumber;
-	}
-	
-	public void createAndChangeBranch(String branchName) {
-		createBranch(branchName);
-		changeBranch(branchName);
-	}
-	
-	public HashMap<String, RevCommit> getBranchesLastCommit() {
+	public HashMap<String, RevCommit> getAllBranchesLastCommit() {
 		try {
 			HashMap<String, RevCommit> branchesLastCommit = new HashMap<>();
-			List<Ref> branches = getRemoteBranches();
+			List<Ref> branches = getAllBranches();
 			for (Ref branch : branches) {
 				String treeName = branch.getName();
 				List<RevCommit> commits = Lists.newArrayList(git.log().add(repository.resolve(treeName)).call().iterator());
@@ -206,23 +189,39 @@ public class GitHandler {
 		}
 	}
 	
-	public String getCommitDiff(String branch) {
-		try {
-			HashMap<String, RevCommit> branchesLastCommit = getBranchesLastCommit();
-			RevCommit oldCommit = branchesLastCommit.get("master");
-			RevCommit newCommit = branchesLastCommit.get(branch);
-		    ObjectReader reader = repository.newObjectReader();
-		    AbstractTreeIterator oldTreeIterator = new CanonicalTreeParser(null, reader, oldCommit.getTree().getId());	
-		    AbstractTreeIterator newTreeIterator = new CanonicalTreeParser(null, reader, newCommit.getTree().getId());
-		    OutputStream outputStream = new ByteArrayOutputStream();
-		    DiffFormatter formatter = new DiffFormatter(outputStream);
-		    formatter.setRepository(repository);
-		    formatter.format(oldTreeIterator, newTreeIterator);
-		    return outputStream.toString();
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
+	public HashMap<String, String> getAllBranchesCommitDiff() {
+		HashMap<String, String> branchesCommitDiff = new HashMap<>();
+		HashMap<String, RevCommit> branchesLastCommit = getAllBranchesLastCommit();
+		branchesLastCommit.forEach((branch, newCommit) -> {
+			try {
+				RevCommit oldCommit = branchesLastCommit.get("master");
+			    ObjectReader reader = repository.newObjectReader();
+			    AbstractTreeIterator oldTreeIterator = new CanonicalTreeParser(null, reader, oldCommit.getTree().getId());	
+			    AbstractTreeIterator newTreeIterator = new CanonicalTreeParser(null, reader, newCommit.getTree().getId());
+			    OutputStream outputStream = new ByteArrayOutputStream();
+			    DiffFormatter formatter = new DiffFormatter(outputStream);
+			    formatter.setRepository(repository);
+			    formatter.format(oldTreeIterator, newTreeIterator);
+			    branchesCommitDiff.put(branch, outputStream.toString());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
+		return branchesCommitDiff;
+	}
+	
+	public String getNextBranchName(String email) {
+		List<String> branchesNames = getAllBranchesNames();
+		int emailNumber = 0;
+		for(String name: branchesNames) {
+			if(!name.equals("master") && name.contains(email)) {
+				int number = Integer.parseInt(name.replace( email + "_", ""));
+				if(number >= emailNumber) {
+					emailNumber = number + 1;
+				}
+			}
 		}
+		return email + "_" + emailNumber;
 	}
 	
 }

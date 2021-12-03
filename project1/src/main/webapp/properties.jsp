@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link href="https://unpkg.com/tabulator-tables@5.0.7/dist/css/tabulator.min.css" rel="stylesheet">
 <script type="text/javascript" src="https://unpkg.com/tabulator-tables@5.0.7/dist/js/tabulator.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js" type="text/javascript"></script>
 <style>button,body,h1,h2,h3,h4,h5,h6 {font-family: "Times New Roman"}</style>
 
 <body>
@@ -14,7 +15,7 @@
 	<div class="w3-top">
 	  <div class="w3-bar w3-white w3-border w3-large">
 	  	<input id="editor" type="button" value="Ontology Editor" onclick="window.location.href='taxonomy.jsp'" style="cursor: pointer;" class="w3-bar-item w3-hide-small w3-padding-large w3-white"/>
-	  	<input id="log" type="button" value="Login as Curator" onclick="window.location.href='login.jsp'" style="cursor: pointer;" class="w3-bar-item w3-hide-small w3-padding-large w3-white w3-right"/>
+	  	<input id="log" type="button" value="Request Manager" onclick="window.location.href='login.jsp'" style="cursor: pointer;" class="w3-bar-item w3-hide-small w3-padding-large w3-white"/>
 	  </div>
 	</div>
 	
@@ -43,7 +44,7 @@
 			<div class="w3-modal-content w3-center" style="width:425px; border: 1.5px solid #000000; border-radius: 10px;">
 				<span id="create-data-property-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
 				<h2>Create Data Property</h2>
-				<form action="script.php" method="post">
+				<form name="script.php" method="post">
 					<div style="margin-top: 20px; margin-bottom: 15px">
 						<label for="data-property-input" style="margin-right: 12px">Data Property Name:</label>
 			      		<input type="text" placeholder="Enter Data Property Name" name="data-property-input" required>
@@ -61,7 +62,7 @@
 			<div class="w3-modal-content w3-center" style="width:450px; border: 1.5px solid #000000; border-radius: 10px; ">
 				<span id="edit-data-property-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
 				<h2>Edit Data Property</h2>
-				<form action="script.php" method="post">
+				<form name="script.php" method="post">
 			  		<div style="margin-top: 20px; margin-bottom: 15px">
 						<label for="old-data-property-input" style="margin-right: 10px">Old Data Property Name:</label>
 			      		<input id="edited-data-property" type="text" name="old-data-property-input" readonly>
@@ -83,7 +84,7 @@
 			<div class="w3-modal-content w3-center" style="width:425px; border: 1.5px solid #000000; border-radius: 10px; ">
 				<span id="delete-data-property-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
 				<h2>Delete Data Property</h2>
-				<form action="script.php" method="post">
+				<form name="script.php" method="post">
 			  		<div style="margin-top: 20px; margin-bottom: 15px">
 						<label for="data-property-input" style="margin-right: 12px">Data Property Name:</label>
 			      		<input id="deleted-data-property" type="text" name="data-property-input" readonly>
@@ -101,7 +102,7 @@
 			<div class="w3-modal-content w3-center" style="width:425px; border: 1.5px solid #000000; border-radius: 10px;">
 				<span id="create-object-property-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
 				<h2>Create Object Property</h2>
-				<form action="script.php" method="post">
+				<form name="script.php" method="post">
 					<div style="margin-top: 20px; margin-bottom: 15px">
 						<label for="object-property-input" style="margin-right: 12px">Object Property Name:</label>
 			      		<input type="text" placeholder="Enter Object Property Name" name="object-property-input" required>
@@ -119,7 +120,7 @@
 			<div class="w3-modal-content w3-center" style="width:450px; border: 1.5px solid #000000; border-radius: 10px; ">
 				<span id="edit-object-property-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
 				<h2>Edit Object Property</h2>
-				<form action="script.php" method="post">
+				<form name="script.php" method="post">
 			  		<div style="margin-top: 20px; margin-bottom: 15px">
 						<label for="old-object-property-input" style="margin-right: 10px">Old Object Property Name:</label>
 			      		<input id="edited-object-property" type="text" name="old-object-property-input" readonly>
@@ -141,7 +142,7 @@
 			<div class="w3-modal-content w3-center" style="width:425px; border: 1.5px solid #000000; border-radius: 10px; ">
 				<span id="delete-object-property-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
 				<h2>Delete Object Property</h2>
-				<form action="script.php" method="post">
+				<form name="script.php" method="post">
 			  		<div style="margin-top: 20px; margin-bottom: 15px">
 						<label for="object-property-input" style="margin-right: 12px">Object Property Name:</label>
 			      		<input id="deleted-object-property" type="text" name="object-property-input" readonly>
@@ -268,6 +269,20 @@
 			if (event.target == document.getElementById("delete-object-property-modal"))
 				document.getElementById("delete-object-property-modal").style.display = "none";
 		}
+		
+		$(document).on("submit", "form", function (e) {
+		    var dataString = $(this).serialize();
+		    var name = $(this).attr('name');
+		    $.ajax({
+		      type: "POST",
+		      url: name,
+		      data: dataString,
+		      success: function () {
+		        console.log(dataString);
+		      }
+		    });
+		    e.preventDefault();
+		});
 			
 	</script>
 </body>
