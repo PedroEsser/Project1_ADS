@@ -124,6 +124,29 @@ public class GitHandler {
 		}
 	}
 	
+	public void commit(String message) {
+		try {
+			git.commit().setAll(true).setMessage(message).call();
+		} catch (GitAPIException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	// Pushes to current branch
+	public void push() {
+		try {
+			git.push().setCredentialsProvider(CREDENTIALS).call();
+		} catch (GitAPIException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void commitAndPush(String commitMsg, String branchName) {
+		commit(commitMsg);
+		push();
+		publishBranch(branchName);
+	}
+	
 	public List<Ref> getAllBranches() {
 		try {
 			List<Ref> branches = git.branchList().setListMode(ListMode.REMOTE).call();
@@ -150,29 +173,6 @@ public class GitHandler {
 			deleteBranch(branch);
 	}
 	
-	public void commit(String message) {
-		try {
-			git.commit().setAll(true).setMessage(message).call();
-		} catch (GitAPIException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	// Pushes to current branch
-	public void push() {
-		try {
-			git.push().setCredentialsProvider(CREDENTIALS).call();
-		} catch (GitAPIException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void commitAndPush(String commitMsg, String branchName) {
-		commit(commitMsg);
-		push();
-		publishBranch(branchName);
-	}
-	
 	public HashMap<String, RevCommit> getAllBranchesLastCommit() {
 		try {
 			HashMap<String, RevCommit> branchesLastCommit = new HashMap<>();
@@ -192,9 +192,10 @@ public class GitHandler {
 	public HashMap<String, String> getAllBranchesCommitDiff() {
 		HashMap<String, String> branchesCommitDiff = new HashMap<>();
 		HashMap<String, RevCommit> branchesLastCommit = getAllBranchesLastCommit();
+		RevCommit oldCommit = branchesLastCommit.get("master");
+		branchesLastCommit.remove("master");
 		branchesLastCommit.forEach((branch, newCommit) -> {
 			try {
-				RevCommit oldCommit = branchesLastCommit.get("master");
 			    ObjectReader reader = repository.newObjectReader();
 			    AbstractTreeIterator oldTreeIterator = new CanonicalTreeParser(null, reader, oldCommit.getTree().getId());	
 			    AbstractTreeIterator newTreeIterator = new CanonicalTreeParser(null, reader, newCommit.getTree().getId());

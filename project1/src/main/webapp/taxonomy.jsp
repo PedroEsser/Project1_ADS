@@ -40,154 +40,154 @@
 				<div id="individual-warning" style="float: right; font-size: 15px; color:red;"></div>
 			</div>
 		</div>
+	</div>
+	
+	<div id="create-class-modal" class="w3-modal" style="background-color: rgba(0,0,0,0);">
+		<div class="w3-modal-content w3-center" style="width:375px; border: 1.5px solid #000000; border-radius: 10px;">
+			<span id="create-class-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
+			<h2>Create Class</h2>
+			<form name="create_class" method="post">
+		  		<div style="margin-top: 20px; margin-bottom: 15px">
+					<label for="super-class-input" style="margin-right: 13px">Super Class:</label>
+		      		<input id="super-class" type="text" placeholder="Select a Class (Optional)" name="super-class-input" readonly>
+				</div>
+				<div style="margin-bottom: 15px">
+					<label for="class-input" style="margin-right: 12px">Class Name:</label>
+		      		<input type="text" placeholder="Enter Class Name" name="class-input" required>
+				</div>
+				<div style="margin-bottom: 25px">
+					<label for="email-input" style="margin-right: 17px">User Email:</label>
+			      	<input type="email" placeholder="Enter Email" name="email-input" required>
+				</div>
+		      	<button type="submit" style="margin-bottom: 25px">Send Request</button>
+	      	</form>
+		</div>
+	</div>
+	
+	<div id="edit-class-modal" class="w3-modal" style="background-color:rgba(0,0,0,0);">
+		<div class="w3-modal-content w3-center" style="width:400px; border: 1.5px solid #000000; border-radius: 10px; ">
+			<span id="edit-class-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
+			<h2>Edit Class</h2>
+			<form name="edit_class" method="post">
+		  		<div style="margin-top: 20px; margin-bottom: 15px">
+					<label for="old-class-input" style="margin-right: 10px">Old Class Name:</label>
+		      		<input id="edited-class" type="text" name="old-class-input" readonly>
+				</div>
+				<div style="margin-bottom: 15px">
+					<label for="new-class-input" style="margin-right: 4px">New Class Name:</label>
+		      		<input type="text" placeholder="Enter Class Name" name="new-class-input" required>
+				</div>
+				<div style="margin-bottom: 25px">
+					<label for="email-input" style="margin-right: 41px">User Email:</label>
+			      	<input type="email" placeholder="Enter Email" name="email-input" required>
+				</div>
+		      	<button type="submit" style="margin-bottom: 25px">Send Request</button>
+	      	</form>
+		</div>
+	</div>
+	
+	<div id="delete-class-modal" class="w3-modal" style="background-color:rgba(0,0,0,0);">
+		<div class="w3-modal-content w3-center" style="width:375px; border: 1.5px solid #000000; border-radius: 10px; ">
+			<span id="delete-class-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
+			<h2>Delete Class</h2>
+			<form name="delete_class" method="post">
+		  		<div style="margin-top: 20px; margin-bottom: 15px">
+					<label for="class-input" style="margin-right: 12px">Class Name:</label>
+		      		<input id="deleted-class" type="text" name="class-input" readonly>
+				</div>
+				<div style="margin-bottom: 25px">
+					<label for="email-input" style="margin-right: 17px">User Email:</label>
+			      	<input type="email" placeholder="Enter Email" name="email-input" required>
+				</div>
+		      	<button type="submit" style="margin-bottom: 25px">Send Request</button>
+	      	</form>
+		</div>
+	</div>
+	
+	<div id="create-individual-modal" class="w3-modal" style="background-color: rgba(0,0,0,0);">
+		<div class="w3-modal-content w3-center" style="width:400px; border: 1.5px solid #000000; border-radius: 10px; ">
+			<span id="create-individual-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
+			<h2>Create Individual</h2>
+			<form name="create_individual" method="post">
+		  		<div style="margin-top: 20px; margin-bottom: 15px">
+					<label for="class-input" style="margin-right: 42px">Class Name:</label>
+		      		<input id="class" type="text" name="class-input" readonly>
+				</div>
+				<div style="margin-bottom: 15px">
+					<label for="individual-input" style="margin-right: 12px">Individual Name:</label>
+		      		<input type="text" placeholder="Enter Individual Name" name="individual-input" required>
+				</div>
+				<div style="margin-bottom: 25px">
+					<label for="email-input" style="margin-right: 46px">User Email:</label>
+			      	<input type="email" placeholder="Enter Email" name="email-input" required>
+				</div>
+		      	<button type="submit" style="margin-bottom: 25px">Send Request</button>
+	      	</form>
+		</div>
+	</div>
 		
-		<div id="create-class-modal" class="w3-modal" style="background-color: rgba(0,0,0,0);">
-			<div class="w3-modal-content w3-center" style="width:375px; border: 1.5px solid #000000; border-radius: 10px;">
-				<span id="create-class-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
-				<h2>Create Class</h2>
-				<form name="create_class" method="post">
-			  		<div style="margin-top: 20px; margin-bottom: 15px">
-						<label for="super-class-input" style="margin-right: 13px">Super Class:</label>
-			      		<input id="super-class" type="text" placeholder="Select a Class (Optional)" name="super-class-input" readonly>
-					</div>
-					<div style="margin-bottom: 15px">
-						<label for="class-input" style="margin-right: 12px">Class Name:</label>
-			      		<input type="text" placeholder="Enter Class Name" name="class-input" required>
-					</div>
-					<div style="margin-bottom: 25px">
-						<label for="email-input" style="margin-right: 17px">User Email:</label>
-				      	<input type="email" placeholder="Enter Email" name="email-input" required>
-					</div>
-			      	<button type="submit" style="margin-bottom: 25px">Send Request</button>
-		      	</form>
-			</div>
+	<div id="edit-individual-modal" class="w3-modal" style="background-color:rgba(0,0,0,0);">
+		<div class="w3-modal-content w3-center" style="width:425px; border: 1.5px solid #000000; border-radius: 10px; ">
+			<span id="edit-individual-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
+			<h2>Edit Individual</h2>
+			<form name="edit_individual" method="post">
+		  		<div style="margin-top: 20px; margin-bottom: 15px">
+					<label for="old-individual-input" style="margin-right: 10px">Old Individual Name:</label>
+		      		<input id="edited-individual" type="text" name="old-individual-input" readonly>
+				</div>
+				<div style="margin-bottom: 15px">
+					<label for="new-individual-input" style="margin-right: 4px">New Individual Name:</label>
+		      		<input type="text" placeholder="Enter Individual Name" name="new-individual-input" required>
+				</div>
+				<div style="margin-bottom: 25px">
+					<label for="email-input" style="margin-right: 70px">User Email:</label>
+			      	<input type="email" placeholder="Enter Email" name="email-input" required>
+				</div>
+		      	<button type="submit" style="margin-bottom: 25px">Send Request</button>
+	      	</form>
 		</div>
+	</div>
 		
-		<div id="edit-class-modal" class="w3-modal" style="background-color:rgba(0,0,0,0);">
-			<div class="w3-modal-content w3-center" style="width:400px; border: 1.5px solid #000000; border-radius: 10px; ">
-				<span id="edit-class-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
-				<h2>Edit Class</h2>
-				<form name="edit_class" method="post">
-			  		<div style="margin-top: 20px; margin-bottom: 15px">
-						<label for="old-class-input" style="margin-right: 10px">Old Class Name:</label>
-			      		<input id="edited-class" type="text" name="old-class-input" readonly>
-					</div>
-					<div style="margin-bottom: 15px">
-						<label for="new-class-input" style="margin-right: 4px">New Class Name:</label>
-			      		<input type="text" placeholder="Enter Class Name" name="new-class-input" required>
-					</div>
-					<div style="margin-bottom: 25px">
-						<label for="email-input" style="margin-right: 41px">User Email:</label>
-				      	<input type="email" placeholder="Enter Email" name="email-input" required>
-					</div>
-			      	<button type="submit" style="margin-bottom: 25px">Send Request</button>
-		      	</form>
-			</div>
+	<div id="delete-individual-modal" class="w3-modal" style="background-color:rgba(0,0,0,0);">
+		<div class="w3-modal-content w3-center" style="width:400px; border: 1.5px solid #000000; border-radius: 10px; ">
+			<span id="delete-individual-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
+			<h2>Delete Individual</h2>
+			<form name="delete_individual" method="post">
+		  		<div style="margin-top: 20px; margin-bottom: 15px">
+					<label for="individual-input" style="margin-right: 12px">Individual Name:</label>
+		      		<input id="deleted-individual" type="text" name="individual-input" readonly>
+				</div>
+				<div style="margin-bottom: 25px">
+					<label for="email-input" style="margin-right: 45px">User Email:</label>
+			      	<input type="email" placeholder="Enter Email" name="email-input" required>
+				</div>
+		      	<button type="submit" style="margin-bottom: 25px">Send Request</button>
+	      	</form>
 		</div>
-		
-		<div id="delete-class-modal" class="w3-modal" style="background-color:rgba(0,0,0,0);">
-			<div class="w3-modal-content w3-center" style="width:375px; border: 1.5px solid #000000; border-radius: 10px; ">
-				<span id="delete-class-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
-				<h2>Delete Class</h2>
-				<form name="delete_class" method="post">
-			  		<div style="margin-top: 20px; margin-bottom: 15px">
-						<label for="class-input" style="margin-right: 12px">Class Name:</label>
-			      		<input id="deleted-class" type="text" name="class-input" readonly>
-					</div>
-					<div style="margin-bottom: 25px">
-						<label for="email-input" style="margin-right: 17px">User Email:</label>
-				      	<input type="email" placeholder="Enter Email" name="email-input" required>
-					</div>
-			      	<button type="submit" style="margin-bottom: 25px">Send Request</button>
-		      	</form>
-			</div>
-		</div>
-		
-		<div id="create-individual-modal" class="w3-modal" style="background-color: rgba(0,0,0,0);">
-			<div class="w3-modal-content w3-center" style="width:400px; border: 1.5px solid #000000; border-radius: 10px; ">
-				<span id="create-individual-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
-				<h2>Create Individual</h2>
-				<form name="create_individual" method="post">
-			  		<div style="margin-top: 20px; margin-bottom: 15px">
-						<label for="class-input" style="margin-right: 42px">Class Name:</label>
-			      		<input id="class" type="text" name="class-input" readonly>
-					</div>
-					<div style="margin-bottom: 15px">
-						<label for="individual-input" style="margin-right: 12px">Individual Name:</label>
-			      		<input type="text" placeholder="Enter Individual Name" name="individual-input" required>
-					</div>
-					<div style="margin-bottom: 25px">
-						<label for="email-input" style="margin-right: 46px">User Email:</label>
-				      	<input type="email" placeholder="Enter Email" name="email-input" required>
-					</div>
-			      	<button type="submit" style="margin-bottom: 25px">Send Request</button>
-		      	</form>
-			</div>
-		</div>
-			
-		<div id="edit-individual-modal" class="w3-modal" style="background-color:rgba(0,0,0,0);">
-			<div class="w3-modal-content w3-center" style="width:425px; border: 1.5px solid #000000; border-radius: 10px; ">
-				<span id="edit-individual-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
-				<h2>Edit Individual</h2>
-				<form name="edit_individual" method="post">
-			  		<div style="margin-top: 20px; margin-bottom: 15px">
-						<label for="old-individual-input" style="margin-right: 10px">Old Individual Name:</label>
-			      		<input id="edited-individual" type="text" name="old-individual-input" readonly>
-					</div>
-					<div style="margin-bottom: 15px">
-						<label for="new-individual-input" style="margin-right: 4px">New Individual Name:</label>
-			      		<input type="text" placeholder="Enter Individual Name" name="new-individual-input" required>
-					</div>
-					<div style="margin-bottom: 25px">
-						<label for="email-input" style="margin-right: 70px">User Email:</label>
-				      	<input type="email" placeholder="Enter Email" name="email-input" required>
-					</div>
-			      	<button type="submit" style="margin-bottom: 25px">Send Request</button>
-		      	</form>
-			</div>
-		</div>
-			
-		<div id="delete-individual-modal" class="w3-modal" style="background-color:rgba(0,0,0,0);">
-			<div class="w3-modal-content w3-center" style="width:400px; border: 1.5px solid #000000; border-radius: 10px; ">
-				<span id="delete-individual-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
-				<h2>Delete Individual</h2>
-				<form name="delete_individual" method="post">
-			  		<div style="margin-top: 20px; margin-bottom: 15px">
-						<label for="individual-input" style="margin-right: 12px">Individual Name:</label>
-			      		<input id="deleted-individual" type="text" name="individual-input" readonly>
-					</div>
-					<div style="margin-bottom: 25px">
-						<label for="email-input" style="margin-right: 45px">User Email:</label>
-				      	<input type="email" placeholder="Enter Email" name="email-input" required>
-					</div>
-			      	<button type="submit" style="margin-bottom: 25px">Send Request</button>
-		      	</form>
-			</div>
-		</div>
-		
-		<div id="individual-details-modal" class="w3-modal" style="background-color:rgba(0,0,0,0);">
-			<div class="w3-modal-content" style="width:890px; border: 1.5px solid #000000; border-radius: 10px; ">
-				<span id="individual-details-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
-				<h2 id="individual-name" class="w3-center"></h2>
-				<p style="margin-left: 40px"><i><u>Class</u></i></p>
-				<div id="individual-class" style="margin-left: 40px"></div>
-				<p style="margin-left: 40px"><i><u>Object Properties</u></i></p>
-				<div id="object-properties-list"></div>
-				<form name="script.php" method="post" style="margin-left: 40px; margin-top: 15px">
-			      	<select id="object-property" name="object-property-input" style="width: 225px; height: 28px" required></select>
-			      	<select id="linked-individual" name="object-property-value" style="width: 225px; height: 28px" required></select>
-				    <input type="email" placeholder="Enter Email" name="email-input" style="width: 225px;" required>
-			      	<button type="submit" style="margin-bottom: 25px">Send Request (+)</button>
-		      	</form>
-				<p style="margin-left: 40px"><i><u>Data Properties</u></i></p>
-				<div id="data-properties-list"></div>
-				<form name="script.php" method="post" style="margin-left: 40px; margin-top: 15px">
-			      	<select id="data-property" name="data-property-input" style="width: 225px; height: 28px" required></select>
-			      	<input type="text" placeholder="Enter Data Property Value" name="data-property-value" style="width: 225px;" required>
-				    <input type="email" placeholder="Enter Email" name="email-input" style="width: 225px;" required>
-			      	<button type="submit" style="margin-bottom: 40px">Send Request (+)</button>
-		      	</form>
-			</div>
+	</div>
+	
+	<div id="individual-details-modal" class="w3-modal" style="background-color:rgba(0,0,0,0);">
+		<div class="w3-modal-content" style="width:890px; border: 1.5px solid #000000; border-radius: 10px; ">
+			<span id="individual-details-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
+			<h2 id="individual-name" class="w3-center"></h2>
+			<p style="margin-left: 40px"><i><u>Class</u></i></p>
+			<div id="individual-class" style="margin-left: 40px"></div>
+			<p style="margin-left: 40px"><i><u>Object Properties</u></i></p>
+			<div id="object-properties-list"></div>
+			<form name="script.php" method="post" style="margin-left: 40px; margin-top: 15px">
+		      	<select id="object-property" name="object-property-input" style="width: 225px; height: 28px" required></select>
+		      	<select id="linked-individual" name="object-property-value" style="width: 225px; height: 28px" required></select>
+			    <input type="email" placeholder="Enter Email" name="email-input" style="width: 225px;" required>
+		      	<button type="submit" style="margin-bottom: 25px">Send Request (+)</button>
+	      	</form>
+			<p style="margin-left: 40px"><i><u>Data Properties</u></i></p>
+			<div id="data-properties-list"></div>
+			<form name="script.php" method="post" style="margin-left: 40px; margin-top: 15px">
+		      	<select id="data-property" name="data-property-input" style="width: 225px; height: 28px" required></select>
+		      	<input type="text" placeholder="Enter Data Property Value" name="data-property-value" style="width: 225px;" required>
+			    <input type="email" placeholder="Enter Email" name="email-input" style="width: 225px;" required>
+		      	<button type="submit" style="margin-bottom: 40px">Send Request (+)</button>
+	      	</form>
 		</div>
 	</div>
 	
@@ -441,15 +441,14 @@
 		}
 		
 		$(document).on("submit", "form", function (e) {
-		    var dataString = $(this).serialize();
-		    var name = $(this).attr('name');
+			var form = $(this);
 		    $.ajax({
-		      type: "POST",
-		      url: name,
-		      data: dataString,
-		      success: function () {
-		        console.log(dataString);
-		      }
+				type: "POST",
+		      	url: form.attr('name'),
+		      	data: form.serialize(),
+		      	success: function () {
+		    		form.parents("div").last().hide();
+		      	}
 		    });
 		    e.preventDefault();
 		});

@@ -39,7 +39,7 @@
 		</div>
 		<div id="diff-container" style="display: none; float: right; width: 76%; margin-bottom: 3%;">
 			<div id="diff" style="width: 100%;"></div>
-			<form name="script.php" method="post">
+			<form action="script.php" method="post">
 				<textarea id="comment" name="comment" placeholder="Leave a comment... (Optional)" style="width: 100%; height: 13vh"></textarea>
 				<input id="accept-request" type="submit" name="decision" value="Accept" onclick="taxonomy_load(this)" style="font-size: 15px; cursor: pointer;"/>
 				<input id="decline-request" type="submit" name="decision" value="Decline" onclick="taxonomy_load(this)" style="font-size: 15px; cursor: pointer;"/>
@@ -79,20 +79,6 @@
 			} else {
 				document.getElementById('diff-container').style.display = "none"
 			}
-		});
-		
-		$(document).on("submit", "form", function (e) {
-		    var dataString = $(this).serialize();
-		    var name = $(this).attr('name');
-		    $.ajax({
-		      type: "POST",
-		      url: name,
-		      data: dataString,
-		      success: function () {
-		        console.log(dataString);
-		      }
-		    });
-		    e.preventDefault();
 		});
 			
 	</script>

@@ -39,121 +39,121 @@
 				<div id="object-properties-warning" style="float: right; font-size: 15px; color:red;"></div>
 			</div>
 		</div>
-		
-		<div id="create-data-property-modal" class="w3-modal" style="background-color: rgba(0,0,0,0);">
-			<div class="w3-modal-content w3-center" style="width:425px; border: 1.5px solid #000000; border-radius: 10px;">
-				<span id="create-data-property-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
-				<h2>Create Data Property</h2>
-				<form name="script.php" method="post">
-					<div style="margin-top: 20px; margin-bottom: 15px">
-						<label for="data-property-input" style="margin-right: 12px">Data Property Name:</label>
-			      		<input type="text" placeholder="Enter Data Property Name" name="data-property-input" required>
-					</div>
-					<div style="margin-bottom: 25px">
-						<label for="email-input" style="margin-right: 68px">User Email:</label>
-				      	<input type="email" placeholder="Enter Email" name="email-input" required>
-					</div>
-			      	<button type="submit" style="margin-bottom: 25px">Send Request</button>
-		      	</form>
-			</div>
+	</div>
+	
+	<div id="create-data-property-modal" class="w3-modal" style="background-color: rgba(0,0,0,0);">
+		<div class="w3-modal-content w3-center" style="width:425px; border: 1.5px solid #000000; border-radius: 10px;">
+			<span id="create-data-property-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
+			<h2>Create Data Property</h2>
+			<form name="script.php" method="post">
+				<div style="margin-top: 20px; margin-bottom: 15px">
+					<label for="data-property-input" style="margin-right: 12px">Data Property Name:</label>
+		      		<input type="text" placeholder="Enter Data Property Name" name="data-property-input" required>
+				</div>
+				<div style="margin-bottom: 25px">
+					<label for="email-input" style="margin-right: 68px">User Email:</label>
+			      	<input type="email" placeholder="Enter Email" name="email-input" required>
+				</div>
+		      	<button type="submit" style="margin-bottom: 25px">Send Request</button>
+	      	</form>
 		</div>
-		
-		<div id="edit-data-property-modal" class="w3-modal" style="background-color:rgba(0,0,0,0);">
-			<div class="w3-modal-content w3-center" style="width:450px; border: 1.5px solid #000000; border-radius: 10px; ">
-				<span id="edit-data-property-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
-				<h2>Edit Data Property</h2>
-				<form name="script.php" method="post">
-			  		<div style="margin-top: 20px; margin-bottom: 15px">
-						<label for="old-data-property-input" style="margin-right: 10px">Old Data Property Name:</label>
-			      		<input id="edited-data-property" type="text" name="old-data-property-input" readonly>
-					</div>
-					<div style="margin-bottom: 15px">
-						<label for="new-data-property-input" style="margin-right: 4px">New Data Property Name:</label>
-			      		<input type="text" placeholder="Enter Data Property Name" name="new-data-property-input" required>
-					</div>
-					<div style="margin-bottom: 25px">
-						<label for="email-input" style="margin-right:92px">User Email:</label>
-				      	<input type="email" placeholder="Enter Email" name="email-input" required>
-					</div>
-			      	<button type="submit" style="margin-bottom: 25px">Send Request</button>
-		      	</form>
-			</div>
+	</div>
+	
+	<div id="edit-data-property-modal" class="w3-modal" style="background-color:rgba(0,0,0,0);">
+		<div class="w3-modal-content w3-center" style="width:450px; border: 1.5px solid #000000; border-radius: 10px; ">
+			<span id="edit-data-property-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
+			<h2>Edit Data Property</h2>
+			<form name="script.php" method="post">
+		  		<div style="margin-top: 20px; margin-bottom: 15px">
+					<label for="old-data-property-input" style="margin-right: 10px">Old Data Property Name:</label>
+		      		<input id="edited-data-property" type="text" name="old-data-property-input" readonly>
+				</div>
+				<div style="margin-bottom: 15px">
+					<label for="new-data-property-input" style="margin-right: 4px">New Data Property Name:</label>
+		      		<input type="text" placeholder="Enter Data Property Name" name="new-data-property-input" required>
+				</div>
+				<div style="margin-bottom: 25px">
+					<label for="email-input" style="margin-right:92px">User Email:</label>
+			      	<input type="email" placeholder="Enter Email" name="email-input" required>
+				</div>
+		      	<button type="submit" style="margin-bottom: 25px">Send Request</button>
+	      	</form>
 		</div>
-		
-		<div id="delete-data-property-modal" class="w3-modal" style="background-color:rgba(0,0,0,0);">
-			<div class="w3-modal-content w3-center" style="width:425px; border: 1.5px solid #000000; border-radius: 10px; ">
-				<span id="delete-data-property-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
-				<h2>Delete Data Property</h2>
-				<form name="script.php" method="post">
-			  		<div style="margin-top: 20px; margin-bottom: 15px">
-						<label for="data-property-input" style="margin-right: 12px">Data Property Name:</label>
-			      		<input id="deleted-data-property" type="text" name="data-property-input" readonly>
-					</div>
-					<div style="margin-bottom: 25px">
-						<label for="email-input" style="margin-right: 68px">User Email:</label>
-				      	<input type="email" placeholder="Enter Email" name="email-input" required>
-					</div>
-			      	<button type="submit" style="margin-bottom: 25px">Send Request</button>
-		      	</form>
-			</div>
+	</div>
+	
+	<div id="delete-data-property-modal" class="w3-modal" style="background-color:rgba(0,0,0,0);">
+		<div class="w3-modal-content w3-center" style="width:425px; border: 1.5px solid #000000; border-radius: 10px; ">
+			<span id="delete-data-property-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
+			<h2>Delete Data Property</h2>
+			<form name="script.php" method="post">
+		  		<div style="margin-top: 20px; margin-bottom: 15px">
+					<label for="data-property-input" style="margin-right: 12px">Data Property Name:</label>
+		      		<input id="deleted-data-property" type="text" name="data-property-input" readonly>
+				</div>
+				<div style="margin-bottom: 25px">
+					<label for="email-input" style="margin-right: 68px">User Email:</label>
+			      	<input type="email" placeholder="Enter Email" name="email-input" required>
+				</div>
+		      	<button type="submit" style="margin-bottom: 25px">Send Request</button>
+	      	</form>
 		</div>
-		
-		<div id="create-object-property-modal" class="w3-modal" style="background-color: rgba(0,0,0,0);">
-			<div class="w3-modal-content w3-center" style="width:425px; border: 1.5px solid #000000; border-radius: 10px;">
-				<span id="create-object-property-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
-				<h2>Create Object Property</h2>
-				<form name="script.php" method="post">
-					<div style="margin-top: 20px; margin-bottom: 15px">
-						<label for="object-property-input" style="margin-right: 12px">Object Property Name:</label>
-			      		<input type="text" placeholder="Enter Object Property Name" name="object-property-input" required>
-					</div>
-					<div style="margin-bottom: 25px">
-						<label for="email-input" style="margin-right: 80px">User Email:</label>
-				      	<input type="email" placeholder="Enter Email" name="email-input" required>
-					</div>
-			      	<button type="submit" style="margin-bottom: 25px">Send Request</button>
-		      	</form>
-			</div>
+	</div>
+	
+	<div id="create-object-property-modal" class="w3-modal" style="background-color: rgba(0,0,0,0);">
+		<div class="w3-modal-content w3-center" style="width:425px; border: 1.5px solid #000000; border-radius: 10px;">
+			<span id="create-object-property-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
+			<h2>Create Object Property</h2>
+			<form name="script.php" method="post">
+				<div style="margin-top: 20px; margin-bottom: 15px">
+					<label for="object-property-input" style="margin-right: 12px">Object Property Name:</label>
+		      		<input type="text" placeholder="Enter Object Property Name" name="object-property-input" required>
+				</div>
+				<div style="margin-bottom: 25px">
+					<label for="email-input" style="margin-right: 80px">User Email:</label>
+			      	<input type="email" placeholder="Enter Email" name="email-input" required>
+				</div>
+		      	<button type="submit" style="margin-bottom: 25px">Send Request</button>
+	      	</form>
 		</div>
-		
-		<div id="edit-object-property-modal" class="w3-modal" style="background-color:rgba(0,0,0,0);">
-			<div class="w3-modal-content w3-center" style="width:450px; border: 1.5px solid #000000; border-radius: 10px; ">
-				<span id="edit-object-property-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
-				<h2>Edit Object Property</h2>
-				<form name="script.php" method="post">
-			  		<div style="margin-top: 20px; margin-bottom: 15px">
-						<label for="old-object-property-input" style="margin-right: 10px">Old Object Property Name:</label>
-			      		<input id="edited-object-property" type="text" name="old-object-property-input" readonly>
-					</div>
-					<div style="margin-bottom: 15px">
-						<label for="new-object-property-input" style="margin-right: 4px">New Object Property Name:</label>
-			      		<input type="text" placeholder="Enter Class Name" name="new-object-property-input" required>
-					</div>
-					<div style="margin-bottom: 25px">
-						<label for="email-input" style="margin-right: 104px">User Email:</label>
-				      	<input type="email" placeholder="Enter Email" name="email-input" required>
-					</div>
-			      	<button type="submit" style="margin-bottom: 25px">Send Request</button>
-		      	</form>
-			</div>
+	</div>
+	
+	<div id="edit-object-property-modal" class="w3-modal" style="background-color:rgba(0,0,0,0);">
+		<div class="w3-modal-content w3-center" style="width:450px; border: 1.5px solid #000000; border-radius: 10px; ">
+			<span id="edit-object-property-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
+			<h2>Edit Object Property</h2>
+			<form name="script.php" method="post">
+		  		<div style="margin-top: 20px; margin-bottom: 15px">
+					<label for="old-object-property-input" style="margin-right: 10px">Old Object Property Name:</label>
+		      		<input id="edited-object-property" type="text" name="old-object-property-input" readonly>
+				</div>
+				<div style="margin-bottom: 15px">
+					<label for="new-object-property-input" style="margin-right: 4px">New Object Property Name:</label>
+		      		<input type="text" placeholder="Enter Class Name" name="new-object-property-input" required>
+				</div>
+				<div style="margin-bottom: 25px">
+					<label for="email-input" style="margin-right: 104px">User Email:</label>
+			      	<input type="email" placeholder="Enter Email" name="email-input" required>
+				</div>
+		      	<button type="submit" style="margin-bottom: 25px">Send Request</button>
+	      	</form>
 		</div>
-		
-		<div id="delete-object-property-modal" class="w3-modal" style="background-color:rgba(0,0,0,0);">
-			<div class="w3-modal-content w3-center" style="width:425px; border: 1.5px solid #000000; border-radius: 10px; ">
-				<span id="delete-object-property-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
-				<h2>Delete Object Property</h2>
-				<form name="script.php" method="post">
-			  		<div style="margin-top: 20px; margin-bottom: 15px">
-						<label for="object-property-input" style="margin-right: 12px">Object Property Name:</label>
-			      		<input id="deleted-object-property" type="text" name="object-property-input" readonly>
-					</div>
-					<div style="margin-bottom: 25px">
-						<label for="email-input" style="margin-right: 80px">User Email:</label>
-				      	<input type="email" placeholder="Enter Email" name="email-input" required>
-					</div>
-			      	<button type="submit" style="margin-bottom: 25px">Send Request</button>
-		      	</form>
-			</div>
+	</div>
+	
+	<div id="delete-object-property-modal" class="w3-modal" style="background-color:rgba(0,0,0,0);">
+		<div class="w3-modal-content w3-center" style="width:425px; border: 1.5px solid #000000; border-radius: 10px; ">
+			<span id="delete-object-property-span" style="position:absolute; right:15px ; color: #aaaaaa; font-size: 30px; font-weight: bold; cursor: pointer;">&times;</span>
+			<h2>Delete Object Property</h2>
+			<form name="script.php" method="post">
+		  		<div style="margin-top: 20px; margin-bottom: 15px">
+					<label for="object-property-input" style="margin-right: 12px">Object Property Name:</label>
+		      		<input id="deleted-object-property" type="text" name="object-property-input" readonly>
+				</div>
+				<div style="margin-bottom: 25px">
+					<label for="email-input" style="margin-right: 80px">User Email:</label>
+			      	<input type="email" placeholder="Enter Email" name="email-input" required>
+				</div>
+		      	<button type="submit" style="margin-bottom: 25px">Send Request</button>
+	      	</form>
 		</div>
 	</div>
 	
@@ -271,15 +271,14 @@
 		}
 		
 		$(document).on("submit", "form", function (e) {
-		    var dataString = $(this).serialize();
-		    var name = $(this).attr('name');
+			var form = $(this);
 		    $.ajax({
-		      type: "POST",
-		      url: name,
-		      data: dataString,
-		      success: function () {
-		        console.log(dataString);
-		      }
+				type: "POST",
+		      	url: form.attr('name'),
+		      	data: form.serialize(),
+		      	success: function () {
+		    		form.parents("div").last().hide();
+		      	}
 		    });
 		    e.preventDefault();
 		});
