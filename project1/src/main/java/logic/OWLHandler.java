@@ -3,6 +3,9 @@ package logic;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -10,10 +13,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.checkerframework.checker.initialization.qual.Initialized;
-import org.checkerframework.checker.javari.qual.Mutable;
-import org.checkerframework.checker.nullness.qual.KeyForBottom;
-import org.checkerframework.checker.nullness.qual.NonNull;
+import org.eclipse.jgit.internal.storage.file.LockFile;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.formats.FunctionalSyntaxDocumentFormat;
 import org.semanticweb.owlapi.model.EntityType;
@@ -47,18 +47,33 @@ import uk.ac.manchester.cs.owl.owlapi.OWLLiteralImplString;
 
 public class OWLHandler {
 
-	private File owlFile;
+	//private File owlFile;
+	private LockFile owlFile;
 	private OWLOntologyManager manager;
 	private OWLOntology ontology;
 	private OWLDataFactory factory;
 	private String defaultprefix;
 	private String datatypePrefix;
 
-	public OWLHandler(String file) {
-		owlFile = new File(file);
+//	public OWLHandler(String file) {
+//		owlFile = new File(file);
+//		manager = OWLManager.createOWLOntologyManager();
+//		try {
+//			ontology =  manager.loadOntologyFromOntologyDocument(owlFile);
+//			factory = ontology.getOWLOntologyManager().getOWLDataFactory();
+//			defaultprefix = manager.getOntologyFormat(ontology).asPrefixOWLOntologyFormat().getDefaultPrefix();
+//			datatypePrefix = manager.getOntologyFormat(ontology).asPrefixOWLOntologyFormat().getPrefix("xsd:");
+//		} catch (OWLOntologyCreationException e) {
+//	    	System.err.println("Error creating OWL ontology: " + e.getMessage());
+//	    	System.exit(-1);
+//		}
+//	}
+	
+	public OWLHandler(InputStream in, LockFile owlFile) {
+		this.owlFile = owlFile;
 		manager = OWLManager.createOWLOntologyManager();
 		try {
-			ontology =  manager.loadOntologyFromOntologyDocument(owlFile);
+			ontology =  manager.loadOntologyFromOntologyDocument(in);
 			factory = ontology.getOWLOntologyManager().getOWLDataFactory();
 			defaultprefix = manager.getOntologyFormat(ontology).asPrefixOWLOntologyFormat().getDefaultPrefix();
 			datatypePrefix = manager.getOntologyFormat(ontology).asPrefixOWLOntologyFormat().getPrefix("xsd:");
@@ -496,11 +511,27 @@ public class OWLHandler {
 	
 	//---------------------------------------AUXILIARY FUNCTIONS---------------------------------------
 	
+//	private void saveOntology() {
+//		try {
+//			manager.saveOntology(ontology, new FunctionalSyntaxDocumentFormat(), new FileOutputStream(owlFile));
+//		} catch (OWLOntologyStorageException | FileNotFoundException e) {
+//			e.printStackTrace();
+//		}
+//	}
+	
 	private void saveOntology() {
 		try {
-			manager.saveOntology(ontology, new FunctionalSyntaxDocumentFormat(), new FileOutputStream(owlFile));
-		} catch (OWLOntologyStorageException | FileNotFoundException e) {
+			if(owlFile.lock()) {
+				OutputStream out = owlFile.getOutputStream();
+				manager.saveOntology(ontology, new FunctionalSyntaxDocumentFormat(), out);
+				out.close();
+				if(!owlFile.commit())
+					System.out.println("Error comitting");
+			}
+		} catch (OWLOntologyStorageException | IOException e) {
 			e.printStackTrace();
+		} finally {
+			owlFile.unlock();
 		}
 	}
 

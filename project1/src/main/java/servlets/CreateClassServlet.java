@@ -43,11 +43,12 @@ public class CreateClassServlet extends HttpServlet {
 		String parentClass = (String)request.getParameter("super-class-input");
 		String className = (String)request.getParameter("class-input");
 		String email = (String)request.getParameter("email-input");
-		OWLHandler owl = new OWLHandler("C:\\Users\\Utilizador\\Documents\\GitHub\\Knowledge_Base\\ontology.owl");
-		GitHandler git = new GitHandler("C:\\Users\\Utilizador\\Documents\\GitHub\\Knowledge_Base\\.git");
+		GitHandler git = new GitHandler("C:\\Users\\pedro\\git\\Knowledge_Base\\.git");
+		OWLHandler owl = git.getOWLHandler();
 		String branchName = git.getNextBranchName(email);
 		git.changeBranch("master");
 		git.createAndChangeBranch(branchName);
+		
 		owl.declareOWLEntity(EntityType.CLASS, className);
 		if(!parentClass.isEmpty())
 			owl.declareSubClassOf(parentClass, className);
@@ -55,7 +56,7 @@ public class CreateClassServlet extends HttpServlet {
 		git.changeBranch("master");
 		//TODO send email to curator
 //		String curatorEmail = ""; 
-//		sendGmail(curatorEmail, "New proposal received", "Dear Curator \n\nA proposal for a new class by the name of '" + className + "' as been submited.");
+//		sendGmail(curatorEmail, "New proposal received", "Dear Curator \n\nA proposal for a new class by the name of '" + className + "' has been submited.");
 //		sendGmail(email, "Proposal Received", "Dear user \n\nYour proposal has been received, thanks for the suggestion!");
 		RequestDispatcher view = request.getRequestDispatcher("taxonomy.jsp");
         view.forward(request, response);
