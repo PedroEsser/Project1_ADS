@@ -11,7 +11,7 @@ import org.json.JSONObject;
 public class HerokuHandler {
 
 	private static final int DOCKER_CLIENTS = 5;
-	private static final String HEROKU_URI = "https://ads-tunnel.herokuapp.com";//"http://localhost:5000";//
+	private static final String HEROKU_URI = "http://localhost:5000";//"https://ads-tunnel.herokuapp.com";//
 	private static final String LOCAL_URI = "http://localhost:8080";
 	
 	public static void main(String[] args) {
@@ -44,9 +44,16 @@ public class HerokuHandler {
 				JSONObject obj = JSONHandler.convertStringToJSON(req);
 				
 				int id = (int)obj.get("client_id");
-				String url = (String)obj.get("url");
-				JSONObject post = (JSONObject)obj.get("data");
-				String response = generateResponse(url, post);
+				
+//				JSONObject headers = (JSONObject) obj.get("headers");
+//				if(headers.has("referer")) 
+//					headers.put("referer", headers.getString("referer").replace(HEROKU_URI, LOCAL_URI));
+//				
+//				headers.put("host", LOCAL_URI);
+				JSONObject headers = null;
+				String path = obj.getString("path");
+				JSONObject body = (JSONObject)obj.get("body");
+				String response = generateResponse(path, headers, body);
     			respond(id + "", response);
     		} catch (Exception e) {
     			//e.printStackTrace();
@@ -58,11 +65,11 @@ public class HerokuHandler {
     	HTTPHandler.post(HEROKU_URI + "/docker_post", id, response);
     }
     
-    public static String generateResponse(String url, JSONObject post) throws Exception {		//fetch html file from local web server
-    	if(post.isEmpty())
-    		return HTTPHandler.get(LOCAL_URI + url);
+    public static String generateResponse(String path, JSONObject headers, JSONObject body) throws Exception {		//fetch html file from local web server
+    	if(body.isEmpty())
+    		return HTTPHandler.get(LOCAL_URI + path, headers);
     	
-    	return HTTPHandler.post(LOCAL_URI + url, post);		
+    	return HTTPHandler.post(LOCAL_URI + path, body, headers);		
     }
     
 }
