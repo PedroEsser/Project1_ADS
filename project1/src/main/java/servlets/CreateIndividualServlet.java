@@ -43,11 +43,11 @@ public class CreateIndividualServlet extends HttpServlet {
 		String individualName = (String)request.getParameter("individual-input");
 		String className = (String)request.getParameter("class-input");
 		String email = (String)request.getParameter("email-input");
-		GitHandler git = new GitHandler("C:\\Users\\pedro\\git\\Knowledge_Base\\.git");
-		OWLHandler owl = git.getOWLHandler();
+		GitHandler git = new GitHandler("C:\\Users\\Utilizador\\Documents\\GitHub\\Knowledge_Base\\.git");
 		String branchName = git.getNextBranchName(email);
 		git.changeBranch("master");
 		git.createAndChangeBranch(branchName);
+		OWLHandler owl = git.getOWLHandler();
 		owl.declareOWLEntity(EntityType.NAMED_INDIVIDUAL, individualName);
 		owl.declareClassAssertion(className, individualName);
 		git.commitAndPush(email + " has created a new Individual!", branchName);

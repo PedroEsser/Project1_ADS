@@ -13,15 +13,15 @@ import logic.GitHandler;
 import logic.OWLHandler;
 
 /**
- * Servlet implementation class DeleteIndividualServlet
+ * Servlet implementation class DeleteDataPropertyServlet
  */
-public class DeleteIndividualServlet extends HttpServlet {
+public class DeleteDataPropertyServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public DeleteIndividualServlet() {
+    public DeleteDataPropertyServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -38,15 +38,15 @@ public class DeleteIndividualServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String individualName = (String)request.getParameter("individual-input");
+		String dpName = (String)request.getParameter("data-property-input");
 		String email = (String)request.getParameter("email-input");
 		GitHandler git = new GitHandler("C:\\Users\\Utilizador\\Documents\\GitHub\\Knowledge_Base\\.git");
 		String branchName = git.getNextBranchName(email);
 		git.changeBranch("master");
 		git.createAndChangeBranch(branchName);
 		OWLHandler owl = git.getOWLHandler();
-		owl.deleteIndividual(individualName);
-		git.commitAndPush(email + " has deleted an individual!", branchName);
+		owl.deleteDataProperty(dpName);
+		git.commitAndPush(email + " has deleted a data property!", branchName);
 		git.changeBranch("master");
 		//TODO send email to curator
 		RequestDispatcher view = request.getRequestDispatcher("taxonomy.jsp");

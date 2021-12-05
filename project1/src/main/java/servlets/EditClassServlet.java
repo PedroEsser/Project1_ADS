@@ -42,11 +42,11 @@ public class EditClassServlet extends HttpServlet {
 		String oldClass = (String)request.getParameter("old-class-input");
 		String newClass = (String)request.getParameter("new-class-input");
 		String email = (String)request.getParameter("email-input");
-		GitHandler git = new GitHandler("C:\\Users\\pedro\\git\\Knowledge_Base\\.git");
-		OWLHandler owl = git.getOWLHandler();
+		GitHandler git = new GitHandler("C:\\Users\\Utilizador\\Documents\\GitHub\\Knowledge_Base\\.git");
 		String branchName = git.getNextBranchName(email);
 		git.changeBranch("master");
 		git.createAndChangeBranch(branchName);
+		OWLHandler owl = git.getOWLHandler();
 		owl.changeClass(oldClass, newClass);
 		git.commitAndPush(email + " has change the class name!", branchName);
 		//TODO send email to curator
