@@ -1,8 +1,5 @@
 package logic;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -11,7 +8,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.eclipse.jgit.internal.storage.file.LockFile;
 import org.semanticweb.owlapi.apibinding.OWLManager;
@@ -139,12 +138,21 @@ public class OWLHandler {
 		return individualsProperties;
 	}
 	
-	//gets all the ObjectProperty and their ObjectPropertyAxioms
-	public HashMap<OWLObjectProperty, Set<OWLObjectPropertyAxiom>> getObjectPropertyAxioms() {
-		HashMap<OWLObjectProperty, Set<OWLObjectPropertyAxiom>> ObjectProperties = new HashMap<>();
+	//gets all the object properties and their axioms
+	public HashMap<OWLObjectProperty, Set<OWLObjectPropertyAxiom>> getObjectPropertiesAxioms() {
+		HashMap<OWLObjectProperty, Set<OWLObjectPropertyAxiom>> objectPropertiesAxioms = new HashMap<>();
 		for(OWLObjectProperty obj : getObjectProperties())
-			ObjectProperties.put(obj, ontology.getAxioms(obj, Imports.EXCLUDED));
-		return ObjectProperties;
+			objectPropertiesAxioms.put(obj, ontology.getAxioms(obj, Imports.EXCLUDED));
+		return objectPropertiesAxioms;
+	}
+	
+	//gets all the object properties and their characteristics
+	public HashMap<OWLObjectProperty, Set<String>> getObjectPropertiesCharacteristics() {
+		HashMap<OWLObjectProperty, Set<String>> objectPropertiesCharacteritics = new HashMap<>();
+		for(Entry<OWLObjectProperty, Set<OWLObjectPropertyAxiom>> entry : getObjectPropertiesAxioms().entrySet()) {
+			objectPropertiesCharacteritics.put(entry.getKey(), entry.getValue().stream().map(a -> a.getAxiomType().getName().replace("ObjectProperty", "")).collect(Collectors.toSet()));
+		}
+		return objectPropertiesCharacteritics;
 	}
 	
 	//gets the class taxonomy
@@ -206,7 +214,6 @@ public class OWLHandler {
 	}
 	
 	public void declareDataPropertyAssertion(String individual, String dataProperty, boolean value) {
-		
 		OWLDatatype datatype = factory.getOWLDatatype(IRI.create(datatypePrefix, "boolean"));
 		OWLLiteralImplBoolean literal = new OWLLiteralImplBoolean(value, datatype);
 		declareMainDataPropertyAssertion(individual, dataProperty, literal);
@@ -216,7 +223,6 @@ public class OWLHandler {
 		OWLDatatype datatype = factory.getOWLDatatype(IRI.create(datatypePrefix, "integer"));
 		OWLLiteralImplInteger  literal = new OWLLiteralImplInteger(value, datatype);
 		declareMainDataPropertyAssertion(individual, dataProperty, literal);
-	
 	}
 	
 	public void declareDataPropertyAssertion(String individual, String dataProperty, double value) {
@@ -301,7 +307,7 @@ public class OWLHandler {
 		saveOntology();	
 	}
 	
-	public void deleteObjectPropertyofIndividuals(String objectPropertyName, String individualName1, String individualName2) {
+	public void deleteObjectPropertyOfIndividuals(String objectPropertyName, String individualName1, String individualName2) {
 		OWLObjectProperty objectProperty = factory.getOWLObjectProperty(IRI.create(defaultprefix, objectPropertyName));
 		OWLNamedIndividual individual1 = factory.getOWLNamedIndividual(IRI.create(defaultprefix,individualName1));
 		OWLNamedIndividual individual2 = factory.getOWLNamedIndividual(IRI.create(defaultprefix,individualName2));
@@ -358,9 +364,9 @@ public class OWLHandler {
 	
 	public void deleteClass(String name, String iri, Boolean isName) {//TODO delete individuals from the class
 		OWLClass owlClass = null;
-		if(isName){
+		if(isName) {
 			owlClass = factory.getOWLClass(IRI.create(defaultprefix, name));
-		}else{
+		} else {
 			owlClass = factory.getOWLClass(IRI.create(iri));
 		}
 		for(OWLSubClassOfAxiom item: ontology.getSubClassAxiomsForSuperClass(owlClass))//delete all subclasses
@@ -376,45 +382,13 @@ public class OWLHandler {
 		saveOntology();
 	}
 	
-	public void deleteObjectPropertyAxiom(String objectProperty) {
+	public void deleteObjectPropertyAxioms(String objectProperty) {
 		OWLObjectProperty obj = factory.getOWLObjectProperty(IRI.create(defaultprefix, objectProperty));
-		HashMap<OWLObjectProperty, Set<OWLObjectPropertyAxiom>> aux = getObjectPropertyAxioms();
+		HashMap<OWLObjectProperty, Set<OWLObjectPropertyAxiom>> aux = getObjectPropertiesAxioms();
 		if(aux.containsKey(obj)) {
 			manager.removeAxioms(ontology, aux.get(obj));
 			saveOntology();
 		}
-	}
-	
-	public void deleteObjectPropertyAxiom(String objectProperty, String characteristic) {
-		OWLObjectProperty obj = factory.getOWLObjectProperty(IRI.create(defaultprefix, objectProperty));
-		OWLAxiom axiom;
-		switch (characteristic) {
-			case "Functional":
-				axiom = factory.getOWLFunctionalObjectPropertyAxiom(obj);
-				break;
-			case "InverseFunctional":
-				axiom = factory.getOWLInverseFunctionalObjectPropertyAxiom(obj);
-				break;
-			case "Transitive":
-				axiom = factory.getOWLTransitiveObjectPropertyAxiom(obj);
-				break;
-			case "Symmetric":
-				axiom = factory.getOWLSymmetricObjectPropertyAxiom(obj);
-				break;
-			case "Assymmetric":
-				axiom = factory.getOWLAsymmetricObjectPropertyAxiom(obj);
-				break;
-			case "Reflexive":
-				axiom = factory.getOWLReflexiveObjectPropertyAxiom(obj);
-				break;
-			case "Irreflexive":
-				axiom = factory.getOWLIrreflexiveObjectPropertyAxiom(obj);
-				break;
-			default:
-				return;
-		}
-		manager.removeAxiom(ontology, axiom);
-		saveOntology();
 	}
 	
 	//---------------------------------------UPDATE---------------------------------------

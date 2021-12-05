@@ -1,1 +1,12 @@
-[{"object property": "Friends"}]
+[{
+ "object property": "Friends",
+ "characteristics": [
+  "Irrefexive",
+  "Functional",
+  "InverseFunctional",
+  "Transitive",
+  "Asymmetric",
+  "Reflexive",
+  "Symmetric"
+ ]
+}]

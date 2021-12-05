@@ -112,14 +112,19 @@ public class JSONHandler {
 		}
 	}
 	
-	public static void createObjectPropertiesJSON(Set<OWLObjectProperty> objectProperties) {
+	public static void createObjectPropertiesJSON(HashMap<OWLObjectProperty, Set<String>> objectPropertiesCharacteristics) {
 		try {
 			FileWriter file = new FileWriter("src/main/webapp/resources/object_properties.json");
 			JSONArray array = new JSONArray();
-			for(OWLObjectProperty property: objectProperties) {
+			for(OWLObjectProperty property: objectPropertiesCharacteristics.keySet()) {
 				JSONObject object = new JSONObject();
 				setOrderedJSONOBject(object);
 				object.put("object property", property.getIRI().getShortForm());
+				JSONArray axioms = new JSONArray();
+				for(String characteristic: objectPropertiesCharacteristics.get(property)) {
+					axioms.put(characteristic);
+				}
+				object.put("characteristics", axioms);
 				array.put(object);
 			}
 			file.write(array.toString(1));

@@ -140,13 +140,13 @@
 		      		<input type="text" placeholder="Enter Class Name" name="new-object-property-input" required>
 				</div>
 				<div style="margin-left: 38px; margin-right: 10px; margin-bottom: 5px; display: grid; grid-template-columns: auto auto auto; grid-template-rows: 30px 30px 30px; justify-items: start;">
-	  				<div><input type="checkbox" name="functional" style="margin-right: 5px"><label for="functional">Functional</label></div>
-					<div><input type="checkbox" name="inverse-functional" style="margin-right: 5px"><label for="inverse-functional">Inverse Functional</label></div>
-  					<div><input type="checkbox" name="transitive" style="margin-right: 5px"><label for="transitive">Transitive</label></div>
-  					<div><input type="checkbox" name="symmetric" style="margin-right: 5px"><label for="symmetric">Symmetric</label></div>
-  					<div><input type="checkbox" name="asymmetric" style="margin-right: 5px"><label for="asymmetric">Asymmetric</label></div>
-  					<div><input type="checkbox" name="reflexive" style="margin-right: 5px"><label for="reflexive">Reflexive</label></div>
-  					<div><input type="checkbox" name="irreflexive" style="margin-right: 5px"><label for="irreflexive">Irreflexive</label></div>
+	  				<div><input id="Functional" type="checkbox" name="functional" style="margin-right: 5px"><label for="functional">Functional</label></div>
+					<div><input id="InverseFunctional" type="checkbox" name="inverse-functional" style="margin-right: 5px"><label for="inverse-functional">Inverse Functional</label></div>
+  					<div><input id="Transitive" type="checkbox" name="transitive" style="margin-right: 5px"><label for="transitive">Transitive</label></div>
+  					<div><input id="Symmetric" type="checkbox" name="symmetric" style="margin-right: 5px"><label for="symmetric">Symmetric</label></div>
+  					<div><input id="Asymmetric" type="checkbox" name="asymmetric" style="margin-right: 5px"><label for="asymmetric">Asymmetric</label></div>
+  					<div><input id="Reflexive" type="checkbox" name="reflexive" style="margin-right: 5px"><label for="reflexive">Reflexive</label></div>
+  					<div><input id="Irrefexive" type="checkbox" name="irreflexive" style="margin-right: 5px"><label for="irreflexive">Irreflexive</label></div>
 				</div>
 				<div style="margin-bottom: 25px">
 					<label for="email-input" style="margin-right: 104px">User Email:</label>
@@ -238,6 +238,13 @@
 			} else if(element.id == "edit-object-property") {
 				if(selectedcell) {
 					document.getElementById("edited-object-property").defaultValue = selectedcell.getCells()[0].getValue();
+					for(var i = 0; i < obj_properties_data.length; i++) {
+						if(obj_properties_data[i]["object property"] == selectedcell.getCells()[0].getValue()) {
+							for(var j = 0; j < obj_properties_data[i]["characteristics"].length; j++) {
+								document.getElementById(obj_properties_data[i]["characteristics"][j]).checked = true;
+							}
+						}
+					}
 					document.getElementById("edit-object-property-modal").style.display = "block";
 					document.getElementById("object-properties-warning").textContent = "";
 				} else {
