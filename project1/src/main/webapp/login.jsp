@@ -21,11 +21,11 @@
 		<form action="login" method="post">
 			<div style="margin-bottom: 15px">
 				<label for="uname" style="margin-right: 7px">Username:</label>
-		      	<input type="text" placeholder="Enter Username" name="uname" required>
+		      	<input type="text" placeholder="Enter Username" name="username" required>
 			</div>
 	  		<div style="margin-bottom: 25px">
 				<label for="psw" style="margin-right: 10px">Password:</label>
-	      		<input type="password" placeholder="Enter Password" name="psw" required>
+	      		<input type="password" placeholder="Enter Password" name="password" required>
 			</div>
 	      	<button type="submit">Access</button>
       	</form>

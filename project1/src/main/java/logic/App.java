@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 public class App {
 
 	public static void main(String[] args) throws FileNotFoundException {
+		//CuratorHandler.subscribeCurator("test@mail.com", "joemama69");
+		System.out.println(CuratorHandler.authenticateCurator("test@mail.com", "joemama69"));
 //    	GitHandler gh = new GitHandler("C:\\Users\\amend\\GitHub\\Knowledge_Base\\.git");
 //    	gh.test(gh.getNextBranchName("b"));
 //    	OWLHandler handler = new OWLHandler("C:\\Users\\amend\\GitHub\\Knowledge_Base\\ontology.owl");
