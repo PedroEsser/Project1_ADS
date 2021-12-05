@@ -40,6 +40,30 @@
 		<servlet-name>DeleteIndividualServlet</servlet-name>
 		<servlet-class>servlets.DeleteIndividualServlet</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>CreateDataPropertiesServlet</servlet-name>
+		<servlet-class>servlets.CreateDataPropertiesServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>EditDataPropertiesServlet</servlet-name>
+		<servlet-class>servlets.EditDataPropertiesServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>DeleteDataPropertyServlet</servlet-name>
+		<servlet-class>servlets.DeleteDataPropertyServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>CreateObjectPropertiesServlet</servlet-name>
+		<servlet-class>servlets.CreateObjectPropertiesServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>EditObjectPropertiesServlet</servlet-name>
+		<servlet-class>servlets.EditObjectPropertiesServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>DeleteObjectPropertiesServlet</servlet-name>
+		<servlet-class>servlets.DeleteObjectPropertiesServlet</servlet-class>
+	</servlet>
 	
 	<servlet-mapping>
 		<servlet-name>LeTestServlet</servlet-name>
@@ -72,6 +96,30 @@
 	<servlet-mapping>
 		<servlet-name>DeleteIndividualServlet</servlet-name>
 		<url-pattern>/delete_individual</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>CreateDataPropertiesServlet</servlet-name>
+		<url-pattern>/create_data_property</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>EditDataPropertiesServlet</servlet-name>
+		<url-pattern>/edit_data_property</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>DeleteDataPropertyServlet</servlet-name>
+		<url-pattern>/delete_data_property</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>CreateObjectPropertiesServlet</servlet-name>
+		<url-pattern>/create_object_property</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>EditObjectPropertiesServlet</servlet-name>
+		<url-pattern>/edit_object_property</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>DeleteObjectPropertiesServlet</servlet-name>
+		<url-pattern>/delete_object_property</url-pattern>
 	</servlet-mapping>
 	
 	<welcome-file-list>

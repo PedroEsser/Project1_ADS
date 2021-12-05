@@ -29,7 +29,7 @@ import org.eclipse.jgit.util.FS;
 
 public class GitHandler {
 
-	private final static CredentialsProvider CREDENTIALS = new UsernamePasswordCredentialsProvider("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", "");
+	private final static CredentialsProvider CREDENTIALS = new UsernamePasswordCredentialsProvider("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", "");
 	private Repository repository;
 	private Ref master;
 	private Git git;

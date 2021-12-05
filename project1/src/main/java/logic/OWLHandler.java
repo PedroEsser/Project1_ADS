@@ -221,7 +221,7 @@ public class OWLHandler {
 		declareMainDataPropertyAssertion(individual, dataProperty, literal);
 	}
 
-	public boolean hasDeclaredDataPropertyAssertion(OWLNamedIndividual ind, OWLDataProperty data) {
+	private boolean hasDeclaredDataPropertyAssertion(OWLNamedIndividual ind, OWLDataProperty data) {
 		for(OWLDataPropertyAssertionAxiom ax: getIndividualsDataProperties().get(ind)) {
 			if(ax.getDataPropertiesInSignature().contains(data)) {
 				return true;
@@ -356,8 +356,9 @@ public class OWLHandler {
 		for(OWLSubClassOfAxiom item: ontology.getSubClassAxiomsForSuperClass(owlClass))//delete all subclasses
 			deleteClass("", item.getSubClass().toString().replaceAll("(<|>)", ""), false);
 		HashMap<OWLClass, Set<OWLClassAssertionAxiom>> individuals = getClassesIndividuals();
-		for(OWLClassAssertionAxiom item: individuals.get(owlClass))//delete all individuals from the owlClass
-			item.getIndividual().getIndividualsInSignature().forEach(ind -> deleteIndividual(ind.getIRI().getShortForm()));
+		if(individuals.get(owlClass) != null)
+			for(OWLClassAssertionAxiom item: individuals.get(owlClass))//delete all individuals from the owlClass
+				item.getIndividual().getIndividualsInSignature().forEach(ind -> deleteIndividual(ind.getIRI().getShortForm()));
 		for(OWLSubClassOfAxiom item: ontology.getSubClassAxiomsForSubClass(owlClass))//delete all axioms from the owlClass
 			manager.removeAxiom(ontology, item);
 		for(OWLDeclarationAxiom item: ontology.getDeclarationAxioms(owlClass))//deletes owlClass declaration

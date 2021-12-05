@@ -43,11 +43,11 @@ public class EditIndividualServlet extends HttpServlet {
 		String oldIndividualName = (String)request.getParameter("old-individual-input");
 		String newIndividualName = (String)request.getParameter("new-individual-input");
 		String email = (String)request.getParameter("email-input");
-		GitHandler git = new GitHandler("C:\\Users\\pedro\\git\\Knowledge_Base\\.git");
-		OWLHandler owl = git.getOWLHandler();
+		GitHandler git = new GitHandler("C:\\Users\\Utilizador\\Documents\\GitHub\\Knowledge_Base\\.git");
 		String branchName = git.getNextBranchName(email);
 		git.changeBranch("master");
 		git.createAndChangeBranch(branchName);
+		OWLHandler owl = git.getOWLHandler();
 		owl.changeNamedIndividual(oldIndividualName, newIndividualName);
 		git.commitAndPush(email + " has edited an individual!", branchName);
 		git.changeBranch("master");

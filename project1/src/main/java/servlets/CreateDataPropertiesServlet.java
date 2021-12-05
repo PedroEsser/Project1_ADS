@@ -9,19 +9,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.semanticweb.owlapi.model.EntityType;
+
 import logic.GitHandler;
 import logic.OWLHandler;
 
 /**
- * Servlet implementation class DeleteIndividualServlet
+ * Servlet implementation class CreateDataPropertiesServlet
  */
-public class DeleteIndividualServlet extends HttpServlet {
+public class CreateDataPropertiesServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public DeleteIndividualServlet() {
+    public CreateDataPropertiesServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -38,15 +40,15 @@ public class DeleteIndividualServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String individualName = (String)request.getParameter("individual-input");
+		String dpName = (String)request.getParameter("data-property-input");
 		String email = (String)request.getParameter("email-input");
 		GitHandler git = new GitHandler("C:\\Users\\Utilizador\\Documents\\GitHub\\Knowledge_Base\\.git");
 		String branchName = git.getNextBranchName(email);
 		git.changeBranch("master");
 		git.createAndChangeBranch(branchName);
 		OWLHandler owl = git.getOWLHandler();
-		owl.deleteIndividual(individualName);
-		git.commitAndPush(email + " has deleted an individual!", branchName);
+		owl.declareOWLEntity(EntityType.DATA_PROPERTY, dpName);
+		git.commitAndPush(email + " has created a new data property!", branchName);
 		git.changeBranch("master");
 		//TODO send email to curator
 		RequestDispatcher view = request.getRequestDispatcher("taxonomy.jsp");
