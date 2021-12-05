@@ -108,21 +108,14 @@
 					<label for="object-property-input" style="margin-right: 12px">Object Property Name:</label>
 		      		<input type="text" placeholder="Enter Object Property Name" name="object-property-input" required>
 				</div>
-				<div style="margin-bottom: 15px">
-					<input type="checkbox" name="functional">
-  					<label for="functional">Functional</label>
-  					<input type="checkbox" name="inverse-functional">
-  					<label for="inverse-functional">Inverse Functional</label>
-  					<input type="checkbox" name="transitive">
-  					<label for="transitive">Transitive</label>
-  					<input type="checkbox" name="symmetric">
-  					<label for="symmetric">Symmetric</label>
-  					<input type="checkbox" name="asymmetric">
-  					<label for="asymmetric">Asymmetric</label>
-  					<input type="checkbox" name="reflexive">
-  					<label for="reflexive">Reflexive</label>
-  					<input type="checkbox" name="irreflexive">
-  					<label for="irreflexive">Irreflexive</label>
+				<div style="margin-left: 38px; margin-right: 10px; margin-bottom: 5px; display: grid; grid-template-columns: auto auto auto; grid-template-rows: 30px 30px 30px; justify-items: start;">
+	  				<div><input type="checkbox" name="functional" style="margin-right: 5px"><label for="functional">Functional</label></div>
+					<div><input type="checkbox" name="inverse-functional" style="margin-right: 5px"><label for="inverse-functional">Inverse Functional</label></div>
+  					<div><input type="checkbox" name="transitive" style="margin-right: 5px"><label for="transitive">Transitive</label></div>
+  					<div><input type="checkbox" name="symmetric" style="margin-right: 5px"><label for="symmetric">Symmetric</label></div>
+  					<div><input type="checkbox" name="asymmetric" style="margin-right: 5px"><label for="asymmetric">Asymmetric</label></div>
+  					<div><input type="checkbox" name="reflexive" style="margin-right: 5px"><label for="reflexive">Reflexive</label></div>
+  					<div><input type="checkbox" name="irreflexive" style="margin-right: 5px"><label for="irreflexive">Irreflexive</label></div>
 				</div>
 				<div style="margin-bottom: 25px">
 					<label for="email-input" style="margin-right: 80px">User Email:</label>
@@ -145,6 +138,15 @@
 				<div style="margin-bottom: 15px">
 					<label for="new-object-property-input" style="margin-right: 4px">New Object Property Name:</label>
 		      		<input type="text" placeholder="Enter Class Name" name="new-object-property-input" required>
+				</div>
+				<div style="margin-left: 38px; margin-right: 10px; margin-bottom: 5px; display: grid; grid-template-columns: auto auto auto; grid-template-rows: 30px 30px 30px; justify-items: start;">
+	  				<div><input type="checkbox" name="functional" style="margin-right: 5px"><label for="functional">Functional</label></div>
+					<div><input type="checkbox" name="inverse-functional" style="margin-right: 5px"><label for="inverse-functional">Inverse Functional</label></div>
+  					<div><input type="checkbox" name="transitive" style="margin-right: 5px"><label for="transitive">Transitive</label></div>
+  					<div><input type="checkbox" name="symmetric" style="margin-right: 5px"><label for="symmetric">Symmetric</label></div>
+  					<div><input type="checkbox" name="asymmetric" style="margin-right: 5px"><label for="asymmetric">Asymmetric</label></div>
+  					<div><input type="checkbox" name="reflexive" style="margin-right: 5px"><label for="reflexive">Reflexive</label></div>
+  					<div><input type="checkbox" name="irreflexive" style="margin-right: 5px"><label for="irreflexive">Irreflexive</label></div>
 				</div>
 				<div style="margin-bottom: 25px">
 					<label for="email-input" style="margin-right: 104px">User Email:</label>
