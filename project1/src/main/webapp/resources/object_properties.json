@@ -3,7 +3,9 @@
  "characteristics": [
   "Irrefexive",
   "Functional",
-  "Transitive",
+  "InverseFunctional",
+  "Asymmetric",
+  "Reflexive",
   "Symmetric"
  ]
 }]

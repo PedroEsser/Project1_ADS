@@ -2,12 +2,9 @@ package servlets;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.semanticweb.owlapi.model.EntityType;
 
 import logic.GitHandler;
 import logic.OWLHandler;
@@ -41,7 +38,7 @@ public class EditObjectPropertiesServlet extends HttpServlet {
 		String opName = (String)request.getParameter("old-object-property-input");
 		String newOPName = (String)request.getParameter("new-object-property-input");
 		String email = (String)request.getParameter("email-input");
-		GitHandler git = new GitHandler("C:\\Users\\Utilizador\\Documents\\GitHub\\Knowledge_Base\\.git");
+		GitHandler git = GitHandler.getDefault();
 		String branchName = git.getNextBranchName(email);
 		git.changeBranch("master");
 		git.createAndChangeBranch(branchName);

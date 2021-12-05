@@ -40,7 +40,7 @@ public class LoginServlet extends HttpServlet {
 		if(CuratorHandler.authenticateCurator(email, password)) {
 			RequestDispatcher view = request.getRequestDispatcher("curator.jsp");
 			view.forward(request, response);
-		}else {
+		} else {
 			RequestDispatcher view = request.getRequestDispatcher("login.jsp");
 			view.forward(request, response);
 		}

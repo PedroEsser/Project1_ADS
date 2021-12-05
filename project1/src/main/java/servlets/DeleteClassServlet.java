@@ -2,7 +2,6 @@ package servlets;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -39,7 +38,7 @@ public class DeleteClassServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String className = (String)request.getParameter("class-input");
 		String email = (String)request.getParameter("email-input");
-		GitHandler git = new GitHandler("C:\\Users\\Utilizador\\Documents\\GitHub\\Knowledge_Base\\.git");
+		GitHandler git = GitHandler.getDefault();
 		String branchName = git.getNextBranchName(email);
 		git.changeBranch("master");
 		git.createAndChangeBranch(branchName);
@@ -48,8 +47,6 @@ public class DeleteClassServlet extends HttpServlet {
 		git.commitAndPush(email + " deleted a class!", branchName);
 		git.changeBranch("master");
 		//TODO send email to curator
-		RequestDispatcher view = request.getRequestDispatcher("taxonomy.jsp");
-        view.forward(request, response);
 	}
 
 }

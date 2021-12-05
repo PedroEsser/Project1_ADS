@@ -53,13 +53,12 @@
 	
 	<script>
 		var authorized = <% 
-		String email = request.getParameter("email");
-		String password = request.getParameter("password");
-		out.println(CuratorHandler.authenticateCurator(email, password));
+			String email = request.getParameter("email");
+			String password = request.getParameter("password");
 		%>
-		if(authorized){
+		
+		if(authorized) {
 			var branches_data = <%= JSONHandler.convertJSONToString("src/main/webapp/resources/branches.json") %>
-			var last_selected_branch = ""
 			
 			var branches_table = new Tabulator("#branches-table", {
 				layout:"fitDataStretch",
@@ -73,7 +72,6 @@
 			
 			branches_table.on("cellClick", function(e, cell){
 				if(cell.getRow().isSelected()) {
-					last_selected_branch = cell.getValue()
 					var targetElement = document.getElementById('diff');
 					var diffString = branches_data.find(item=>item.branch==cell.getValue())["diff"];
 					var configuration = {
@@ -92,6 +90,7 @@
 					document.getElementById('diff-container').style.display = "none"
 				}
 			});
+			
 			$(document).on("submit", "form", function (e) {
 				document.getElementById("branch").value = branches_table.getSelectedRows()[0].getCells()[0].getValue();
 				document.getElementById("email").value = "<%= email %>";
@@ -106,6 +105,7 @@
 		} else {
 			alert("Acess Denied!")
 		}
+		
 	</script>
 </body>
 

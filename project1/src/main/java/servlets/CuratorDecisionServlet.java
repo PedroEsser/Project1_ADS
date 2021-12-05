@@ -16,7 +16,6 @@ import logic.OWLHandler;
 /**
  * Servlet implementation class CuratorDecisionServlet
  */
-
 public class CuratorDecisionServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -40,23 +39,25 @@ public class CuratorDecisionServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String decision = request.getParameter("decision");
-		String comment = request.getParameter("comment");
 		String branchName = request.getParameter("branch");
+		String email = branchName.substring(0, branchName.lastIndexOf("_"));
+		String comment = request.getParameter("comment");
+		String decision = request.getParameter("decision");
 		
 		GitHandler git = GitHandler.getDefault();
-		String emailTitle = "";
-		if(decision.equals("Accept")) {
-			git.changeBranch("refs/remotes/origin/master");
+		String emailTitle = null;
+		if("Accept".equals(decision)) {
+			git.changeBranch("master");
 			git.mergeBranch(branchName);
+			git.deleteBranch(branchName);
+			git.publishBranch("master");
 			emailTitle = "Proposal Accepted";
 			System.out.println("Boom");
-		}else if(decision.equals("Decline")) {
+		}else if("Decline".equals(decision)) {
 			git.deleteBranch(branchName);
 			emailTitle = "Proposal Declined";
 		}
 		
-		String email = branchName.substring(0, branchName.lastIndexOf("_"));
 //		EmailHandler.sendMail(email, emailTitle, comment);
 		
 		updateJSONs();

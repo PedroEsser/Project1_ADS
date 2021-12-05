@@ -38,9 +38,9 @@ import com.google.common.collect.Lists;
 
 public class GitHandler {
 	
-	private static final GitHandler DEFAULT_HANDLER = new GitHandler("C:\\Users\\pedro\\git\\Knowledge_Base\\.git");
+	private static final GitHandler DEFAULT_HANDLER = new GitHandler("C:\\Users\\Simão Correia\\git\\Knowledge_Base_ADS\\.git");
 	
-	private final static CredentialsProvider CREDENTIALS = new UsernamePasswordCredentialsProvider("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", "");
+	private final static CredentialsProvider CREDENTIALS = new UsernamePasswordCredentialsProvider("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", "");
 	private Repository repository;
 	private Ref master;
 	private Git git;
@@ -49,7 +49,7 @@ public class GitHandler {
 		return DEFAULT_HANDLER;
 	}
 	
-	public GitHandler(String gitDir) {
+	private GitHandler(String gitDir) {
 		try {
 			repository = new FileRepositoryBuilder().setGitDir(new File(gitDir)).build();
 			master = repository.getRef("master");

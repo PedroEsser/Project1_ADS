@@ -15,11 +15,11 @@ import org.apache.commons.codec.digest.DigestUtils;
 
 public class CuratorHandler {
 	
-	private static HashMap<String, String> getCuratorCredentials(){
+	private static HashMap<String, String> getCuratorCredentials() {
 		try {
 			HashMap<String, String> credentials = new HashMap<String, String>();
 			Scanner scan = new Scanner(new File("curators.txt"));
-			while(scan.hasNext()){
+			while(scan.hasNext()) {
 				String[] mailHashTuple = scan.nextLine().split(",");
 				assert mailHashTuple.length == 2 : "Error parsing curators.txt";
 				credentials.put(mailHashTuple[0], mailHashTuple[1]);
@@ -47,7 +47,7 @@ public class CuratorHandler {
 		}
 	}
 	
-	public static List<String> getCuratorMails(){
+	public static List<String> getCuratorMails() {
 		return new LinkedList<>(getCuratorCredentials().keySet());
 	}
 	
