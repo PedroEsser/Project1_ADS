@@ -47,7 +47,7 @@ public class CuratorHandler {
 		}
 	}
 	
-	public List<String> getCuratorMails(){
+	public static List<String> getCuratorMails(){
 		return new LinkedList<>(getCuratorCredentials().keySet());
 	}
 	
