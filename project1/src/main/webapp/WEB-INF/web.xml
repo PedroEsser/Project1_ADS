@@ -64,6 +64,10 @@
 		<servlet-name>DeleteObjectPropertiesServlet</servlet-name>
 		<servlet-class>servlets.DeleteObjectPropertiesServlet</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>CuratorDecisionServlet</servlet-name>
+		<servlet-class>servlets.CuratorDecisionServlet</servlet-class>
+	</servlet>
 	
 	<servlet-mapping>
 		<servlet-name>LeTestServlet</servlet-name>
@@ -121,6 +125,11 @@
 		<servlet-name>DeleteObjectPropertiesServlet</servlet-name>
 		<url-pattern>/delete_object_property</url-pattern>
 	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>CuratorDecisionServlet</servlet-name>
+		<url-pattern>/curator_decision</url-pattern>
+	</servlet-mapping>
+	
 	
 	<welcome-file-list>
 		<welcome-file>taxonomy.jsp</welcome-file>

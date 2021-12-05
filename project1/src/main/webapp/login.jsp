@@ -20,11 +20,11 @@
 		<h1 style="margin-bottom: 30px">Welcome</h1>
 		<form action="login" method="post">
 			<div style="margin-bottom: 15px">
-				<label for="uname" style="margin-right: 7px">Username:</label>
-		      	<input type="text" placeholder="Enter Username" name="username" required>
+				<label for="email" style="margin-right: 32px">Email:</label>
+		      	<input type="text" placeholder="Enter Email" name="email" required>
 			</div>
 	  		<div style="margin-bottom: 25px">
-				<label for="psw" style="margin-right: 10px">Password:</label>
+				<label for="password" style="margin-right: 10px">Password:</label>
 	      		<input type="password" placeholder="Enter Password" name="password" required>
 			</div>
 	      	<button type="submit">Access</button>

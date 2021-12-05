@@ -37,12 +37,17 @@ import org.eclipse.jgit.util.FS;
 import com.google.common.collect.Lists;
 
 public class GitHandler {
-
-	private final static CredentialsProvider CREDENTIALS = new UsernamePasswordCredentialsProvider("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", "");
+	
+	private static final GitHandler DEFAULT_HANDLER = new GitHandler("C:\\Users\\pedro\\git\\Knowledge_Base\\.git");
+	
+	private final static CredentialsProvider CREDENTIALS = new UsernamePasswordCredentialsProvider("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", "");
 	private Repository repository;
 	private Ref master;
 	private Git git;
 	
+	public static GitHandler getDefault() {
+		return DEFAULT_HANDLER;
+	}
 	
 	public GitHandler(String gitDir) {
 		try {
@@ -85,8 +90,10 @@ public class GitHandler {
 	
 	public void changeBranch(String branchName) {
 		try {
+			System.out.println("Before: " + repository.getBranch());
 			git.checkout().setCreateBranch(false).setName(branchName).call();
-		} catch (GitAPIException e) {
+			System.out.println("After: " + repository.getBranch());
+		} catch (GitAPIException | IOException e) {
 			e.printStackTrace();
 		}
 	}
@@ -108,7 +115,7 @@ public class GitHandler {
 		}
 	}
 	
-	public void mergeBrach(String branchName) {
+	public void mergeBranch(String branchName) {
 		try {
 			MergeCommand mgCmd = git.merge();
 			mgCmd.include(repository.getRef(branchName)).setCommit(true).setMessage("Merging branch " + branchName + " into master, i hope :)");

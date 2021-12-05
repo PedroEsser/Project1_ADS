@@ -35,9 +35,9 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String username = request.getParameter("username");
+		String email = request.getParameter("email");
 		String password = request.getParameter("password");
-		if(CuratorHandler.authenticateCurator(username, password)) {
+		if(CuratorHandler.authenticateCurator(email, password)) {
 			RequestDispatcher view = request.getRequestDispatcher("curator.jsp");
 			view.forward(request, response);
 		}else {

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.semanticweb.owlapi.model.EntityType;
 
 import logic.OWLHandler;
+import logic.CuratorHandler;
 import logic.EmailHandler;
 import logic.GitHandler;
 
@@ -43,7 +44,7 @@ public class CreateClassServlet extends HttpServlet {
 		String parentClass = (String)request.getParameter("super-class-input");
 		String className = (String)request.getParameter("class-input");
 		String email = (String)request.getParameter("email-input");
-		GitHandler git = new GitHandler("C:\\Users\\Utilizador\\Documents\\GitHub\\Knowledge_Base\\.git");
+		GitHandler git = GitHandler.getDefault();
 		String branchName = git.getNextBranchName(email);
 		git.changeBranch("master");
 		git.createAndChangeBranch(branchName);
@@ -54,10 +55,10 @@ public class CreateClassServlet extends HttpServlet {
 		git.commitAndPush(email + " has created a new class!", branchName);
 		git.changeBranch("master");
 		//TODO send email to curator
-//		String curatorEmail = ""; 
-//		sendGmail(curatorEmail, "New proposal received", "Dear Curator \n\nA proposal for a new class by the name of '" + className + "' has been submited.");
-//		sendGmail(email, "Proposal Received", "Dear user \n\nYour proposal has been received, thanks for the suggestion!");
-		RequestDispatcher view = request.getRequestDispatcher("taxonomy.jsp");
-        view.forward(request, response);
+		CuratorHandler.sendMailToCurators("New proposal received", "Dear Curator \n\nA proposal for a new class by the name of '" + className + "' has been submited.");
+		EmailHandler.sendMail(email, "Proposal Received", "Dear user \n\nYour proposal has been received, thanks for the suggestion!");
+		System.out.println(email);
+//		RequestDispatcher view = request.getRequestDispatcher("taxonomy.jsp");
+//        view.forward(request, response);
 	}
 }

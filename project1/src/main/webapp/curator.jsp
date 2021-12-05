@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <%@page import="logic.JSONHandler"%>
+<%@page import="logic.CuratorHandler"%>
 <html>
 <title>Ontology Editor</title>
 <meta charset="UTF-8">
@@ -39,48 +40,72 @@
 		</div>
 		<div id="diff-container" style="display: none; float: right; width: 76%; margin-bottom: 3%;">
 			<div id="diff" style="width: 100%;"></div>
-			<form action="script.php" method="post">
+			<form action="curator_decision" method="post">
+				<input id="email" type="hidden" name="email"/>
+				<input id="password" type="hidden" name="password"/>
+				<input id="branch" type="hidden" name="branch"/>
 				<textarea id="comment" name="comment" placeholder="Leave a comment... (Optional)" style="width: 100%; height: 13vh"></textarea>
-				<input id="accept-request" type="submit" name="decision" value="Accept" onclick="taxonomy_load(this)" style="font-size: 15px; cursor: pointer;"/>
-				<input id="decline-request" type="submit" name="decision" value="Decline" onclick="taxonomy_load(this)" style="font-size: 15px; cursor: pointer;"/>
+				<input id="accept-request" type="submit" name="decision" value="Accept" style="font-size: 15px; cursor: pointer;"/>
+				<input id="decline-request" type="submit" name="decision" value="Decline" style="font-size: 15px; cursor: pointer;"/>
 			</form>
 		</div>
 	</div>
 	
 	<script>
-		var branches_data = <%= JSONHandler.convertJSONToString("src/main/webapp/resources/branches.json") %>
-		
-		var branches_table = new Tabulator("#branches-table", {
-			layout:"fitDataStretch",
-		    height:"80vh",
-		    data:branches_data,
-		    selectable:1,
-		    columns:[
-		    {title:"Branches", field:"branch", responsive:0, headerFilter:true, headerFilterPlaceholder:"Filter..."},
-		    ],
-		});
-		
-		branches_table.on("cellClick", function(e, cell){
-			if(cell.getRow().isSelected()) {
-				var targetElement = document.getElementById('diff');
-				var diffString = branches_data.find(item=>item.branch==cell.getValue())["diff"];
-				var configuration = {
-				  drawFileList: false,
-				  matching: 'lines',
-				  outputFormat: 'side-by-side',
-				  synchronisedScroll: true,
-				  highlight: true,
-				  renderNothingWhenEmpty: false,
-				};
-				var diff2htmlUi = new Diff2HtmlUI(targetElement, diffString, configuration);
-				diff2htmlUi.draw();
-				diff2htmlUi.highlightCode();
-				document.getElementById('diff-container').style.display = "block"
-			} else {
-				document.getElementById('diff-container').style.display = "none"
-			}
-		});
+		var authorized = <% 
+		String email = request.getParameter("email");
+		String password = request.getParameter("password");
+		out.println(CuratorHandler.authenticateCurator(email, password));
+		%>
+		if(authorized){
+			var branches_data = <%= JSONHandler.convertJSONToString("src/main/webapp/resources/branches.json") %>
+			var last_selected_branch = ""
 			
+			var branches_table = new Tabulator("#branches-table", {
+				layout:"fitDataStretch",
+			    height:"80vh",
+			    data:branches_data,
+			    selectable:1,
+			    columns:[
+			    {title:"Branches", field:"branch", responsive:0, headerFilter:true, headerFilterPlaceholder:"Filter..."},
+			    ],
+			});
+			
+			branches_table.on("cellClick", function(e, cell){
+				if(cell.getRow().isSelected()) {
+					last_selected_branch = cell.getValue()
+					var targetElement = document.getElementById('diff');
+					var diffString = branches_data.find(item=>item.branch==cell.getValue())["diff"];
+					var configuration = {
+					  drawFileList: false,
+					  matching: 'lines',
+					  outputFormat: 'side-by-side',
+					  synchronisedScroll: true,
+					  highlight: true,
+					  renderNothingWhenEmpty: false,
+					};
+					var diff2htmlUi = new Diff2HtmlUI(targetElement, diffString, configuration);
+					diff2htmlUi.draw();
+					diff2htmlUi.highlightCode();
+					document.getElementById('diff-container').style.display = "block"
+				} else {
+					document.getElementById('diff-container').style.display = "none"
+				}
+			});
+			$(document).on("submit", "form", function (e) {
+				document.getElementById("branch").value = branches_table.getSelectedRows()[0].getCells()[0].getValue();
+				document.getElementById("email").value = "<%= email %>";
+				document.getElementById("password").value = "<%= password %>";
+				var form = $(this);
+			    $.ajax({
+					type: "POST",
+			      	url: form.attr('name'),
+			      	data: form.serialize()
+			    });
+			});
+		} else {
+			alert("Acess Denied!")
+		}
 	</script>
 </body>
 

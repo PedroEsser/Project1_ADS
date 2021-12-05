@@ -55,20 +55,6 @@ public class OWLHandler {
 	private OWLDataFactory factory;
 	private String defaultprefix;
 	private String datatypePrefix;
-
-//	public OWLHandler(String file) {
-//		owlFile = new File(file);
-//		manager = OWLManager.createOWLOntologyManager();
-//		try {
-//			ontology =  manager.loadOntologyFromOntologyDocument(owlFile);
-//			factory = ontology.getOWLOntologyManager().getOWLDataFactory();
-//			defaultprefix = manager.getOntologyFormat(ontology).asPrefixOWLOntologyFormat().getDefaultPrefix();
-//			datatypePrefix = manager.getOntologyFormat(ontology).asPrefixOWLOntologyFormat().getPrefix("xsd:");
-//		} catch (OWLOntologyCreationException e) {
-//	    	System.err.println("Error creating OWL ontology: " + e.getMessage());
-//	    	System.exit(-1);
-//		}
-//	}
 	
 	public OWLHandler(InputStream in, LockFile owlFile) {
 		this.owlFile = owlFile;
@@ -505,14 +491,6 @@ public class OWLHandler {
 	
 	//---------------------------------------AUXILIARY FUNCTIONS---------------------------------------
 	
-//	private void saveOntology() {
-//		try {
-//			manager.saveOntology(ontology, new FunctionalSyntaxDocumentFormat(), new FileOutputStream(owlFile));
-//		} catch (OWLOntologyStorageException | FileNotFoundException e) {
-//			e.printStackTrace();
-//		}
-//	}
-	
 	private void saveOntology() {
 		try {
 			if(owlFile.lock()) {
@@ -528,48 +506,5 @@ public class OWLHandler {
 			owlFile.unlock();
 		}
 	}
-
-//	public void leOWLTest() {
-//    	
-//        try {
-//          // Loading an OWL ontology using the OWLAPI
-//          OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
-//          OWLOntology ontology =  ontologyManager.loadOntologyFromOntologyDocument(owlFile);
-//        	  
-//          // Create SQWRL query engine using the SWRLAPI
-//          SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-//          // Create and execute a SQWRL query using the SWRLAPI
-//          // Os algoritmos que funcionam bem para problemas com 2,3,4,etc. objetivos são diferentes
-//          String numberOfObjectives = "2";
-//          String query = "Algorithm(?alg) ^ "   
-//        	+ "minObjectivesAlgorithmIsAbleToDealWith(?alg,?min) ^ swrlb:lessThanOrEqual(?min,"+numberOfObjectives+")"
-//        	+ "maxObjectivesAlgorithmIsAbleToDealWith(?alg,?max) ^ swrlb:greaterThanOrEqual(?max,"+numberOfObjectives+")"
-//        	+ " -> sqwrl:select(?alg) ^ sqwrl:orderBy(?alg)";
-//          
-//          SQWRLResult result = queryEngine.runSQWRLQuery("q1", query);
-//          
-//          // Process the SQWRL result
-//    	  System.out.println("Query: \n" + query + "\n");
-//    	  System.out.println("Result: ");
-//          while (result.next()) {
-//        	  System.out.println(result.getNamedIndividual("alg").getShortName());
-//          }
-//          
-//        } catch (OWLOntologyCreationException e) {
-//          System.err.println("Error creating OWL ontology: " + e.getMessage());
-//          System.exit(-1);
-//        } catch (SWRLParseException e) {
-//          System.err.println("Error parsing SWRL rule or SQWRL query: " + e.getMessage());
-//          System.exit(-1);
-//        } catch (SQWRLException e) {
-//          System.err.println("Error running SWRL rule or SQWRL query: " + e.getMessage());
-//          System.exit(-1);
-//        } catch (Exception e) {
-//        	e.printStackTrace();
-//          System.err.println("Error starting application: " + e.getMessage());
-//          System.exit(-1);
-//        }
-//        
-//    }
 	
 }

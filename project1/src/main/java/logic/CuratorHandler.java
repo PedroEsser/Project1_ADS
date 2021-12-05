@@ -51,6 +51,11 @@ public class CuratorHandler {
 		return new LinkedList<>(getCuratorCredentials().keySet());
 	}
 	
+	public static void sendMailToCurators(String title, String text) {
+		for(String curatorMail : getCuratorMails()) 
+			EmailHandler.sendMail(curatorMail, title, text);
+	}
+	
 	private static String hash(String password) {
 		return DigestUtils.sha256Hex(password);
 	}

@@ -1,0 +1,77 @@
+package servlets;
+
+import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import logic.EmailHandler;
+import logic.GitHandler;
+import logic.JSONHandler;
+import logic.OWLHandler;
+
+/**
+ * Servlet implementation class CuratorDecisionServlet
+ */
+
+public class CuratorDecisionServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public CuratorDecisionServlet() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String decision = request.getParameter("decision");
+		String comment = request.getParameter("comment");
+		String branchName = request.getParameter("branch");
+		
+		GitHandler git = GitHandler.getDefault();
+		String emailTitle = "";
+		if(decision.equals("Accept")) {
+			git.changeBranch("refs/remotes/origin/master");
+			git.mergeBranch(branchName);
+			emailTitle = "Proposal Accepted";
+			System.out.println("Boom");
+		}else if(decision.equals("Decline")) {
+			git.deleteBranch(branchName);
+			emailTitle = "Proposal Declined";
+		}
+		
+		String email = branchName.substring(0, branchName.lastIndexOf("_"));
+//		EmailHandler.sendMail(email, emailTitle, comment);
+		
+		updateJSONs();
+		RequestDispatcher view = request.getRequestDispatcher("curator.jsp");
+		view.forward(request, response);
+	}
+	
+	public static void updateJSONs() {
+		GitHandler git = GitHandler.getDefault();
+		OWLHandler owl = git.getOWLHandler();
+		JSONHandler.createTaxonomyJSON(owl.getTaxonomy());
+    	JSONHandler.createIndividualsJSON(owl.getIndividualsClasses(), owl.getIndividualsDataProperties(), owl.getIndividualsObjectProperties());
+    	JSONHandler.createDataPropertiesJSON(owl.getDataProperties());
+    	JSONHandler.createObjectPropertiesJSON(owl.getObjectPropertiesCharacteristics());
+    	JSONHandler.createBranchesJSON(git.getAllBranchesCommitDiff());
+	}
+
+}

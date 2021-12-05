@@ -8,7 +8,7 @@ import java.util.Properties;
 
 public class EmailHandler {
 
-	public static void sendGmail(String destination, String title, String text) {
+	public static void sendMail(String destination, String title, String text) {
 		final String username = "adsdummyuser22@gmail.com";
 		final String password = "qgYAv^)AqPrMXw4B";
 		Properties prop = new Properties();
