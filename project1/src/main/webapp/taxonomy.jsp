@@ -19,7 +19,7 @@
 	  </div>
 	</div>
 	
-	<div style="padding:100px 50px 0px 50px;">
+	<div style="height: 640px; padding:100px 50px 0px 50px;">
 		<div style="float: left; width: 48%;">
 			<div id="taxonomy-table"></div>
 			<div class="w3-bar w3-large" style="padding-top: 5px;">
@@ -191,7 +191,7 @@
 		</div>
 	</div>
 	
-	<div class="w3-bottom w3-center" style="padding:0px 0px 50px 0px;">
+	<div class="w3-center" style="padding:0px 0px 50px 0px;">
 		<a style="margin-right: 10px;">&laquo;</a>
 	  	<a style="margin-right: 10px;">Classes & Individuals</a>
 	  	<a style="margin-right: 10px;" href="properties.jsp">Properties</a>

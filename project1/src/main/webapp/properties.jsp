@@ -19,7 +19,7 @@
 	  </div>
 	</div>
 	
-	<div style="padding:100px 50px 0px 50px;">
+	<div style="height: 640px; padding:100px 50px 0px 50px;">
 		<div style="float: left; width: 48%;">
 			<div id="data-properties-table"></div>
 			<div class="w3-bar w3-large" style="padding-top: 5px;">
@@ -108,7 +108,10 @@
 					<label for="object-property-input" style="margin-right: 12px">Object Property Name:</label>
 		      		<input type="text" placeholder="Enter Object Property Name" name="object-property-input" required>
 				</div>
-				<div style="margin-left: 38px; margin-right: 10px; margin-bottom: 5px; display: grid; grid-template-columns: auto auto auto; grid-template-rows: 30px 30px 30px; justify-items: start;">
+				<div style="text-align: left; margin-bottom: 15px; margin-left: 39px">
+					<label>Characteristics:</label>
+				</div>
+				<div style="margin-left: 40px; margin-right: 10px; margin-bottom: 7px; display: grid; grid-template-columns: auto auto auto; grid-template-rows: 30px 30px 30px; justify-items: start;">
 	  				<div><input type="checkbox" name="functional" style="margin-right: 5px"><label for="functional">Functional</label></div>
 					<div><input type="checkbox" name="inverse-functional" style="margin-right: 5px"><label for="inverse-functional">Inverse Functional</label></div>
   					<div><input type="checkbox" name="transitive" style="margin-right: 5px"><label for="transitive">Transitive</label></div>
@@ -139,7 +142,10 @@
 					<label for="new-object-property-input" style="margin-right: 4px">New Object Property Name:</label>
 		      		<input type="text" placeholder="Enter Class Name" name="new-object-property-input" required>
 				</div>
-				<div style="margin-left: 38px; margin-right: 10px; margin-bottom: 5px; display: grid; grid-template-columns: auto auto auto; grid-template-rows: 30px 30px 30px; justify-items: start;">
+				<div style="text-align: left; margin-bottom: 15px; margin-left: 39px">
+					<label>Characteristics:</label>
+				</div>
+				<div style="margin-left: 40px; margin-right: 10px; margin-bottom: 7px; display: grid; grid-template-columns: auto auto auto; grid-template-rows: 30px 30px 30px; justify-items: start;">
 	  				<div><input id="Functional" type="checkbox" name="functional" style="margin-right: 5px"><label for="functional">Functional</label></div>
 					<div><input id="InverseFunctional" type="checkbox" name="inverse-functional" style="margin-right: 5px"><label for="inverse-functional">Inverse Functional</label></div>
   					<div><input id="Transitive" type="checkbox" name="transitive" style="margin-right: 5px"><label for="transitive">Transitive</label></div>
@@ -175,7 +181,7 @@
 		</div>
 	</div>
 	
-	<div class="w3-bottom w3-center" style="padding:0px 0px 50px 0px;">
+	<div class="w3-center" style="padding:0px 0px 50px 0px;">
 		<a style="margin-right: 10px;" href="taxonomy.jsp">&laquo;</a>
 	  	<a style="margin-right: 10px;" href="taxonomy.jsp">Classes & Individuals</a>
 	  	<a style="margin-right: 10px;">Properties</a>
