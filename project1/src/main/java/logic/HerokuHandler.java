@@ -1,9 +1,6 @@
 package logic;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Scanner;
 
 import org.apache.http.client.ClientProtocolException;
 import org.json.JSONObject;

@@ -26,7 +26,7 @@
 				<input id="create-class" type="button" value="Create" onclick="taxonomy_load(this)" style="font-size: 15px; cursor: pointer;"/>
 				<input id="edit-class" type="button" value="Edit" onclick="taxonomy_load(this)" style="font-size: 15px; cursor: pointer;"/>
 				<input id="delete-class" type="button" value="Delete" onclick="taxonomy_load(this)" style="font-size: 15px; cursor: pointer;"/>
-				<div id="class-warning" style="float: right; font-size: 15px; color:red;"></div>
+				<div id="class-warning" style="font-size: 13px; color:red;"></div>
 			</div>
 		</div>
 		
@@ -37,7 +37,7 @@
 				<input id="edit-individual" type="button" value="Edit" onclick="individuals_load(this)" style="font-size: 15px; cursor: pointer;"/>
 				<input id="delete-individual" type="button" value="Delete" onclick="individuals_load(this)" style="font-size: 15px; cursor: pointer;"/>
 				<input id="individual-details" type="button" value="See Details" onclick="individuals_load(this)" style="font-size: 15px; cursor: pointer;"/>
-				<div id="individual-warning" style="float: right; font-size: 15px; color:red;"></div>
+				<div id="individual-warning" style="font-size: 13px; color:red;"></div>
 			</div>
 		</div>
 	</div>

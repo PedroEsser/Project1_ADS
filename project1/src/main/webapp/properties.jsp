@@ -108,6 +108,22 @@
 					<label for="object-property-input" style="margin-right: 12px">Object Property Name:</label>
 		      		<input type="text" placeholder="Enter Object Property Name" name="object-property-input" required>
 				</div>
+				<div style="margin-bottom: 15px">
+					<input type="checkbox" name="functional">
+  					<label for="functional">Functional</label>
+  					<input type="checkbox" name="inverse-functional">
+  					<label for="inverse-functional">Inverse Functional</label>
+  					<input type="checkbox" name="transitive">
+  					<label for="transitive">Transitive</label>
+  					<input type="checkbox" name="symmetric">
+  					<label for="symmetric">Symmetric</label>
+  					<input type="checkbox" name="asymmetric">
+  					<label for="asymmetric">Asymmetric</label>
+  					<input type="checkbox" name="reflexive">
+  					<label for="reflexive">Reflexive</label>
+  					<input type="checkbox" name="irreflexive">
+  					<label for="irreflexive">Irreflexive</label>
+				</div>
 				<div style="margin-bottom: 25px">
 					<label for="email-input" style="margin-right: 80px">User Email:</label>
 			      	<input type="email" placeholder="Enter Email" name="email-input" required>
