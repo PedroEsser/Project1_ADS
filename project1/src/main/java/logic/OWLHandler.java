@@ -31,12 +31,14 @@ import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLObjectPropertyAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLOntologyStorageException;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
+import org.semanticweb.owlapi.model.parameters.Imports;
 import org.semanticweb.owlapi.util.OWLEntityRenamer;
 
 import uk.ac.manchester.cs.owl.owlapi.OWLLiteralImplBoolean;
@@ -135,6 +137,14 @@ public class OWLHandler {
 		for(OWLNamedIndividual individual: getIndividuals())
 			individualsProperties.put(individual, ontology.getObjectPropertyAssertionAxioms(individual));
 		return individualsProperties;
+	}
+	
+	//gets all the ObjectProperty and their ObjectPropertyAxioms
+	public HashMap<OWLObjectProperty, Set<OWLObjectPropertyAxiom>> getObjectPropertyAxioms() {
+		HashMap<OWLObjectProperty, Set<OWLObjectPropertyAxiom>> ObjectProperties = new HashMap<>();
+		for(OWLObjectProperty obj : getObjectProperties())
+			ObjectProperties.put(obj, ontology.getAxioms(obj, Imports.EXCLUDED));
+		return ObjectProperties;
 	}
 	
 	//gets the class taxonomy
@@ -244,7 +254,7 @@ public class OWLHandler {
 		}
 	}
 	
-	public void declareObjectPropertyAssertion(String objectProperty, String characteristic) {
+	public void declareObjectPropertyAxiom(String objectProperty, String characteristic) {
 		OWLObjectProperty obj = factory.getOWLObjectProperty(IRI.create(defaultprefix, objectProperty));
 		OWLAxiom axiom;
 		if(getObjectProperties().contains(obj)) {
@@ -366,7 +376,16 @@ public class OWLHandler {
 		saveOntology();
 	}
 	
-	public void deleteObjectPropertyAssertion(String objectProperty, String characteristic) {
+	public void deleteObjectPropertyAxiom(String objectProperty) {
+		OWLObjectProperty obj = factory.getOWLObjectProperty(IRI.create(defaultprefix, objectProperty));
+		HashMap<OWLObjectProperty, Set<OWLObjectPropertyAxiom>> aux = getObjectPropertyAxioms();
+		if(aux.containsKey(obj)) {
+			manager.removeAxioms(ontology, aux.get(obj));
+			saveOntology();
+		}
+	}
+	
+	public void deleteObjectPropertyAxiom(String objectProperty, String characteristic) {
 		OWLObjectProperty obj = factory.getOWLObjectProperty(IRI.create(defaultprefix, objectProperty));
 		OWLAxiom axiom;
 		switch (characteristic) {
