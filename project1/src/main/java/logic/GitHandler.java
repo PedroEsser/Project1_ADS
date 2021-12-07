@@ -22,7 +22,6 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
@@ -42,7 +41,6 @@ public class GitHandler {
 	
 	private final static CredentialsProvider CREDENTIALS = new UsernamePasswordCredentialsProvider("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", "");
 	private Repository repository;
-	private Ref master;
 	private Git git;
 	
 	public static GitHandler getDefault() {
@@ -52,7 +50,6 @@ public class GitHandler {
 	private GitHandler(String gitDir) {
 		try {
 			repository = new FileRepositoryBuilder().setGitDir(new File(gitDir)).build();
-			master = repository.getRef("master");
 			git = new Git(repository);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -76,19 +73,15 @@ public class GitHandler {
 		return null;
 	}
 
-	public RefUpdate createBranch(String branchName) { // if user already has branch, set name of branch to branch_n
+	public void createBranch(String branchName) { // if user already has branch, set name of branch to branch_n
 		try {
-			RefUpdate branch = repository.updateRef("refs/heads/" + branchName);
-			branch.setNewObjectId(master.getObjectId());
-			branch.update();
-			return branch;
-		} catch (IOException e) {
+			git.branchCreate().setName(branchName).call();
+		} catch (GitAPIException e) {
 			e.printStackTrace();
 		}
-		return null;
 	}
 	
-	public void changeBranch(String branchName) {
+	public void checkoutBranch(String branchName) {
 		try {
 			git.checkout().setCreateBranch(false).setName(branchName).call();
 		} catch (GitAPIException e) {
@@ -96,9 +89,9 @@ public class GitHandler {
 		}
 	}
 	
-	public void createAndChangeBranch(String branchName) {
+	public void createAndCheckoutBranch(String branchName) {
 		createBranch(branchName);
-		changeBranch(branchName);
+		checkoutBranch(branchName);
 	}
 	
 	public void publishBranch(String branchName){
@@ -182,7 +175,7 @@ public class GitHandler {
 
 	public void deleteAllBranches() {
 		List<String> allBranches = getAllBranchesNames();
-		changeBranch("master");
+		checkoutBranch("master");
 		for(String branch: allBranches)
 			deleteBranch(branch);
 	}

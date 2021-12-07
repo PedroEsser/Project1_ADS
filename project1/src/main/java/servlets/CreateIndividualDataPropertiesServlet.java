@@ -42,11 +42,11 @@ public class CreateIndividualDataPropertiesServlet extends HttpServlet {
 		String email = (String)request.getParameter("email-input");
 		GitHandler git = GitHandler.getDefault();
 		String branchName = git.getNextBranchName(email);
-		git.changeBranch("master");
-		git.createAndChangeBranch(branchName);
+		git.checkoutBranch("master");
+		git.createAndCheckoutBranch(branchName);
 		OWLHandler owl = git.getOWLHandler();
-		if(value.equals("true") || value.equals("false"))
-			owl.declareDataPropertyAssertion(individualName, dpName, value.equals("true"));
+		if(value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false"))
+			owl.declareDataPropertyAssertion(individualName, dpName, value.equalsIgnoreCase("true"));
 		else if(isInteger(value))
 			owl.declareDataPropertyAssertion(individualName, dpName, Integer.parseInt(value));
 		else if(isDouble(value))
@@ -54,7 +54,7 @@ public class CreateIndividualDataPropertiesServlet extends HttpServlet {
 		else
 			owl.declareDataPropertyAssertion(individualName, dpName, value);
 		git.commitAndPush(email + " has created a new object property!", branchName);
-		git.changeBranch("master");
+		git.checkoutBranch("master");
 	}
 
 	private static boolean isInteger(String s) {

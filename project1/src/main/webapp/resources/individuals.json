@@ -48,6 +48,12 @@
   ]]
  },
  {
+  "individual": "zappa",
+  "class": "Z",
+  "data properties": [],
+  "object properties": []
+ },
+ {
   "individual": "smsemoa",
   "class": "Algorithm",
   "data properties": [

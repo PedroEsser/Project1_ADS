@@ -45,7 +45,7 @@ public class CuratorDecisionServlet extends HttpServlet {
 		GitHandler git = GitHandler.getDefault();
 		String emailTitle = null;
 		if("Accept".equals(decision)) {
-			git.changeBranch("master");
+			git.checkoutBranch("master");
 			git.mergeBranch(branchName);
 			git.deleteBranch(branchName);
 			git.publishBranch("master");
@@ -57,7 +57,6 @@ public class CuratorDecisionServlet extends HttpServlet {
 		
 //		EmailHandler.sendMail(email, emailTitle, comment);
 		
-		JSONHandler.updateJSONs();
 		RequestDispatcher view = request.getRequestDispatcher("curator.jsp");
 		view.forward(request, response);
 	}

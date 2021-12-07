@@ -41,8 +41,8 @@ public class EditClassServlet extends HttpServlet {
 		String email = (String)request.getParameter("email-input");
 		GitHandler git = GitHandler.getDefault();
 		String branchName = git.getNextBranchName(email);
-		git.changeBranch("master");
-		git.createAndChangeBranch(branchName);
+		git.checkoutBranch("master");
+		git.createAndCheckoutBranch(branchName);
 		OWLHandler owl = git.getOWLHandler();
 		owl.changeClass(oldClass, newClass);
 		git.commitAndPush(email + " has change the class name!", branchName);

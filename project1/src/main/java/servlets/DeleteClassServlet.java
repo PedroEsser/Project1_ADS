@@ -40,12 +40,12 @@ public class DeleteClassServlet extends HttpServlet {
 		String email = (String)request.getParameter("email-input");
 		GitHandler git = GitHandler.getDefault();
 		String branchName = git.getNextBranchName(email);
-		git.changeBranch("master");
-		git.createAndChangeBranch(branchName);
+		git.checkoutBranch("master");
+		git.createAndCheckoutBranch(branchName);
 		OWLHandler owl = git.getOWLHandler();
 		owl.deleteClass(className, "", true);
 		git.commitAndPush(email + " deleted a class!", branchName);
-		git.changeBranch("master");
+		git.checkoutBranch("master");
 		//TODO send email to curator
 	}
 

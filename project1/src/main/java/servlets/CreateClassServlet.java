@@ -45,14 +45,14 @@ public class CreateClassServlet extends HttpServlet {
 		String email = (String)request.getParameter("email-input");
 		GitHandler git = GitHandler.getDefault();
 		String branchName = git.getNextBranchName(email);
-		git.changeBranch("master");
-		git.createAndChangeBranch(branchName);
+		git.checkoutBranch("master");
+		git.createAndCheckoutBranch(branchName);
 		OWLHandler owl = git.getOWLHandler();
 		owl.declareOWLEntity(EntityType.CLASS, className);
 		if(!parentClass.isEmpty())
 			owl.declareSubClassOf(parentClass, className);
 		git.commitAndPush(email + " has created a new class!", branchName);
-		git.changeBranch("master");
+		git.checkoutBranch("master");
 		//TODO send email to curator
 		CuratorHandler.sendMailToCurators("New proposal received", "Dear Curator \n\nA proposal for a new class by the name of '" + className + "' has been submited.");
 		EmailHandler.sendMail(email, "Proposal Received", "Dear user \n\nYour proposal has been received, thanks for the suggestion!");

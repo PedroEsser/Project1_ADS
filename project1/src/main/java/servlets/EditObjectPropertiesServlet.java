@@ -40,8 +40,8 @@ public class EditObjectPropertiesServlet extends HttpServlet {
 		String email = (String)request.getParameter("email-input");
 		GitHandler git = GitHandler.getDefault();
 		String branchName = git.getNextBranchName(email);
-		git.changeBranch("master");
-		git.createAndChangeBranch(branchName);
+		git.checkoutBranch("master");
+		git.createAndCheckoutBranch(branchName);
 		OWLHandler owl = git.getOWLHandler();
 		if(!newOPName.equals(""))
 			owl.changeObjectProperty(opName, newOPName);
@@ -63,7 +63,7 @@ public class EditObjectPropertiesServlet extends HttpServlet {
 		if(request.getParameter("irreflexive") != null)
 			owl.declareObjectPropertyAxiom(newOPName, "irreflexive");
 		git.commitAndPush(email + " has edited an object property!", branchName);
-		git.changeBranch("master");
+		git.checkoutBranch("master");
 		//TODO send email to curator
 	}
 

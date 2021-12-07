@@ -42,13 +42,13 @@ public class DeleteIndividualObjectPropertiesServlet extends HttpServlet {
 		String email = (String)request.getParameter("email-input");
 		GitHandler git = GitHandler.getDefault();
 		String branchName = git.getNextBranchName(email);
-		git.changeBranch("master");
-		git.createAndChangeBranch(branchName);
+		git.checkoutBranch("master");
+		git.createAndCheckoutBranch(branchName);
 		OWLHandler owl = git.getOWLHandler();
 		System.out.println(opName + " " + firstIndividualName + " " + secondIndividualName);
 		owl.deleteObjectPropertyOfIndividuals(opName, firstIndividualName, secondIndividualName);
 		git.commitAndPush(email + " has deleted an object property!", branchName);
-		git.changeBranch("master");
+		git.checkoutBranch("master");
 		//TODO email
 	}
 

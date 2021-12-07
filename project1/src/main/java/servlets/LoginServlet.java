@@ -39,7 +39,6 @@ public class LoginServlet extends HttpServlet {
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 		if(CuratorHandler.authenticateCurator(email, password)) {
-			JSONHandler.updateJSONs();
 			RequestDispatcher view = request.getRequestDispatcher("curator.jsp");
 			view.forward(request, response);
 		} else {

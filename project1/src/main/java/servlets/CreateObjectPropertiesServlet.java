@@ -43,8 +43,8 @@ public class CreateObjectPropertiesServlet extends HttpServlet {
 		String functional = (String)request.getParameter("functional");
 		GitHandler git = GitHandler.getDefault();
 		String branchName = git.getNextBranchName(email);
-		git.changeBranch("master");
-		git.createAndChangeBranch(branchName);
+		git.checkoutBranch("master");
+		git.createAndCheckoutBranch(branchName);
 		OWLHandler owl = git.getOWLHandler();
 		owl.declareOWLEntity(EntityType.OBJECT_PROPERTY, opName);
 		if(request.getParameter("functional") != null)
@@ -62,7 +62,7 @@ public class CreateObjectPropertiesServlet extends HttpServlet {
 		if(request.getParameter("irreflexive") != null)
 			owl.declareObjectPropertyAxiom(opName, "irreflexive");
 		git.commitAndPush(email + " has created a new object property!", branchName);
-		git.changeBranch("master");
+		git.checkoutBranch("master");
 		//TODO send email to curator
 	}
 

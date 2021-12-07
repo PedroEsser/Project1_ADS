@@ -43,12 +43,12 @@ public class DeleteIndividualDataPropertiesServlet extends HttpServlet {
 		String email = (String)request.getParameter("email-input");
 		GitHandler git = GitHandler.getDefault();
 		String branchName = git.getNextBranchName(email);
-		git.changeBranch("master");
-		git.createAndChangeBranch(branchName);
+		git.checkoutBranch("master");
+		git.createAndCheckoutBranch(branchName);
 		OWLHandler owl = git.getOWLHandler();
 		owl.deleteDataPropertyOfIndividual(individualName, dpName);
 		git.commitAndPush(email + " has deleted a data property!", branchName);
-		git.changeBranch("master");
+		git.checkoutBranch("master");
 		//TODO email
 	}
 
