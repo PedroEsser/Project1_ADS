@@ -68,6 +68,22 @@
 		<servlet-name>CuratorDecisionServlet</servlet-name>
 		<servlet-class>servlets.CuratorDecisionServlet</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>DeleteIndividualDataPropertiesServlet</servlet-name>
+		<servlet-class>servlets.DeleteIndividualDataPropertiesServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>DeleteIndividualObjectPropertiesServlet</servlet-name>
+		<servlet-class>servlets.DeleteIndividualObjectPropertiesServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>CreateIndividualObjectPropertiesServlet</servlet-name>
+		<servlet-class>servlets.CreateIndividualObjectPropertiesServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>CreateIndividualDataPropertiesServlet</servlet-name>
+		<servlet-class>servlets.CreateIndividualDataPropertiesServlet</servlet-class>
+	</servlet>
 	
 	<servlet-mapping>
 		<servlet-name>LeTestServlet</servlet-name>
@@ -129,7 +145,22 @@
 		<servlet-name>CuratorDecisionServlet</servlet-name>
 		<url-pattern>/curator_decision</url-pattern>
 	</servlet-mapping>
-	
+	<servlet-mapping>
+		<servlet-name>DeleteIndividualDataPropertiesServlet</servlet-name>
+		<url-pattern>/delete_individual_data_property</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>DeleteIndividualObjectPropertiesServlet</servlet-name>
+		<url-pattern>/delete_individual_object_property</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>CreateIndividualDataPropertiesServlet</servlet-name>
+		<url-pattern>/create_individual_data_property</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>CreateIndividualObjectPropertiesServlet</servlet-name>
+		<url-pattern>/create_individual_object_property</url-pattern>
+	</servlet-mapping>
 	
 	<welcome-file-list>
 		<welcome-file>taxonomy.jsp</welcome-file>

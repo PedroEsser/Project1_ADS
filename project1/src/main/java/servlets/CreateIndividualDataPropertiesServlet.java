@@ -1,27 +1,25 @@
 package servlets;
 
 import java.io.IOException;
-
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.semanticweb.owlapi.model.EntityType;
 
 import logic.GitHandler;
 import logic.OWLHandler;
 
 /**
- * Servlet implementation class CreateObjectPropertiesServlet
+ * Servlet implementation class CreateIndividualDataPropertiesServlet
  */
-public class CreateObjectPropertiesServlet extends HttpServlet {
+public class CreateIndividualDataPropertiesServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CreateObjectPropertiesServlet() {
+    public CreateIndividualDataPropertiesServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -38,32 +36,46 @@ public class CreateObjectPropertiesServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String opName = (String)request.getParameter("object-property-input");
+		String individualName = "";
+		String dpName = (String)request.getParameter("object-property-input");
+		String value = (String)request.getParameter("data-property-value");
 		String email = (String)request.getParameter("email-input");
-		String functional = (String)request.getParameter("functional");
 		GitHandler git = GitHandler.getDefault();
 		String branchName = git.getNextBranchName(email);
 		git.changeBranch("master");
 		git.createAndChangeBranch(branchName);
 		OWLHandler owl = git.getOWLHandler();
-		owl.declareOWLEntity(EntityType.OBJECT_PROPERTY, opName);
-		if(request.getParameter("functional") != null)
-			owl.declareObjectPropertyAxiom(opName, "functional");
-		if(request.getParameter("inverse-functional") != null)
-			owl.declareObjectPropertyAxiom(opName, "inverse-functional");
-		if(request.getParameter("transitive")!= null)
-			owl.declareObjectPropertyAxiom(opName, "transitive");
-		if(request.getParameter("symmetric") != null)	
-			owl.declareObjectPropertyAxiom(opName, "symmetric");
-		if(request.getParameter("asymmetric") != null)
-			owl.declareObjectPropertyAxiom(opName, "asymmetric");
-		if(request.getParameter("reflexive")!= null)
-			owl.declareObjectPropertyAxiom(opName, "reflexive");
-		if(request.getParameter("irreflexive") != null)
-			owl.declareObjectPropertyAxiom(opName, "irreflexive");
+		if(value.equals("true") || value.equals("false"))
+			owl.declareDataPropertyAssertion(individualName, dpName, value.equals("true"));
+		else if(isInteger(value))
+			owl.declareDataPropertyAssertion(individualName, dpName, Integer.parseInt(value));
+		else if(isDouble(value))
+			owl.declareDataPropertyAssertion(individualName, dpName, Double.parseDouble(value));
+		else
+			owl.declareDataPropertyAssertion(individualName, dpName, value);
 		git.commitAndPush(email + " has created a new object property!", branchName);
 		git.changeBranch("master");
-		//TODO send email to curator
 	}
 
+	private static boolean isInteger(String s) {
+	    try { 
+	        Integer.parseInt(s); 
+	    } catch(NumberFormatException e) { 
+	        return false; 
+	    } catch(NullPointerException e) {
+	        return false;
+	    }
+	    return true;
+	}
+	
+	private static boolean isDouble(String s) {
+	    try { 
+	        Double.parseDouble(s); 
+	    } catch(NumberFormatException e) { 
+	        return false; 
+	    } catch(NullPointerException e) {
+	        return false;
+	    }
+	    return true;
+	}
 }

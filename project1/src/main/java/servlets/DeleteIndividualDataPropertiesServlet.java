@@ -1,8 +1,8 @@
 package servlets;
 
 import java.io.IOException;
-
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,15 +13,15 @@ import logic.GitHandler;
 import logic.OWLHandler;
 
 /**
- * Servlet implementation class CreateObjectPropertiesServlet
+ * Servlet implementation class DeleteIndividualDataPropertiesServlet
  */
-public class CreateObjectPropertiesServlet extends HttpServlet {
+public class DeleteIndividualDataPropertiesServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CreateObjectPropertiesServlet() {
+    public DeleteIndividualDataPropertiesServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -38,32 +38,18 @@ public class CreateObjectPropertiesServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String opName = (String)request.getParameter("object-property-input");
+		String individualName = "";
+		String dpName = (String)request.getParameter("data-property-input");
 		String email = (String)request.getParameter("email-input");
-		String functional = (String)request.getParameter("functional");
 		GitHandler git = GitHandler.getDefault();
 		String branchName = git.getNextBranchName(email);
 		git.changeBranch("master");
 		git.createAndChangeBranch(branchName);
 		OWLHandler owl = git.getOWLHandler();
-		owl.declareOWLEntity(EntityType.OBJECT_PROPERTY, opName);
-		if(request.getParameter("functional") != null)
-			owl.declareObjectPropertyAxiom(opName, "functional");
-		if(request.getParameter("inverse-functional") != null)
-			owl.declareObjectPropertyAxiom(opName, "inverse-functional");
-		if(request.getParameter("transitive")!= null)
-			owl.declareObjectPropertyAxiom(opName, "transitive");
-		if(request.getParameter("symmetric") != null)	
-			owl.declareObjectPropertyAxiom(opName, "symmetric");
-		if(request.getParameter("asymmetric") != null)
-			owl.declareObjectPropertyAxiom(opName, "asymmetric");
-		if(request.getParameter("reflexive")!= null)
-			owl.declareObjectPropertyAxiom(opName, "reflexive");
-		if(request.getParameter("irreflexive") != null)
-			owl.declareObjectPropertyAxiom(opName, "irreflexive");
+		owl.deleteDataPropertyOfIndividual(individualName, dpName);
 		git.commitAndPush(email + " has created a new object property!", branchName);
 		git.changeBranch("master");
-		//TODO send email to curator
+		//TODO email
 	}
 
 }

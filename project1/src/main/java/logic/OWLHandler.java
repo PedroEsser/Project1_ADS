@@ -251,25 +251,25 @@ public class OWLHandler {
 		OWLAxiom axiom;
 		if(getObjectProperties().contains(obj)) {
 			switch (characteristic) {
-				case "Functional":
+				case "functional":
 					axiom = factory.getOWLFunctionalObjectPropertyAxiom(obj);
 					break;
-				case "InverseFunctional":
+				case "inverse-functional":
 					axiom = factory.getOWLInverseFunctionalObjectPropertyAxiom(obj);
 					break;
-				case "Transitive":
+				case "transitive":
 					axiom = factory.getOWLTransitiveObjectPropertyAxiom(obj);
 					break;
-				case "Symmetric":
+				case "symmetric":
 					axiom = factory.getOWLSymmetricObjectPropertyAxiom(obj);
 					break;
-				case "Assymmetric":
+				case "asymmetric":
 					axiom = factory.getOWLAsymmetricObjectPropertyAxiom(obj);
 					break;
-				case "Reflexive":
+				case "reflexive":
 					axiom = factory.getOWLReflexiveObjectPropertyAxiom(obj);
 					break;
-				case "Irreflexive":
+				case "irreflexive":
 					axiom = factory.getOWLIrreflexiveObjectPropertyAxiom(obj);
 					break;
 				default:
@@ -284,6 +284,7 @@ public class OWLHandler {
 	
 	public void deleteObjectProperty(String name) {
 		OWLObjectProperty objectProperty = factory.getOWLObjectProperty(IRI.create(defaultprefix, name));
+		deleteObjectPropertyAxioms(name);
 		for(OWLNamedIndividual individual: getIndividuals()) 
 			for(OWLObjectPropertyAssertionAxiom op: ontology.getObjectPropertyAssertionAxioms(individual))
 				if(op.getProperty().equals(objectProperty))

@@ -174,7 +174,7 @@
 			<div id="individual-class" style="margin-left: 40px"></div>
 			<p style="margin-left: 40px"><i><u>Object Properties</u></i></p>
 			<div id="object-properties-list"></div>
-			<form name="script.php" method="post" style="margin-left: 40px; margin-top: 15px">
+			<form name="create_individual_object_property" method="post" style="margin-left: 40px; margin-top: 15px">
 		      	<select id="object-property" name="object-property-input" style="width: 225px; height: 28px" required></select>
 		      	<select id="linked-individual" name="object-property-value" style="width: 225px; height: 28px" required></select>
 			    <input type="email" placeholder="Enter Email" name="email-input" style="width: 225px;" required>
@@ -182,7 +182,7 @@
 	      	</form>
 			<p style="margin-left: 40px"><i><u>Data Properties</u></i></p>
 			<div id="data-properties-list"></div>
-			<form name="script.php" method="post" style="margin-left: 40px; margin-top: 15px">
+			<form name="create_individual_data_property" method="post" style="margin-left: 40px; margin-top: 15px">
 		      	<select id="data-property" name="data-property-input" style="width: 225px; height: 28px" required></select>
 		      	<input type="text" placeholder="Enter Data Property Value" name="data-property-value" style="width: 225px;" required>
 			    <input type="email" placeholder="Enter Email" name="email-input" style="width: 225px;" required>
@@ -295,8 +295,8 @@
 					clear_element_children(document.getElementById('data-property'))
 					clear_element_children(document.getElementById('object-property'))
 					clear_element_children(document.getElementById('linked-individual'))
-					append_forms_to_div(document.getElementById("object-properties-list"), selectedcell.getData()["object properties"], "object-property", "script.php");
-					append_forms_to_div(document.getElementById("data-properties-list"), selectedcell.getData()["data properties"], "data-property", "script.php");
+					append_forms_to_div(document.getElementById("object-properties-list"), selectedcell.getData()["object properties"], "object-property", "delete_individual_object_property");
+					append_forms_to_div(document.getElementById("data-properties-list"), selectedcell.getData()["data properties"], "data-property", "delete_individual_data_property");
 					set_property_options_lists();
 					set_linked_individual_options_list(selectedcell.getCells()[0].getValue());
 					document.getElementById("individual-details-modal").style.display = "block";

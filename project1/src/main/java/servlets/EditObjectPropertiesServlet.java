@@ -43,7 +43,25 @@ public class EditObjectPropertiesServlet extends HttpServlet {
 		git.changeBranch("master");
 		git.createAndChangeBranch(branchName);
 		OWLHandler owl = git.getOWLHandler();
-		owl.changeObjectProperty(opName, newOPName);
+		if(!newOPName.equals(""))
+			owl.changeObjectProperty(opName, newOPName);
+		else
+			newOPName = opName;
+		owl.deleteObjectPropertyAxioms(newOPName);
+		if(request.getParameter("functional") != null)
+			owl.declareObjectPropertyAxiom(newOPName, "functional");
+		if(request.getParameter("inverse-functional") != null)
+			owl.declareObjectPropertyAxiom(newOPName, "inverse-functional");
+		if(request.getParameter("transitive")!= null)
+			owl.declareObjectPropertyAxiom(newOPName, "transitive");
+		if(request.getParameter("symmetric") != null)	
+			owl.declareObjectPropertyAxiom(newOPName, "symmetric");
+		if(request.getParameter("asymmetric") != null)
+			owl.declareObjectPropertyAxiom(newOPName, "asymmetric");
+		if(request.getParameter("reflexive")!= null)
+			owl.declareObjectPropertyAxiom(newOPName, "reflexive");
+		if(request.getParameter("irreflexive") != null)
+			owl.declareObjectPropertyAxiom(newOPName, "irreflexive");
 		git.commitAndPush(email + " has edited an object property!", branchName);
 		git.changeBranch("master");
 		//TODO send email to curator

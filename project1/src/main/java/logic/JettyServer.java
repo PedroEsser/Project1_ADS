@@ -15,7 +15,7 @@ public class JettyServer {
 		    classlist.addBefore("org.eclipse.jetty.webapp.JettyWebXmlConfiguration", "org.eclipse.jetty.annotations.AnnotationConfiguration");
 			server.setHandler(webAppContext);
 			server.start();
-			HerokuHandler.startServing();
+			//HerokuHandler.startServing();
 			server.join();
 		} catch (Exception e) {
 			e.printStackTrace();
