@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <%@page import="logic.JSONHandler"%>
+<% JSONHandler.updateJSONs(); %>
 <html>
 <title>Ontology Editor</title>
 <meta charset="UTF-8">
