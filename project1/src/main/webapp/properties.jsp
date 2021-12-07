@@ -302,17 +302,16 @@
 		}
 		
 		$(document).on("submit", "form", function (e) {
+			e.preventDefault();
 			var form = $(this);
 		    $.ajax({
 				type: "POST",
 		      	url: form.attr('name'),
 		      	data: form.serialize(),
 		      	success: function () {
-		    		form.parents("div").last().hide();
+		    		location.reload();
 		      	}
 		    });
-		    e.preventDefault();
-		    location.reload();
 		});
 			
 	</script>

@@ -18,7 +18,7 @@
 
 	<div id="div" class="w3-center" style="position:absolute; top:0px; right:0px; bottom:0px; left:0px; padding:100px 50px 0px 50px;">
 		<h1 style="margin-bottom: 30px">Welcome</h1>
-		<form action="login" method="post">
+		<form action="curator" method="post">
 			<div style="margin-bottom: 15px">
 				<label for="email" style="margin-right: 32px">Email:</label>
 		      	<input type="text" placeholder="Enter Email" name="email" required>

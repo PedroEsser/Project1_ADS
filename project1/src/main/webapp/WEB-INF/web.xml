@@ -9,10 +9,6 @@
     <display-name>Ontology Editor</display-name>
 	
 	<servlet>
-		<servlet-name>LeTestServlet</servlet-name>
-		<servlet-class>servlets.LeTestServlet</servlet-class>
-	</servlet>
-	<servlet>
 		<servlet-name>LoginServlet</servlet-name>
 		<servlet-class>servlets.LoginServlet</servlet-class>
 	</servlet>
@@ -86,12 +82,8 @@
 	</servlet>
 	
 	<servlet-mapping>
-		<servlet-name>LeTestServlet</servlet-name>
-		<url-pattern>/leTest</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
 		<servlet-name>LoginServlet</servlet-name>
-		<url-pattern>/login</url-pattern>
+		<url-pattern>/curator</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>CreateClassServlet</servlet-name>

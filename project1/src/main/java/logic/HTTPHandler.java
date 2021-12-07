@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
@@ -18,8 +19,9 @@ import org.json.JSONObject;
 
 public class HTTPHandler {
 	
-	public static String get(String uri, JSONObject headers) throws Exception {
+	public static JSONObject get(String uri, JSONObject headers) throws Exception {
 		HttpGet get = new HttpGet(uri);
+		
 		if(headers != null)
 			for(String name : headers.keySet())
 				get.setHeader(name, headers.getString(name));
@@ -27,45 +29,70 @@ public class HTTPHandler {
 		HttpClient client = new DefaultHttpClient();
 		HttpResponse responseGET = client.execute(get);
 		
-	    return EntityUtils.toString(responseGET.getEntity());
+		JSONObject response = new JSONObject();
+		String responseData = EntityUtils.toString(responseGET.getEntity());
+		response.put("data", responseData);
+		JSONObject responseHeaders = headersToJSON(responseGET.getAllHeaders());
+		response.put("headers", responseHeaders);
+	
+		//System.out.println("Response of " + uri + ": " + response);
+		
+	    return response;
 	}
 	
-	public static String get(String uri) throws Exception {
+	public static JSONObject get(String uri) throws Exception {
 	    return get(uri, null);
 	}
 	
-	public static String post(String uri, List<NameValuePair> body, JSONObject headers) throws ClientProtocolException, IOException {
+	public static JSONObject post(String uri, List<NameValuePair> body, JSONObject headers) throws ClientProtocolException, IOException {
 		HttpPost post = new HttpPost(uri);
 		
-		if(headers != null)
+		if(headers != null) 
 			for(String name : headers.keySet()) 
 				post.setHeader(name, headers.getString(name));
-				
+		
 		
 		UrlEncodedFormEntity ent = new UrlEncodedFormEntity(body, "UTF-8");
 		post.setEntity(ent);
 
 		HttpClient client = new DefaultHttpClient();
 		HttpResponse responsePOST = client.execute(post);
-		String response = EntityUtils.toString(responsePOST.getEntity());
-		//System.out.println("POST to " + uri + " with response = " + response);
+		
+		JSONObject response = new JSONObject();
+		String responseData = EntityUtils.toString(responsePOST.getEntity());
+		response.put("data", responseData);
+		JSONObject responseHeaders = headersToJSON(responsePOST.getAllHeaders());
+		response.put("headers", responseHeaders);
+		
+		//System.out.println("Response of " + uri + ": " + response);
 		return response;
 	}
 	
-	public static String post(String uri, String id, String data) throws ClientProtocolException, IOException {
+	public static JSONObject post(String uri, int id, JSONObject response) throws ClientProtocolException, IOException {
 		List<NameValuePair> body = new ArrayList<NameValuePair>();
-		body.add(new BasicNameValuePair("data", data));
-		body.add(new BasicNameValuePair("id", id));
+		body.add(new BasicNameValuePair("headers", response.getJSONObject("headers").toString()));
+		body.add(new BasicNameValuePair("data", response.getString("data")));
+		body.add(new BasicNameValuePair("id", id + ""));
 		return post(uri, body, null);
 	}
 	
-	public static String post(String uri, JSONObject body, JSONObject headers) throws ClientProtocolException, IOException {
+	public static JSONObject post(String uri, JSONObject body, JSONObject headers) throws ClientProtocolException, IOException {
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		
 		for(String key : body.keySet()) 
 			params.add(new BasicNameValuePair(key, body.getString(key)));
 		
+//		if(headers != null) 
+//			headers.remove("content-length");
+		
 		return post(uri, params, headers);
+	}
+	
+	public static JSONObject headersToJSON(Header[] headers) {
+		JSONObject resultHeaders = new JSONObject();
+		for(Header h : headers)
+			resultHeaders.append(h.getName(), h.getValue());
+		return resultHeaders;
 	}
 	
 }
