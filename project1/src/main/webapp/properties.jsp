@@ -140,7 +140,7 @@
 				</div>
 				<div style="margin-bottom: 15px">
 					<label for="new-object-property-input" style="margin-right: 4px">New Object Property Name:</label>
-		      		<input type="text" placeholder="Enter Class Name" name="new-object-property-input" required>
+		      		<input type="text" placeholder="Enter Class Name (Optional)" name="new-object-property-input">
 				</div>
 				<div style="text-align: left; margin-bottom: 15px; margin-left: 39px">
 					<label>Characteristics:</label>
@@ -312,6 +312,7 @@
 		      	}
 		    });
 		    e.preventDefault();
+		    location.reload();
 		});
 			
 	</script>

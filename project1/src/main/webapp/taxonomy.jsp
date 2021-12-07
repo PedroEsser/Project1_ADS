@@ -174,7 +174,7 @@
 			<div id="individual-class" style="margin-left: 40px"></div>
 			<p style="margin-left: 40px"><i><u>Object Properties</u></i></p>
 			<div id="object-properties-list"></div>
-			<form name="create_individual_object_property" method="post" style="margin-left: 40px; margin-top: 15px">
+			<form id="details-form" name="create_individual_object_property" method="post" style="margin-left: 40px; margin-top: 15px">
 		      	<select id="object-property" name="object-property-input" style="width: 225px; height: 28px" required></select>
 		      	<select id="linked-individual" name="object-property-value" style="width: 225px; height: 28px" required></select>
 			    <input type="email" placeholder="Enter Email" name="email-input" style="width: 225px;" required>
@@ -182,7 +182,7 @@
 	      	</form>
 			<p style="margin-left: 40px"><i><u>Data Properties</u></i></p>
 			<div id="data-properties-list"></div>
-			<form name="create_individual_data_property" method="post" style="margin-left: 40px; margin-top: 15px">
+			<form id="details-form" name="create_individual_data_property" method="post" style="margin-left: 40px; margin-top: 15px">
 		      	<select id="data-property" name="data-property-input" style="width: 225px; height: 28px" required></select>
 		      	<input type="text" placeholder="Enter Data Property Value" name="data-property-value" style="width: 225px;" required>
 			    <input type="email" placeholder="Enter Email" name="email-input" style="width: 225px;" required>
@@ -316,6 +316,7 @@
 		function append_forms_to_div(div, list, name, action) {
 			for(var i = 0; i < list.length; i++) {
 				var form = document.createElement('form');
+				form.id = "details-form";
 				form.method = "post";
 				form.name = action;
 				var input1 = create_data_input(name + "-input", list[i][0]);
@@ -330,6 +331,14 @@
 				form.style.marginRight = "40px";
 				div.appendChild(form);
 			}
+		}
+		
+		function create_hidden_input(name) {
+			var input = document.createElement('input');
+			input.type = "hidden";
+			input.name = name;
+			input.value = document.getElementById(name).textContent;
+			return input;
 		}
 		
 		function create_data_input(name, value) {
@@ -442,6 +451,8 @@
 		
 		$(document).on("submit", "form", function (e) {
 			var form = $(this);
+			if(form.attr("id") == "details-form")
+				form.append(create_hidden_input("individual-name"));
 		    $.ajax({
 				type: "POST",
 		      	url: form.attr('name'),
@@ -451,6 +462,7 @@
 		      	}
 		    });
 		    e.preventDefault();
+		    location.reload();
 		});
 		
 	</script>
