@@ -8,10 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import logic.EmailHandler;
 import logic.GitHandler;
 import logic.JSONHandler;
-import logic.OWLHandler;
 
 /**
  * Servlet implementation class CuratorDecisionServlet
@@ -52,7 +50,6 @@ public class CuratorDecisionServlet extends HttpServlet {
 			git.deleteBranch(branchName);
 			git.publishBranch("master");
 			emailTitle = "Proposal Accepted";
-			System.out.println("Boom");
 		}else if("Decline".equals(decision)) {
 			git.deleteBranch(branchName);
 			emailTitle = "Proposal Declined";
@@ -60,19 +57,9 @@ public class CuratorDecisionServlet extends HttpServlet {
 		
 //		EmailHandler.sendMail(email, emailTitle, comment);
 		
-		updateJSONs();
+		JSONHandler.updateJSONs();
 		RequestDispatcher view = request.getRequestDispatcher("curator.jsp");
 		view.forward(request, response);
-	}
-	
-	public static void updateJSONs() {
-		GitHandler git = GitHandler.getDefault();
-		OWLHandler owl = git.getOWLHandler();
-		JSONHandler.createTaxonomyJSON(owl.getTaxonomy());
-    	JSONHandler.createIndividualsJSON(owl.getIndividualsClasses(), owl.getIndividualsDataProperties(), owl.getIndividualsObjectProperties());
-    	JSONHandler.createDataPropertiesJSON(owl.getDataProperties());
-    	JSONHandler.createObjectPropertiesJSON(owl.getObjectPropertiesCharacteristics());
-    	JSONHandler.createBranchesJSON(git.getAllBranchesCommitDiff());
 	}
 
 }

@@ -25,6 +25,16 @@ import java.nio.file.Paths;
 
 public class JSONHandler {
 	
+	public static void updateJSONs() {
+		GitHandler git = GitHandler.getDefault();
+		OWLHandler owl = git.getOWLHandler();
+		JSONHandler.createBranchesJSON(git.getAllBranchesCommitDiff());
+    	JSONHandler.createIndividualsJSON(owl.getIndividualsClasses(), owl.getIndividualsDataProperties(), owl.getIndividualsObjectProperties());
+    	JSONHandler.createDataPropertiesJSON(owl.getDataProperties());
+    	JSONHandler.createObjectPropertiesJSON(owl.getObjectPropertiesCharacteristics());
+    	JSONHandler.createTaxonomyJSON(owl.getTaxonomy());
+	}
+	
 	public static String convertJSONToString(String file) {
 		try {
 			return new String(Files.readAllBytes(Paths.get(file)));

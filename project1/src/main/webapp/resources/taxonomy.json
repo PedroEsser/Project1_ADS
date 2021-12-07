@@ -9,14 +9,8 @@
      "_children": [{"class": "F"}]
     }]
    },
-   {
-    "class": "C",
-    "_children": [{"class": "W"}]
-   },
-   {
-    "class": "D",
-    "_children": [{"class": "W"}]
-   }
+   {"class": "C"},
+   {"class": "D"}
   ]
  },
  {

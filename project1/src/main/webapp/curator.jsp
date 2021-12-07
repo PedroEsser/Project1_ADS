@@ -52,10 +52,9 @@
 	</div>
 	
 	<script>
-		var authorized = <% 
-			String email = request.getParameter("email");
-			String password = request.getParameter("password");
-		%>
+		var authorized = <% String email = request.getParameter("email");
+							String password = request.getParameter("password");
+							out.println(CuratorHandler.authenticateCurator(email, password)); %>
 		
 		if(authorized) {
 			var branches_data = <%= JSONHandler.convertJSONToString("src/main/webapp/resources/branches.json") %>
@@ -85,9 +84,9 @@
 					var diff2htmlUi = new Diff2HtmlUI(targetElement, diffString, configuration);
 					diff2htmlUi.draw();
 					diff2htmlUi.highlightCode();
-					document.getElementById('diff-container').style.display = "block"
+					document.getElementById('diff-container').style.display = "block";
 				} else {
-					document.getElementById('diff-container').style.display = "none"
+					document.getElementById('diff-container').style.display = "none";
 				}
 			});
 			
@@ -103,7 +102,7 @@
 			    });
 			});
 		} else {
-			alert("Acess Denied!")
+			alert("Acess Denied!");
 		}
 		
 	</script>
