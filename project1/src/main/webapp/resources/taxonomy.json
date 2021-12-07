@@ -9,7 +9,10 @@
      "_children": [{"class": "F"}]
     }]
    },
-   {"class": "C"},
+   {
+    "class": "C",
+    "_children": [{"class": "CASAS"}]
+   },
    {"class": "D"}
   ]
  },
@@ -17,7 +20,10 @@
   "class": "G",
   "_children": [
    {"class": "H"},
-   {"class": "I"}
+   {
+    "class": "I",
+    "_children": [{"class": "Indiano"}]
+   }
   ]
  }
 ]

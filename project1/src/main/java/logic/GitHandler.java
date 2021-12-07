@@ -38,9 +38,9 @@ import com.google.common.collect.Lists;
 
 public class GitHandler {
 	
-	private static final GitHandler DEFAULT_HANDLER = new GitHandler("C:\\Users\\Simão Correia\\git\\Knowledge_Base_ADS\\.git");
+	private static final GitHandler DEFAULT_HANDLER = new GitHandler("C:\\Users\\Utilizador\\Documents\\GitHub\\Knowledge_Base\\.git");
 	
-	private final static CredentialsProvider CREDENTIALS = new UsernamePasswordCredentialsProvider("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", "");
+	private final static CredentialsProvider CREDENTIALS = new UsernamePasswordCredentialsProvider("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", "");
 	private Repository repository;
 	private Ref master;
 	private Git git;
@@ -90,10 +90,8 @@ public class GitHandler {
 	
 	public void changeBranch(String branchName) {
 		try {
-			System.out.println("Before: " + repository.getBranch());
 			git.checkout().setCreateBranch(false).setName(branchName).call();
-			System.out.println("After: " + repository.getBranch());
-		} catch (GitAPIException | IOException e) {
+		} catch (GitAPIException e) {
 			e.printStackTrace();
 		}
 	}

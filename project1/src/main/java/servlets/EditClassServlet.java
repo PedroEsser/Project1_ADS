@@ -46,6 +46,7 @@ public class EditClassServlet extends HttpServlet {
 		OWLHandler owl = git.getOWLHandler();
 		owl.changeClass(oldClass, newClass);
 		git.commitAndPush(email + " has change the class name!", branchName);
+		git.changeBranch("master");
 		//TODO send email to curator
 	}
 

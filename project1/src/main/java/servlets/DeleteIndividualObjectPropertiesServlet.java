@@ -36,17 +36,18 @@ public class DeleteIndividualObjectPropertiesServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String firstIndividualName = "";
+		String firstIndividualName = (String)request.getParameter("individual-name");
 		String opName = (String)request.getParameter("object-property-input");
-		String secondIndividualName = (String)request.getParameter("data-property-value");
+		String secondIndividualName = (String)request.getParameter("object-property-value");
 		String email = (String)request.getParameter("email-input");
 		GitHandler git = GitHandler.getDefault();
 		String branchName = git.getNextBranchName(email);
 		git.changeBranch("master");
 		git.createAndChangeBranch(branchName);
 		OWLHandler owl = git.getOWLHandler();
+		System.out.println(opName + " " + firstIndividualName + " " + secondIndividualName);
 		owl.deleteObjectPropertyOfIndividuals(opName, firstIndividualName, secondIndividualName);
-		git.commitAndPush(email + " has created a new object property!", branchName);
+		git.commitAndPush(email + " has deleted an object property!", branchName);
 		git.changeBranch("master");
 		//TODO email
 	}

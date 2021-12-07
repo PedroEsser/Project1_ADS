@@ -38,7 +38,7 @@ public class DeleteIndividualDataPropertiesServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String individualName = "";
+		String individualName = (String)request.getParameter("individual-name");
 		String dpName = (String)request.getParameter("data-property-input");
 		String email = (String)request.getParameter("email-input");
 		GitHandler git = GitHandler.getDefault();
@@ -47,7 +47,7 @@ public class DeleteIndividualDataPropertiesServlet extends HttpServlet {
 		git.createAndChangeBranch(branchName);
 		OWLHandler owl = git.getOWLHandler();
 		owl.deleteDataPropertyOfIndividual(individualName, dpName);
-		git.commitAndPush(email + " has created a new object property!", branchName);
+		git.commitAndPush(email + " has deleted a data property!", branchName);
 		git.changeBranch("master");
 		//TODO email
 	}

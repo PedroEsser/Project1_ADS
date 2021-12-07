@@ -36,7 +36,7 @@ public class CreateIndividualDataPropertiesServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String individualName = "";
+		String individualName = (String)request.getParameter("individual-name");
 		String dpName = (String)request.getParameter("object-property-input");
 		String value = (String)request.getParameter("data-property-value");
 		String email = (String)request.getParameter("email-input");
