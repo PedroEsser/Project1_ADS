@@ -196,7 +196,8 @@
 		<a style="margin-right: 10px;">&laquo;</a>
 	  	<a style="margin-right: 10px;">Classes & Individuals</a>
 	  	<a style="margin-right: 10px;" href="properties.jsp">Properties</a>
-	  	<a style="margin-right: 10px;" href="properties.jsp">&raquo;</a>
+	  	<a style="margin-right: 10px;" href="query.jsp">Query Console</a>
+	  	<a style="margin-right: 10px;" href="query.jsp">&raquo;</a>
 	</div>
 	
 	<script>
@@ -463,7 +464,6 @@
 		    		location.reload();
 		      	}
 		    });
-		    
 		});
 		
 	</script>

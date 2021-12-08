@@ -186,7 +186,8 @@
 		<a style="margin-right: 10px;" href="taxonomy.jsp">&laquo;</a>
 	  	<a style="margin-right: 10px;" href="taxonomy.jsp">Classes & Individuals</a>
 	  	<a style="margin-right: 10px;">Properties</a>
-	  	<a style="margin-right: 10px;">&raquo;</a>
+	  	<a style="margin-right: 10px;" href="query.jsp">Query Console</a>
+	  	<a style="margin-right: 10px;" href="query.jsp">&raquo;</a>
 	</div>
 	
 	<script>

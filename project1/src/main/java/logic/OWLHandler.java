@@ -39,6 +39,12 @@ import org.semanticweb.owlapi.model.OWLOntologyStorageException;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.model.parameters.Imports;
 import org.semanticweb.owlapi.util.OWLEntityRenamer;
+import org.swrlapi.factory.SWRLAPIFactory;
+import org.swrlapi.parser.SWRLParseException;
+import org.swrlapi.sqwrl.SQWRLQueryEngine;
+import org.swrlapi.sqwrl.SQWRLResult;
+import org.swrlapi.sqwrl.exceptions.SQWRLException;
+import org.swrlapi.sqwrl.values.SQWRLResultValue;
 
 import uk.ac.manchester.cs.owl.owlapi.OWLLiteralImplBoolean;
 import uk.ac.manchester.cs.owl.owlapi.OWLLiteralImplDouble;
@@ -52,6 +58,7 @@ public class OWLHandler {
 	private LockFile owlFile;
 	private OWLOntologyManager manager;
 	private OWLOntology ontology;
+	private SQWRLQueryEngine queryEngine;
 	private OWLDataFactory factory;
 	private String defaultprefix;
 	private String datatypePrefix;
@@ -61,6 +68,7 @@ public class OWLHandler {
 		manager = OWLManager.createOWLOntologyManager();
 		try {
 			ontology =  manager.loadOntologyFromOntologyDocument(in);
+			queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 			factory = ontology.getOWLOntologyManager().getOWLDataFactory();
 			defaultprefix = manager.getOntologyFormat(ontology).asPrefixOWLOntologyFormat().getDefaultPrefix();
 			datatypePrefix = manager.getOntologyFormat(ontology).asPrefixOWLOntologyFormat().getPrefix("xsd:");
@@ -504,6 +512,17 @@ public class OWLHandler {
 		if(getIndividuals().contains(ind) && getDataProperties().contains(dproperty) && getIndividualsDataProperties().get(ind).contains(owlOldAxiom)) {
 			deleteDataPropertyOfIndividual(individual, dataProperty);
 			declareDataPropertyAssertion(individual, dataProperty, newValue);
+		}
+	}
+	
+	//---------------------------------------QUERY---------------------------------------
+	
+	public String runSQWRLQuery(String query) {
+		try {
+			SQWRLResult result = queryEngine.runSQWRLQuery("query", query);
+			return result.toString();
+		} catch (SQWRLException | SWRLParseException e) {
+			return e.toString();
 		}
 	}
 	
