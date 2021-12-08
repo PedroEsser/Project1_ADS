@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import logic.CuratorHandler;
+import logic.EmailHandler;
 import logic.GitHandler;
 import logic.OWLHandler;
 
@@ -46,9 +48,10 @@ public class DeleteIndividualObjectPropertiesServlet extends HttpServlet {
 		git.createAndCheckoutBranch(branchName);
 		OWLHandler owl = git.getOWLHandler();
 		owl.deleteObjectPropertyOfIndividuals(opName, firstIndividualName, secondIndividualName);
-		git.commitAndPush(email + " has deleted an object property!", branchName);
+		git.commitAndPush(email + " has deleted an individual's object property!", branchName);
 		git.checkoutBranch("master");
-		//TODO email
+		CuratorHandler.sendMailToCurators("New proposal received", "Dear Curator \n\nA proposal for the deletion of the object property '" + opName  + " linking the individuals '" + firstIndividualName + "' and '" + secondIndividualName + "' has been submited.");
+		EmailHandler.sendMail(email, "Proposal Received", "Dear user \n\nYour proposal has been received, thanks for the suggestion!");
 	}
 
 }

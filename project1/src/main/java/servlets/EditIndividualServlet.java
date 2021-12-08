@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import logic.CuratorHandler;
+import logic.EmailHandler;
 import logic.GitHandler;
 import logic.OWLHandler;
 
@@ -46,7 +48,8 @@ public class EditIndividualServlet extends HttpServlet {
 		owl.changeNamedIndividual(oldIndividualName, newIndividualName);
 		git.commitAndPush(email + " has edited an individual!", branchName);
 		git.checkoutBranch("master");
-		//TODO send email to curator
+		CuratorHandler.sendMailToCurators("New proposal received", "Dear Curator \n\nA proposal for a modification for the individual '" + oldIndividualName + "' has been submited.");
+		EmailHandler.sendMail(email, "Proposal Received", "Dear user \n\nYour proposal has been received, thanks for the suggestion!");
 	}
 
 }

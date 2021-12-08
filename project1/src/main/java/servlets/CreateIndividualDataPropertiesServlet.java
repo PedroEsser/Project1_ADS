@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import logic.CuratorHandler;
+import logic.EmailHandler;
 import logic.GitHandler;
 import logic.OWLHandler;
 
@@ -57,8 +59,10 @@ public class CreateIndividualDataPropertiesServlet extends HttpServlet {
 		else
 			owl.declareDataPropertyAssertion(individualName, dpName, value);
 		
-		git.commitAndPush(email + " has created a new data property!", branchName);
+		git.commitAndPush(email + " has created a new individual data property!", branchName);
 		git.checkoutBranch("master");
+		CuratorHandler.sendMailToCurators("New proposal received", "Dear Curator \n\nA proposal for a new individual data property by the name of '" + dpName + "' for the individual '" + individualName + "' has been submited.");
+		EmailHandler.sendMail(email, "Proposal Received", "Dear user \n\nYour proposal has been received, thanks for the suggestion!");
 	}
 
 	private static boolean isInteger(String s) {

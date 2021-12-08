@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.semanticweb.owlapi.model.EntityType;
 
+import logic.CuratorHandler;
+import logic.EmailHandler;
 import logic.GitHandler;
 import logic.OWLHandler;
 
@@ -63,7 +65,8 @@ public class CreateObjectPropertiesServlet extends HttpServlet {
 			owl.declareObjectPropertyAxiom(opName, "irreflexive");
 		git.commitAndPush(email + " has created a new object property!", branchName);
 		git.checkoutBranch("master");
-		//TODO send email to curator
+		CuratorHandler.sendMailToCurators("New proposal received", "Dear Curator \n\nA proposal for a new data property by the name of '" + opName + "' has been submited.");
+		EmailHandler.sendMail(email, "Proposal Received", "Dear user \n\nYour proposal has been received, thanks for the suggestion!");
 	}
 
 }

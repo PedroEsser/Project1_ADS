@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.semanticweb.owlapi.model.EntityType;
 
+import logic.CuratorHandler;
+import logic.EmailHandler;
 import logic.GitHandler;
 import logic.OWLHandler;
 
@@ -50,7 +52,8 @@ public class CreateIndividualServlet extends HttpServlet {
 		owl.declareClassAssertion(className, individualName);
 		git.commitAndPush(email + " has created a new Individual!", branchName);
 		git.checkoutBranch("master");
-		//TODO send email to curator
+		CuratorHandler.sendMailToCurators("New proposal received", "Dear Curator \n\nA proposal for a new individual by the name of '" + individualName + "' of the class '" + className + "' has been submited.");
+		EmailHandler.sendMail(email, "Proposal Received", "Dear user \n\nYour proposal has been received, thanks for the suggestion!");
 	}
 
 }

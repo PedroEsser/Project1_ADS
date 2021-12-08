@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import logic.CuratorHandler;
+import logic.EmailHandler;
 import logic.GitHandler;
 import logic.OWLHandler;
 
@@ -46,8 +48,10 @@ public class CreateIndividualObjectPropertiesServlet extends HttpServlet {
 		git.createAndCheckoutBranch(branchName);
 		OWLHandler owl = git.getOWLHandler();
 		owl.declareObjectPropertyAssertion(opName, firstIndividualName, secondIndividualName);
-		git.commitAndPush(email + " has created a new object property!", branchName);
+		git.commitAndPush(email + " has created a new individual object property!", branchName);
 		git.checkoutBranch("master");
+		CuratorHandler.sendMailToCurators("New proposal received", "Dear Curator \n\nA proposal for a new individual object property by the name of '" + opName + "' for the individuals '" + firstIndividualName + "' and '" + secondIndividualName + "' has been submited.");
+		EmailHandler.sendMail(email, "Proposal Received", "Dear user \n\nYour proposal has been received, thanks for the suggestion!");
 	}
 
 }

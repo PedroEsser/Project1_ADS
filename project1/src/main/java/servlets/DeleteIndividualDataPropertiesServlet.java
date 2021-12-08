@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.semanticweb.owlapi.model.EntityType;
 
+import logic.CuratorHandler;
+import logic.EmailHandler;
 import logic.GitHandler;
 import logic.OWLHandler;
 
@@ -47,9 +49,10 @@ public class DeleteIndividualDataPropertiesServlet extends HttpServlet {
 		git.createAndCheckoutBranch(branchName);
 		OWLHandler owl = git.getOWLHandler();
 		owl.deleteDataPropertyOfIndividual(individualName, dpName);
-		git.commitAndPush(email + " has deleted a data property!", branchName);
+		git.commitAndPush(email + " has deleted an individual's data property!", branchName);
 		git.checkoutBranch("master");
-		//TODO email
+		CuratorHandler.sendMailToCurators("New proposal received", "Dear Curator \n\nA proposal for the deletion of an individual data property by the name of '" + dpName + "' for the individual '" + individualName + "' has been submited.");
+		EmailHandler.sendMail(email, "Proposal Received", "Dear user \n\nYour proposal has been received, thanks for the suggestion!");
 	}
 
 }

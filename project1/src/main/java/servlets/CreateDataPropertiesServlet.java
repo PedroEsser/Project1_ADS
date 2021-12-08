@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.semanticweb.owlapi.model.EntityType;
 
+import logic.CuratorHandler;
+import logic.EmailHandler;
 import logic.GitHandler;
 import logic.OWLHandler;
 
@@ -48,7 +50,8 @@ public class CreateDataPropertiesServlet extends HttpServlet {
 		owl.declareOWLEntity(EntityType.DATA_PROPERTY, dpName);
 		git.commitAndPush(email + " has created a new data property!", branchName);
 		git.checkoutBranch("master");
-		//TODO send email to curator
+		CuratorHandler.sendMailToCurators("New proposal received", "Dear Curator \n\nA proposal for a new data property by the name of '" + dpName + "' has been submited.");
+		EmailHandler.sendMail(email, "Proposal Received", "Dear user \n\nYour proposal has been received, thanks for the suggestion!");
 	}
 
 }
