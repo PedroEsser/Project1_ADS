@@ -232,6 +232,23 @@ public class OWLHandler {
 		return false;
 	}
 	
+	public boolean hasDeclaredDataPropertyAssertion(String ind, String data) {
+		return hasDeclaredDataPropertyAssertion(factory.getOWLNamedIndividual(IRI.create(defaultprefix, ind)), factory.getOWLDataProperty(IRI.create(defaultprefix, data))); 
+	}
+	
+	private boolean hasDeclaredObjectPropertyAssertion(OWLNamedIndividual ind, OWLObjectProperty obj) {
+		for(OWLObjectPropertyAssertionAxiom ax: getIndividualsObjectProperties().get(ind)) {
+			if(ax.getDataPropertiesInSignature().contains(obj)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean hasDeclaredObjectPropertyAssertion(String ind, String data) {
+		return hasDeclaredObjectPropertyAssertion(factory.getOWLNamedIndividual(IRI.create(defaultprefix, ind)), factory.getOWLObjectProperty(IRI.create(defaultprefix, data))); 
+	}
+	
 	public void declareObjectPropertyAssertion(String op, String ind1, String ind2) {
 		OWLObjectPropertyExpression objectProperty = factory.getOWLObjectProperty(IRI.create(defaultprefix, op));
 		OWLNamedIndividual individual1 = factory.getOWLNamedIndividual(IRI.create(defaultprefix, ind1));

@@ -37,7 +37,7 @@ public class CreateIndividualDataPropertiesServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String individualName = (String)request.getParameter("individual-name");
-		String dpName = (String)request.getParameter("object-property-input");
+		String dpName = (String)request.getParameter("data-property-input");
 		String value = (String)request.getParameter("data-property-value");
 		String email = (String)request.getParameter("email-input");
 		GitHandler git = GitHandler.getDefault();
@@ -45,6 +45,9 @@ public class CreateIndividualDataPropertiesServlet extends HttpServlet {
 		git.checkoutBranch("master");
 		git.createAndCheckoutBranch(branchName);
 		OWLHandler owl = git.getOWLHandler();
+		if(owl.hasDeclaredDataPropertyAssertion(individualName, dpName)) {
+			owl.deleteDataPropertyOfIndividual(individualName, dpName);
+		}
 		if(value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false"))
 			owl.declareDataPropertyAssertion(individualName, dpName, value.equalsIgnoreCase("true"));
 		else if(isInteger(value))
@@ -53,7 +56,8 @@ public class CreateIndividualDataPropertiesServlet extends HttpServlet {
 			owl.declareDataPropertyAssertion(individualName, dpName, Double.parseDouble(value));
 		else
 			owl.declareDataPropertyAssertion(individualName, dpName, value);
-		git.commitAndPush(email + " has created a new object property!", branchName);
+		
+		git.commitAndPush(email + " has created a new data property!", branchName);
 		git.checkoutBranch("master");
 	}
 

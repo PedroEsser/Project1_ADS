@@ -4,10 +4,7 @@
   "_children": [
    {
     "class": "B",
-    "_children": [{
-     "class": "E",
-     "_children": [{"class": "F"}]
-    }]
+    "_children": [{"class": "E"}]
    },
    {
     "class": "C",
@@ -19,11 +16,15 @@
    {"class": "D"}
   ]
  },
+ {"class": "F"},
  {
   "class": "G",
   "_children": [
    {"class": "H"},
-   {"class": "I"}
+   {
+    "class": "I",
+    "_children": [{"class": "W"}]
+   }
   ]
  }
 ]

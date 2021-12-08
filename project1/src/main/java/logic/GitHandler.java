@@ -39,7 +39,7 @@ public class GitHandler {
 	
 	private static final GitHandler DEFAULT_HANDLER = new GitHandler("C:\\Users\\Utilizador\\Documents\\GitHub\\Knowledge_Base\\.git");
 	
-	private final static CredentialsProvider CREDENTIALS = new UsernamePasswordCredentialsProvider("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", "");
+	private final static CredentialsProvider CREDENTIALS = new UsernamePasswordCredentialsProvider("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", "");
 	private Repository repository;
 	private Git git;
 	
@@ -176,8 +176,9 @@ public class GitHandler {
 	public void deleteAllBranches() {
 		List<String> allBranches = getAllBranchesNames();
 		checkoutBranch("master");
-		for(String branch: allBranches)
+		for(String branch: allBranches) {
 			deleteBranch(branch);
+		}
 	}
 	
 	public HashMap<String, RevCommit> getAllBranchesLastCommit() {

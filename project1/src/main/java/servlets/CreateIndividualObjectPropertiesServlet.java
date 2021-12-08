@@ -45,7 +45,6 @@ public class CreateIndividualObjectPropertiesServlet extends HttpServlet {
 		git.checkoutBranch("master");
 		git.createAndCheckoutBranch(branchName);
 		OWLHandler owl = git.getOWLHandler();
-		System.out.println(opName + " " + firstIndividualName + " " +  secondIndividualName);
 		owl.declareObjectPropertyAssertion(opName, firstIndividualName, secondIndividualName);
 		git.commitAndPush(email + " has created a new object property!", branchName);
 		git.checkoutBranch("master");
