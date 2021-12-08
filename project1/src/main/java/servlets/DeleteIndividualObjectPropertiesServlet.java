@@ -45,7 +45,6 @@ public class DeleteIndividualObjectPropertiesServlet extends HttpServlet {
 		git.checkoutBranch("master");
 		git.createAndCheckoutBranch(branchName);
 		OWLHandler owl = git.getOWLHandler();
-		System.out.println(opName + " " + firstIndividualName + " " + secondIndividualName);
 		owl.deleteObjectPropertyOfIndividuals(opName, firstIndividualName, secondIndividualName);
 		git.commitAndPush(email + " has deleted an object property!", branchName);
 		git.checkoutBranch("master");

@@ -376,8 +376,8 @@
 		function set_property_options_lists() {
 			var sel_dt = document.getElementById('data-property');
 			var sel_obj = document.getElementById('object-property');
-			set_default_option(sel_dt, "Select Data Property");
-			set_default_option(sel_obj, "Select Object Property");
+			set_default_option(sel_dt, "--Select Data Property--");
+			set_default_option(sel_obj, "--Select Object Property--");
 			for(var i = 0; i < dt_properties_data.length; i++) {
 			    var opt = document.createElement('option');
 			    opt.innerHTML = dt_properties_data[i]['data property'];
@@ -392,7 +392,7 @@
 		
 		function set_linked_individual_options_list(selectedIndividual) {
 			var sel_ind = document.getElementById('linked-individual');
-			set_default_option(sel_ind, "Select Individual");
+			set_default_option(sel_ind, "--Select Individual--");
 			for(var i = 0; i < individuals_data.length; i++) {
 				if(individuals_data[i]['individual'] != selectedIndividual) {
 					var opt = document.createElement('option');

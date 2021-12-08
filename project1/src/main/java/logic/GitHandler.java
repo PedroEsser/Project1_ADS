@@ -97,10 +97,10 @@ public class GitHandler {
 	public void publishBranch(String branchName){
 		try {
 			git.push()
-			.setCredentialsProvider(CREDENTIALS)
-			.setRemote("origin")
-			.setRefSpecs(new RefSpec(branchName + ":" + branchName))
-			.call();
+				.setCredentialsProvider(CREDENTIALS)
+				.setRemote("origin")
+				.setRefSpecs(new RefSpec(branchName + ":" + branchName))
+				.call();
 		} catch (GitAPIException e) {
 			e.printStackTrace();
 		}
@@ -108,11 +108,11 @@ public class GitHandler {
 	
 	public void mergeBranch(String branchName) {
 		try {
-			MergeCommand mgCmd = git.merge();
-			mgCmd.include(repository.getRef(branchName)).setCommit(true).setMessage("Merging branch " + branchName + " into master, i hope :)");
-			MergeResult res = mgCmd.call();
-			if (res.getMergeStatus().equals(MergeResult.MergeStatus.CONFLICTING)){
-			   System.out.println(res.getConflicts().toString());
+			MergeCommand command = git.merge();
+			command.include(repository.getRef(branchName));
+			MergeResult result = command.call();
+			if (result.getMergeStatus().equals(MergeResult.MergeStatus.CONFLICTING)){
+				System.out.println(result.getConflicts());
 			}
 		} catch (IOException | GitAPIException e) {
 			e.printStackTrace();
@@ -123,8 +123,8 @@ public class GitHandler {
 		try {
 			git.branchDelete().setForce(true).setBranchNames(branchToDelete).call();
 			RefSpec refSpec = new RefSpec()
-			        .setSource(null)
-			        .setDestination("refs/heads/" + branchToDelete);
+				.setSource(null)
+				.setDestination("refs/heads/" + branchToDelete);
 			git.push().setCredentialsProvider(CREDENTIALS).setRefSpecs(refSpec).setRemote("origin").call();
 		} catch (GitAPIException e) {
 			e.printStackTrace();

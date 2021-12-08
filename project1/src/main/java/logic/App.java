@@ -10,7 +10,7 @@ public class App {
 //    	JSONHandler.createDataPropertiesJSON(handler.getDataProperties());
 //    	JSONHandler.createObjectPropertiesJSON(handler.getObjectPropertiesCharacteristics());
 //    	JSONHandler.createBranchesJSON(gh.getAllBranchesCommitDiff());
-//    	gh.deleteAllBranches();
+    	gh.deleteAllBranches();
 	}
 
 }

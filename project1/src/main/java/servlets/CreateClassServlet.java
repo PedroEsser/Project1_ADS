@@ -56,6 +56,5 @@ public class CreateClassServlet extends HttpServlet {
 		//TODO send email to curator
 		CuratorHandler.sendMailToCurators("New proposal received", "Dear Curator \n\nA proposal for a new class by the name of '" + className + "' has been submited.");
 		EmailHandler.sendMail(email, "Proposal Received", "Dear user \n\nYour proposal has been received, thanks for the suggestion!");
-		System.out.println(email);
 	}
 }

@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.eclipse.jgit.lib.Ref;
+
 import logic.GitHandler;
 import logic.JSONHandler;
 
@@ -45,10 +47,13 @@ public class CuratorDecisionServlet extends HttpServlet {
 		GitHandler git = GitHandler.getDefault();
 		String emailTitle = null;
 		if("Accept".equals(decision)) {
+			for(Ref b: git.getAllBranches()) {
+				git.checkoutBranch(b.getName().replace("refs/remotes/origin/", ""));
+				git.mergeBranch(branchName);
+				git.publishBranch(b.getName().replace("refs/remotes/origin/", ""));
+			}
 			git.checkoutBranch("master");
-			git.mergeBranch(branchName);
 			git.deleteBranch(branchName);
-			git.publishBranch("master");
 			emailTitle = "Proposal Accepted";
 		}else if("Decline".equals(decision)) {
 			git.deleteBranch(branchName);
