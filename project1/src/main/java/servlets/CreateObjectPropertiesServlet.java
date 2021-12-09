@@ -42,7 +42,6 @@ public class CreateObjectPropertiesServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String opName = (String)request.getParameter("object-property-input");
 		String email = (String)request.getParameter("email-input");
-		String functional = (String)request.getParameter("functional");
 		GitHandler git = GitHandler.getDefault();
 		String branchName = git.getNextBranchName(email);
 		git.checkoutBranch("master");

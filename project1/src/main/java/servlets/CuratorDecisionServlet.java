@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.jgit.lib.Ref;
 
+import logic.EmailHandler;
 import logic.GitHandler;
-import logic.JSONHandler;
 
 /**
  * Servlet implementation class CuratorDecisionServlet
@@ -39,12 +39,10 @@ public class CuratorDecisionServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String branchName = request.getParameter("branch");
-		String email = branchName.substring(0, branchName.lastIndexOf("_"));
-		String comment = request.getParameter("comment");
-		String decision = request.getParameter("decision");
-		
 		GitHandler git = GitHandler.getDefault();
+		String branchName = request.getParameter("branch");
+		String decision = request.getParameter("decision");
+		String email = branchName.substring(0, branchName.lastIndexOf("_"));
 		String emailTitle = null;
 		if("Accept".equals(decision)) {
 			for(Ref b: git.getAllBranches()) {
@@ -59,9 +57,8 @@ public class CuratorDecisionServlet extends HttpServlet {
 			git.deleteBranch(branchName);
 			emailTitle = "Proposal Declined";
 		}
-		
-//		EmailHandler.sendMail(email, emailTitle, comment);
-		
+		String comment = request.getParameter("comment");
+		EmailHandler.sendMail(email, emailTitle, comment);
 		RequestDispatcher view = request.getRequestDispatcher("curator.jsp");
 		view.forward(request, response);
 	}

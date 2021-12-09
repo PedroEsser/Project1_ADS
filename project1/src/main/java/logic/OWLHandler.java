@@ -44,7 +44,6 @@ import org.swrlapi.parser.SWRLParseException;
 import org.swrlapi.sqwrl.SQWRLQueryEngine;
 import org.swrlapi.sqwrl.SQWRLResult;
 import org.swrlapi.sqwrl.exceptions.SQWRLException;
-import org.swrlapi.sqwrl.values.SQWRLResultValue;
 
 import uk.ac.manchester.cs.owl.owlapi.OWLLiteralImplBoolean;
 import uk.ac.manchester.cs.owl.owlapi.OWLLiteralImplDouble;
@@ -246,7 +245,7 @@ public class OWLHandler {
 	
 	private boolean hasDeclaredObjectPropertyAssertion(OWLNamedIndividual ind, OWLObjectProperty obj) {
 		for(OWLObjectPropertyAssertionAxiom ax: getIndividualsObjectProperties().get(ind)) {
-			if(ax.getDataPropertiesInSignature().contains(obj)) {
+			if(ax.getDataPropertiesInSignature().contains((Object) obj)) {
 				return true;
 			}
 		}

@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import logic.CuratorHandler;
-import logic.JSONHandler;
 
 /**
  * Servlet implementation class LoginServlet
