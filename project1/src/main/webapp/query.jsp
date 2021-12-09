@@ -16,18 +16,17 @@
 	  </div>
 	</div>
 	
-	<div class="w3-center" style="height: 640px; padding:100px 50px 0px 50px;">
-		<h1 style="margin-bottom: 30px">Console</h1>
+	<div class="w3-center" style="height: 640px; margin-left: 25%; margin-right: 25%; padding:100px 50px 0px 50px;">
+		<h1 style="margin-bottom: 50px">Console</h1>
 		<form action="query.jsp" method="post">
-			<div style="width: 100%; height: 150px; margin-bottom: 8px">
-				<div style="margin-bottom: 15px">SQWRL Query:</div>
-				<textarea id="query" name="query" placeholder="Enter Query" style="width: 100%; height: 70%" required></textarea>
+			<div style="width: 100%; height: 125px; margin-bottom: 20px">
+				<textarea id="query" name="query" placeholder="Enter SQWRL Query" style="width: 100%; height: 90%" required></textarea>
+				<button type="submit" style="float: right">Execute</button>
 			</div>
-			<div style="width: 100%; height: 200px; margin-bottom: 8px">
-				<div style="margin-bottom: 15px">Result:</div>
-				<textarea id="result" name="result" style="width: 100%; height: 70%" readonly></textarea>
+			<div style="width: 100%; height: 175px; margin-bottom: 8px">
+				<div style="margin-bottom: 10px; float: left">Result:</div>
+				<textarea id="result" name="result" style="width: 100%; height: 90%" readonly></textarea>
 			</div>
-	      	<button type="submit">Execute</button>
 		</form>
     </div>
 
