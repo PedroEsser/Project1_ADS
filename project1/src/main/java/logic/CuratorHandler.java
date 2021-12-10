@@ -18,7 +18,7 @@ public class CuratorHandler {
 	private static HashMap<String, String> getCuratorCredentials() {
 		try {
 			HashMap<String, String> credentials = new HashMap<String, String>();
-			Scanner scan = new Scanner(new File("curators.txt"));
+			Scanner scan = new Scanner(new File("src/main/webapp/db/curators.txt"));
 			while(scan.hasNext()) {
 				String[] mailHashTuple = scan.nextLine().split(",");
 				assert mailHashTuple.length == 2 : "Error parsing curators.txt";

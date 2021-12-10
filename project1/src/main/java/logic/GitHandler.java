@@ -37,9 +37,9 @@ import com.google.common.collect.Lists;
 
 public class GitHandler {
 	
-	private static final GitHandler DEFAULT_HANDLER = new GitHandler("C:\\Users\\Simão Correia\\git\\Knowledge_Base_ADS\\.git");
+	private static final GitHandler DEFAULT_HANDLER = new GitHandler("./knowledge_base/.git");
 
-	private final static CredentialsProvider CREDENTIALS = new UsernamePasswordCredentialsProvider("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", "");
+	private final static CredentialsProvider CREDENTIALS = new UsernamePasswordCredentialsProvider("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", "");
 	private Repository repository;
 	private Git git;
 	
