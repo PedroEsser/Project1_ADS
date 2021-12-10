@@ -1,0 +1,109 @@
+Prefix(:=<http://www.semanticweb.org/vbasto/ontologies/2020/9/untitled-ontology-74#>)
+Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
+Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
+Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)
+Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
+Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
+
+
+Ontology(<http://www.semanticweb.org/vbasto/ontologies/2020/9/untitled-ontology-74>
+
+Declaration(Class(:Algorithm))
+Declaration(Class(:B))
+Declaration(Class(:C))
+Declaration(Class(:D))
+Declaration(Class(:E))
+Declaration(Class(:F))
+Declaration(Class(:H))
+Declaration(Class(:W))
+Declaration(Class(:Y))
+Declaration(Class(:Z))
+Declaration(ObjectProperty(:Friends))
+Declaration(DataProperty(:maxObjectivesAlgorithmIsAbleToDealWith))
+Declaration(DataProperty(:minObjectivesAlgorithmIsAbleToDealWith))
+Declaration(NamedIndividual(:classb))
+Declaration(NamedIndividual(:foneca))
+Declaration(NamedIndividual(:nsgaii))
+Declaration(NamedIndividual(:nsgaiii))
+Declaration(NamedIndividual(:smsemoa))
+############################
+#   Object Properties
+############################
+
+# Object Property: :Friends (:Friends)
+
+FunctionalObjectProperty(:Friends)
+InverseFunctionalObjectProperty(:Friends)
+SymmetricObjectProperty(:Friends)
+AsymmetricObjectProperty(:Friends)
+ReflexiveObjectProperty(:Friends)
+IrreflexiveObjectProperty(:Friends)
+
+
+
+
+############################
+#   Classes
+############################
+
+# Class: :B (:B)
+
+SubClassOf(:B :Algorithm)
+
+# Class: :C (:C)
+
+SubClassOf(:C :Algorithm)
+
+# Class: :D (:D)
+
+SubClassOf(:D :Algorithm)
+
+# Class: :E (:E)
+
+SubClassOf(:E :B)
+
+# Class: :W (:W)
+
+SubClassOf(:W :Z)
+
+# Class: :Y (:Y)
+
+SubClassOf(:Y :Z)
+
+
+############################
+#   Named Individuals
+############################
+
+# Individual: :classb (:classb)
+
+ClassAssertion(:B :classb)
+DataPropertyAssertion(:maxObjectivesAlgorithmIsAbleToDealWith :classb "5"^^xsd:integer)
+DataPropertyAssertion(:minObjectivesAlgorithmIsAbleToDealWith :classb "1"^^xsd:integer)
+
+# Individual: :foneca (:foneca)
+
+ClassAssertion(:F :foneca)
+
+# Individual: :nsgaii (:nsgaii)
+
+ClassAssertion(:Algorithm :nsgaii)
+ObjectPropertyAssertion(:Friends :nsgaii :nsgaiii)
+DataPropertyAssertion(:maxObjectivesAlgorithmIsAbleToDealWith :nsgaii "3"^^xsd:integer)
+DataPropertyAssertion(:minObjectivesAlgorithmIsAbleToDealWith :nsgaii "2"^^xsd:integer)
+
+# Individual: :nsgaiii (:nsgaiii)
+
+ClassAssertion(:Algorithm :nsgaiii)
+DataPropertyAssertion(:maxObjectivesAlgorithmIsAbleToDealWith :nsgaiii "10000"^^xsd:integer)
+DataPropertyAssertion(:minObjectivesAlgorithmIsAbleToDealWith :nsgaiii "3"^^xsd:integer)
+
+# Individual: :smsemoa (:smsemoa)
+
+ClassAssertion(:Algorithm :smsemoa)
+ObjectPropertyAssertion(:Friends :smsemoa :nsgaiii)
+DataPropertyAssertion(:maxObjectivesAlgorithmIsAbleToDealWith :smsemoa "3"^^xsd:integer)
+DataPropertyAssertion(:minObjectivesAlgorithmIsAbleToDealWith :smsemoa "2"^^xsd:integer)
+
+
+)
