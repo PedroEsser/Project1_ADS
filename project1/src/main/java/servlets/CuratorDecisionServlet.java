@@ -45,12 +45,9 @@ public class CuratorDecisionServlet extends HttpServlet {
 		String email = branchName.substring(0, branchName.lastIndexOf("_"));
 		String emailTitle = null;
 		if("Accept".equals(decision)) {
-			for(Ref b: git.getAllBranches()) {
-				git.checkoutBranch(b.getName().replace("refs/remotes/origin/", ""));
-				git.mergeBranch(branchName);
-				git.publishBranch(b.getName().replace("refs/remotes/origin/", ""));
-			}
 			git.checkoutBranch("master");
+			git.mergeBranch(branchName);
+			git.publishBranch("master");
 			git.deleteBranch(branchName);
 			emailTitle = "Proposal Accepted";
 		}else if("Decline".equals(decision)) {

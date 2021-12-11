@@ -53,7 +53,6 @@ import uk.ac.manchester.cs.owl.owlapi.OWLLiteralImplString;
 
 public class OWLHandler {
 
-	//private File owlFile;
 	private LockFile owlFile;
 	private OWLOntologyManager manager;
 	private OWLOntology ontology;
@@ -407,10 +406,10 @@ public class OWLHandler {
 	public void changeClass(String oldName, String newName) {
 		Map<OWLEntity, IRI> entity2IRIMap = new HashMap<>();
 		OWLEntityRenamer renamer = new OWLEntityRenamer(manager, Collections.singleton(ontology));
-	    OWLClass ni = factory.getOWLClass(IRI.create(defaultprefix, oldName));
+	    OWLClass c = factory.getOWLClass(IRI.create(defaultprefix, oldName));
 
 	    for(OWLClass toRename: ontology.getClassesInSignature()) {
-			if(toRename.equals(ni)) {
+			if(toRename.equals(c)) {
 	        	entity2IRIMap.put(toRename, IRI.create(defaultprefix, newName));
 	    	}
 		}
@@ -437,10 +436,10 @@ public class OWLHandler {
 	public void changeObjectProperty(String oldName, String newName) {
 		Map<OWLEntity, IRI> entity2IRIMap = new HashMap<>();
 		OWLEntityRenamer renamer = new OWLEntityRenamer(manager, Collections.singleton(ontology));
-	    OWLObjectProperty ni = factory.getOWLObjectProperty(IRI.create(defaultprefix, oldName));
+	    OWLObjectProperty op = factory.getOWLObjectProperty(IRI.create(defaultprefix, oldName));
 
 	    for(OWLObjectProperty toRename: ontology.getObjectPropertiesInSignature()) {
-			if(toRename.equals(ni)) {
+			if(toRename.equals(op)) {
 	        	entity2IRIMap.put(toRename, IRI.create(defaultprefix, newName));
 	    	}
 		}
@@ -452,10 +451,10 @@ public class OWLHandler {
 	public void changeDataProperty(String oldName, String newName) {
 		Map<OWLEntity, IRI> entity2IRIMap = new HashMap<>();
 		OWLEntityRenamer renamer = new OWLEntityRenamer(manager, Collections.singleton(ontology));
-	    OWLDataProperty ni = factory.getOWLDataProperty(IRI.create(defaultprefix, oldName));
+	    OWLDataProperty dp = factory.getOWLDataProperty(IRI.create(defaultprefix, oldName));
 
 	    for(OWLDataProperty toRename: ontology.getDataPropertiesInSignature()) {
-			if(toRename.equals(ni)) {
+			if(toRename.equals(dp)) {
 	        	entity2IRIMap.put(toRename, IRI.create(defaultprefix, newName));
 	    	}
 		}

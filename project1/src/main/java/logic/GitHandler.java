@@ -12,7 +12,6 @@ import java.util.List;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.ListBranchCommand.ListMode;
-import org.eclipse.jgit.api.MergeCommand;
 import org.eclipse.jgit.api.MergeResult;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.diff.DiffFormatter;
@@ -39,7 +38,7 @@ public class GitHandler {
 	
 	private static final GitHandler DEFAULT_HANDLER = new GitHandler("./knowledge_base/.git");
 
-	private final static CredentialsProvider CREDENTIALS = new UsernamePasswordCredentialsProvider("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", "");
+	private final static CredentialsProvider CREDENTIALS = new UsernamePasswordCredentialsProvider("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", "");
 	private Repository repository;
 	private Git git;
 	
@@ -94,7 +93,7 @@ public class GitHandler {
 		checkoutBranch(branchName);
 	}
 	
-	public void publishBranch(String branchName){
+	public void publishBranch(String branchName) {
 		try {
 			git.push()
 				.setCredentialsProvider(CREDENTIALS)
@@ -108,10 +107,8 @@ public class GitHandler {
 	
 	public void mergeBranch(String branchName) {
 		try {
-			MergeCommand command = git.merge();
-			command.include(repository.getRef(branchName));
-			MergeResult result = command.call();
-			if (result.getMergeStatus().equals(MergeResult.MergeStatus.CONFLICTING)){
+			MergeResult result = git.merge().include(repository.getRef(branchName)).call();
+			if (result.getMergeStatus().equals(MergeResult.MergeStatus.CONFLICTING)) {
 				System.out.println(result.getConflicts());
 			}
 		} catch (IOException | GitAPIException e) {
@@ -122,10 +119,11 @@ public class GitHandler {
 	public void deleteBranch(String branchToDelete) {
 		try {
 			git.branchDelete().setForce(true).setBranchNames(branchToDelete).call();
-			RefSpec refSpec = new RefSpec()
-				.setSource(null)
-				.setDestination("refs/heads/" + branchToDelete);
-			git.push().setCredentialsProvider(CREDENTIALS).setRefSpecs(refSpec).setRemote("origin").call();
+			git.push()
+				.setCredentialsProvider(CREDENTIALS)
+				.setRemote("origin")
+				.setRefSpecs(new RefSpec().setSource(null).setDestination("refs/heads/" + branchToDelete))
+				.call();
 		} catch (GitAPIException e) {
 			e.printStackTrace();
 		}
@@ -157,7 +155,7 @@ public class GitHandler {
 	public List<Ref> getAllBranches() {
 		try {
 			List<Ref> branches = git.branchList().setListMode(ListMode.REMOTE).call();
-			branches.removeIf(r -> r.getName().equals("refs/remotes/origin/HEAD"));
+			branches.removeIf(r -> r.getName().equals("refs/remotes/origin/HEAD") || r.getName().equals("refs/remotes/origin/master"));
 			return branches;
 		} catch (GitAPIException e) {
 			e.printStackTrace();
@@ -169,7 +167,6 @@ public class GitHandler {
 		List<String> names = new ArrayList<>();
 		List<Ref> branches = getAllBranches();
 		branches.forEach(r -> names.add(r.getName().replace("refs/remotes/origin/", "")));
-		names.remove("master");
 		return names;
 	}
 
@@ -181,16 +178,16 @@ public class GitHandler {
 		}
 	}
 	
-	public HashMap<String, RevCommit> getAllBranchesLastCommit() {
+	public HashMap<String, Tuple<RevCommit, RevCommit>> getAllBranchesLastCommits() {
 		try {
-			HashMap<String, RevCommit> branchesLastCommit = new HashMap<>();
+			HashMap<String, Tuple<RevCommit, RevCommit>> branchesLastCommits = new HashMap<>();
 			List<Ref> branches = getAllBranches();
 			for (Ref branch : branches) {
-				String treeName = branch.getName();
-				List<RevCommit> commits = Lists.newArrayList(git.log().add(repository.resolve(treeName)).call().iterator());
-				branchesLastCommit.put(treeName.replace("refs/remotes/origin/", ""), commits.get(0));
+				String branchName = branch.getName();
+				List<RevCommit> commits = Lists.newArrayList(git.log().add(repository.resolve(branchName)).call().iterator());
+				branchesLastCommits.put(branchName.replace("refs/remotes/origin/", ""), new Tuple<RevCommit, RevCommit>(commits.get(1), commits.get(0)));
 			}
-			return branchesLastCommit;
+			return branchesLastCommits;
 		} catch (GitAPIException | IOException e) {
 			e.printStackTrace();
 			return null;
@@ -199,14 +196,12 @@ public class GitHandler {
 	
 	public HashMap<String, String> getAllBranchesCommitDiff() {
 		HashMap<String, String> branchesCommitDiff = new HashMap<>();
-		HashMap<String, RevCommit> branchesLastCommit = getAllBranchesLastCommit();
-		RevCommit oldCommit = branchesLastCommit.get("master");
-		branchesLastCommit.remove("master");
-		branchesLastCommit.forEach((branch, newCommit) -> {
+		HashMap<String, Tuple<RevCommit, RevCommit>> branchesLastCommit = getAllBranchesLastCommits();
+		branchesLastCommit.forEach((branch, commits) -> {
 			try {
 			    ObjectReader reader = repository.newObjectReader();
-			    AbstractTreeIterator oldTreeIterator = new CanonicalTreeParser(null, reader, oldCommit.getTree().getId());	
-			    AbstractTreeIterator newTreeIterator = new CanonicalTreeParser(null, reader, newCommit.getTree().getId());
+			    AbstractTreeIterator oldTreeIterator = new CanonicalTreeParser(null, reader, commits.x.getTree().getId());	
+			    AbstractTreeIterator newTreeIterator = new CanonicalTreeParser(null, reader, commits.y.getTree().getId());
 			    OutputStream outputStream = new ByteArrayOutputStream();
 			    DiffFormatter formatter = new DiffFormatter(outputStream);
 			    formatter.setRepository(repository);
@@ -231,6 +226,15 @@ public class GitHandler {
 			}
 		}
 		return email + "_" + emailNumber;
+	}
+	
+	private class Tuple<X, Y> { 
+		public final X x; 
+		public final Y y; 
+		public Tuple(X x, Y y) { 
+			this.x = x; 
+			this.y = y; 
+		} 
 	}
 	
 }
