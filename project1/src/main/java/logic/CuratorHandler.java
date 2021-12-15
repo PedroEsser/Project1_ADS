@@ -38,7 +38,7 @@ public class CuratorHandler {
 	
 	public static void subscribeCurator(String email, String password) {
 		try {
-			PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter("curators.txt", true)));
+			PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter("src/main/webapp/db/curators.txt", true)));
 			String mailHashTuple = email + "," + hash(password);
 			writer.println(mailHashTuple);
 			writer.close();
