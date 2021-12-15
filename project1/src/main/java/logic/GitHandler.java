@@ -101,7 +101,8 @@ public class GitHandler {
 		}
 	}
 
-	public void createBranch(String branchName) { // if user already has branch, set name of branch to branch_n
+	//if the user already has branches for a certain email, set the name of the branch to email_n
+	public void createBranch(String branchName) {
 		try {
 			git.branchCreate().setName(branchName).call();
 		} catch (GitAPIException e) {
@@ -146,6 +147,7 @@ public class GitHandler {
 		return null;
 	}
 
+	//deletes branch in the local and remote repository
 	public void deleteBranch(String branchToDelete) {
 		try {
 			git.branchDelete().setForce(true).setBranchNames(branchToDelete).call();
@@ -159,6 +161,7 @@ public class GitHandler {
 		}
 	}
 	
+	//check merge conflict as resolved
 	public void add() {
 		try {
 			git.add().addFilepattern(".").call();
@@ -175,7 +178,6 @@ public class GitHandler {
 		}
 	}
 	
-	// Pushes to current branch
 	public void push() {
 		try {
 			git.push().setCredentialsProvider(CREDENTIALS).call();
@@ -190,6 +192,7 @@ public class GitHandler {
 		publishBranch(branchName);
 	}
 	
+	//gets all remote branches
 	public List<Ref> getAllBranches() {
 		try {
 			List<Ref> branches = git.branchList().setListMode(ListMode.REMOTE).call();
@@ -216,6 +219,7 @@ public class GitHandler {
 		}
 	}
 	
+	//for all the branches, gets the last 2 commits
 	public HashMap<String, Tuple<RevCommit, RevCommit>> getAllBranchesLastCommits() {
 		try {
 			HashMap<String, Tuple<RevCommit, RevCommit>> branchesLastCommits = new HashMap<>();
@@ -232,6 +236,7 @@ public class GitHandler {
 		}
 	}
 	
+	//for all the branches, gets the commit diff (based on the last 2 commits)
 	public HashMap<String, String> getAllBranchesCommitDiff() {
 		HashMap<String, String> branchesCommitDiff = new HashMap<>();
 		HashMap<String, Tuple<RevCommit, RevCommit>> branchesLastCommit = getAllBranchesLastCommits();
