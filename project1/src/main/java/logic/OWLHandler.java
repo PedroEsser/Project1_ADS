@@ -364,7 +364,6 @@ public class OWLHandler {
 	
 	public void deleteClassFromIndividual(String individualName, String className) {
 		OWLClass owlClass = factory.getOWLClass(IRI.create(defaultprefix, className));
-		
 		OWLNamedIndividual individual = factory.getOWLNamedIndividual(IRI.create(defaultprefix,individualName));
 		for(OWLClassAssertionAxiom dp: ontology.getClassAssertionAxioms(individual))
 			if(dp.getClassExpression().equals(owlClass))
@@ -372,7 +371,7 @@ public class OWLHandler {
 		saveOntology();
 	}
 	
-	public void deleteClass(String name, String iri, Boolean isName) {//TODO delete individuals from the class
+	public void deleteClass(String name, String iri, Boolean isName) {
 		OWLClass owlClass = null;
 		if(isName) {
 			owlClass = factory.getOWLClass(IRI.create(defaultprefix, name));
