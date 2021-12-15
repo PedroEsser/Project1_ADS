@@ -17,7 +17,7 @@
 	}
 	.d2h-file-diff {
 	    overflow: scroll;
-	    height: 500px;
+	    height: 463px;
 	}
 	.d2h-code-wrapper {
 	    position: relative;
@@ -72,7 +72,7 @@
 				var diff2htmlUi = new Diff2HtmlUI(targetElement, diffString, configuration);
 				diff2htmlUi.draw();
 				diff2htmlUi.highlightCode();
-			}
+			};
 			
 			$(document).on("submit", "form", function (e) {
 				if(document.getElementById("file").value.match("[<=>]{7}") == null) {
