@@ -1,20 +1,5 @@
 [
  {
-  "individual": "classb",
-  "class": "B",
-  "data properties": [
-   [
-    "minObjectivesAlgorithmIsAbleToDealWith",
-    "1"
-   ],
-   [
-    "maxObjectivesAlgorithmIsAbleToDealWith",
-    "5"
-   ]
-  ],
-  "object properties": []
- },
- {
   "individual": "nsgaiii",
   "class": "Algorithm",
   "data properties": [
@@ -30,12 +15,6 @@
   "object properties": []
  },
  {
-  "individual": "foneca",
-  "class": "F",
-  "data properties": [],
-  "object properties": []
- },
- {
   "individual": "nsgaii",
   "class": "Algorithm",
   "data properties": [
@@ -48,15 +27,6 @@
     "2"
    ]
   ],
-  "object properties": [[
-   "Friends",
-   "nsgaiii"
-  ]]
- },
- {
-  "individual": "zappa",
-  "class": "Z",
-  "data properties": [],
   "object properties": []
  },
  {
@@ -72,9 +42,6 @@
     "3"
    ]
   ],
-  "object properties": [[
-   "Friends",
-   "nsgaiii"
-  ]]
+  "object properties": []
  }
 ]
