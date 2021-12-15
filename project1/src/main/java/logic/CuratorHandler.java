@@ -15,6 +15,25 @@ import org.apache.commons.codec.digest.DigestUtils;
 
 public class CuratorHandler {
 	
+	//registers a new curator
+	public static void subscribeCurator(String email, String password) {
+		try {
+			PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter("src/main/webapp/db/curators.txt", true)));
+			String mailHashTuple = email + "," + hash(password);
+			writer.println(mailHashTuple);
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	//checks if the given credencials are correct for a certain curator
+	public static boolean authenticateCurator(String email, String password) {
+		HashMap<String, String> credentials = getCuratorCredentials();
+		return credentials.containsKey(email) && credentials.get(email).equals(hash(password));
+	}
+	
+	//gets the email and password hash of all the curators
 	private static HashMap<String, String> getCuratorCredentials() {
 		try {
 			HashMap<String, String> credentials = new HashMap<String, String>();
@@ -31,22 +50,7 @@ public class CuratorHandler {
 		return null;
 	}
 	
-	public static boolean authenticateCurator(String email, String password) {
-		HashMap<String, String> credentials = getCuratorCredentials();
-		return credentials.containsKey(email) && credentials.get(email).equals(hash(password));
-	}
-	
-	public static void subscribeCurator(String email, String password) {
-		try {
-			PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter("src/main/webapp/db/curators.txt", true)));
-			String mailHashTuple = email + "," + hash(password);
-			writer.println(mailHashTuple);
-			writer.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
+	//gets the email of all the curators
 	public static List<String> getCuratorMails() {
 		return new LinkedList<>(getCuratorCredentials().keySet());
 	}

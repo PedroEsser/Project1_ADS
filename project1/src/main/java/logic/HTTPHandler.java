@@ -34,8 +34,6 @@ public class HTTPHandler {
 		response.put("data", responseData);
 		JSONObject responseHeaders = headersToJSON(responseGET.getAllHeaders());
 		response.put("headers", responseHeaders);
-	
-		//System.out.println("Response of " + uri + ": " + response);
 		
 	    return response;
 	}
@@ -64,28 +62,26 @@ public class HTTPHandler {
 		JSONObject responseHeaders = headersToJSON(responsePOST.getAllHeaders());
 		response.put("headers", responseHeaders);
 		
-		//System.out.println("Response of " + uri + ": " + response);
 		return response;
 	}
 	
-	public static JSONObject post(String uri, int id, JSONObject response) throws ClientProtocolException, IOException {
-		List<NameValuePair> body = new ArrayList<NameValuePair>();
-		body.add(new BasicNameValuePair("headers", response.getJSONObject("headers").toString()));
-		body.add(new BasicNameValuePair("data", response.getString("data")));
-		body.add(new BasicNameValuePair("id", id + ""));
-		return post(uri, body, null);
-	}
-	
+	//heroku post request to webserver
 	public static JSONObject post(String uri, JSONObject body, JSONObject headers) throws ClientProtocolException, IOException {
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		
 		for(String key : body.keySet()) 
 			params.add(new BasicNameValuePair(key, body.getString(key)));
 		
-//		if(headers != null) 
-//			headers.remove("content-length");
-		
 		return post(uri, params, headers);
+	}
+	
+	//webserver response to heroku
+	public static JSONObject post(String uri, int id, JSONObject response) throws ClientProtocolException, IOException {
+		List<NameValuePair> body = new ArrayList<NameValuePair>();
+		body.add(new BasicNameValuePair("headers", response.getJSONObject("headers").toString()));
+		body.add(new BasicNameValuePair("data", response.getString("data")));
+		body.add(new BasicNameValuePair("id", id + ""));
+		return post(uri, body, null);
 	}
 	
 	public static JSONObject headersToJSON(Header[] headers) {

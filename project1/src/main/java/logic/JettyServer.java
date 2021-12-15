@@ -6,6 +6,7 @@ import org.eclipse.jetty.webapp.Configuration.ClassList;
 
 public class JettyServer {
     
+	//runs local webserver
 	public static void main(String[] args) {
 		try {
 			Server server = new Server(8080);

@@ -48,6 +48,7 @@ public class JSONHandler {
 		return new JSONObject(json);
 	}
 	
+	//creates json with all the branches and their respective diff
 	public static void createBranchesJSON(HashMap<String, String> branchesCommitDiff) {
 		try {
 			FileWriter file = new FileWriter("src/main/webapp/resources/branches.json");
@@ -66,6 +67,7 @@ public class JSONHandler {
 		}
 	}
 
+	//creates json with all the individuals and their respective class, data properties, and object properties
 	public static void createIndividualsJSON(HashMap<OWLNamedIndividual, Set<OWLClassAssertionAxiom>> individualsClasses, 
 			HashMap<OWLNamedIndividual, Set<OWLDataPropertyAssertionAxiom>> individualsDataProperties, 
 			HashMap<OWLNamedIndividual, Set<OWLObjectPropertyAssertionAxiom>> individualsObjectProperties) {
@@ -105,6 +107,7 @@ public class JSONHandler {
 		}
 	}
 	
+	//creates json with all the data properties
 	public static void createDataPropertiesJSON(Set<OWLDataProperty> dataProperties) {
 		try {
 			FileWriter file = new FileWriter("src/main/webapp/resources/data_properties.json");
@@ -122,6 +125,7 @@ public class JSONHandler {
 		}
 	}
 	
+	//creates json with all the object properties and their respective characteristics
 	public static void createObjectPropertiesJSON(HashMap<OWLObjectProperty, Set<String>> objectPropertiesCharacteristics) {
 		try {
 			FileWriter file = new FileWriter("src/main/webapp/resources/object_properties.json");
@@ -144,6 +148,7 @@ public class JSONHandler {
 		}
 	}
 	
+	//creates json with all the classes and their respective subclasses (taxonomy)
 	public static void createTaxonomyJSON(LinkedHashMap<OWLClass, ArrayList<OWLClass>> map) {
 		try {
 			FileWriter file = new FileWriter("src/main/webapp/resources/taxonomy.json");

@@ -8,7 +8,7 @@ import org.json.JSONObject;
 public class HerokuHandler {
 
 	private static final int DOCKER_CLIENTS = 5;
-	private static final String HEROKU_URI = "https://ads-tunnel.herokuapp.com";//"http://localhost:5000";//
+	private static final String HEROKU_URI = "https://ads-tunnel.herokuapp.com";
 	private static final String LOCAL_URI = "http://localhost:8080";
 	
 	public static void startServing() {
@@ -24,9 +24,7 @@ public class HerokuHandler {
 	    			if(!req.getString("data").equals("Timed out"))
 	    				System.out.println("Got client request: " + req);
 	    			handleRequest(req);
-	    		} catch (Exception e) {
-	    			//e.printStackTrace();
-	    		}
+	    		} catch (Exception e) {}
 			}
     	}).start();
     }
@@ -36,26 +34,13 @@ public class HerokuHandler {
 			try {
 				JSONObject obj = JSONHandler.convertStringToJSON(req.getString("data"));
 				
-				int id = (int)obj.get("client_id");
-				
-				JSONObject headers = obj.getJSONObject("headers");
-				headers = null;
-				
-//				if(headers.has("referer")) 
-//					headers.put("referer", headers.getString("referer").replace(HEROKU_URI, LOCAL_URI));
-//				if(headers.has("origin")) 
-//					headers.put("origin", LOCAL_URI);
-//				if(headers.has("host")) 
-//					headers.put("host", LOCAL_URI);
-				
 				String path = obj.getString("path");
 				JSONObject body = obj.getJSONObject("body");
-				JSONObject response = generateResponse(path, headers, body);
 				
+				int id = (int) obj.get("client_id"); //heroku client id
+				JSONObject response = generateResponse(path, null, body);
     			respond(id, response);
-    		} catch (Exception e) {
-    			//e.printStackTrace();
-    		}
+    		} catch (Exception e) {}
     	}).start();
     }
     
@@ -63,7 +48,8 @@ public class HerokuHandler {
     	HTTPHandler.post(HEROKU_URI + "/docker_post", id, response);
     }
     
-    public static JSONObject generateResponse(String path, JSONObject headers, JSONObject body) throws Exception {		//fetch html file from local web server
+    //fetch html file from local web server
+    public static JSONObject generateResponse(String path, JSONObject headers, JSONObject body) throws Exception {
     	if(body.isEmpty())
     		return HTTPHandler.get(LOCAL_URI + path, headers);
     	
