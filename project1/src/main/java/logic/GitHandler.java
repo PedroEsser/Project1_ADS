@@ -10,11 +10,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.ListBranchCommand.ListMode;
 import org.eclipse.jgit.api.MergeResult;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.diff.DiffFormatter;
+import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.errors.RevisionSyntaxException;
 import org.eclipse.jgit.internal.storage.file.LockFile;
 import org.eclipse.jgit.lib.ObjectId;
@@ -41,7 +43,7 @@ public class GitHandler {
 	private final static CredentialsProvider CREDENTIALS = new UsernamePasswordCredentialsProvider("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", "");
 	private Repository repository;
 	private Git git;
-	
+
 	public static GitHandler getDefault() {
 		return DEFAULT_HANDLER;
 	}
@@ -63,13 +65,40 @@ public class GitHandler {
 			ObjectReader reader = repository.newObjectReader();
 		    ObjectLoader result = reader.open(blobId);
 		    InputStream inputStream = new ByteArrayInputStream(result.getBytes());
-			File file = new File(repository.getWorkTree(), "ontology.owl");
-		    LockFile l = new LockFile(file, FS.DETECTED);
-			return new OWLHandler(inputStream, l);
+			return new OWLHandler(inputStream, getOntologyFile());
 		} catch (RevisionSyntaxException | IOException e) {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public LockFile getOntologyFile() {
+		File file = new File(repository.getWorkTree(), "ontology.owl");
+		return new LockFile(file, FS.DETECTED);
+	}
+	
+	public String getOntologyFileContent() {
+		try {
+			return new String(FileUtils.readFileToByteArray(new File(repository.getWorkTree(), "ontology.owl")));
+		} catch (NoWorkTreeException | IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public void writeOntologyFile(String content) {
+		LockFile file = getOntologyFile();
+		try {
+			if(file.lock()) {
+				file.write(content.getBytes());
+				if(!file.commit())
+					System.out.println("Error writting to file.");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			file.unlock();
+		}
 	}
 
 	public void createBranch(String branchName) { // if user already has branch, set name of branch to branch_n
@@ -105,15 +134,16 @@ public class GitHandler {
 		}
 	}
 	
-	public void mergeBranch(String branchName) {
+	public String mergeBranch(String branchName) {
 		try {
 			MergeResult result = git.merge().include(repository.getRef(branchName)).call();
 			if (result.getMergeStatus().equals(MergeResult.MergeStatus.CONFLICTING)) {
-				System.out.println(result.getConflicts());
+				return result.getConflicts().toString();
 			}
 		} catch (IOException | GitAPIException e) {
 			e.printStackTrace();
 		}
+		return null;
 	}
 
 	public void deleteBranch(String branchToDelete) {
@@ -124,6 +154,14 @@ public class GitHandler {
 				.setRemote("origin")
 				.setRefSpecs(new RefSpec().setSource(null).setDestination("refs/heads/" + branchToDelete))
 				.call();
+		} catch (GitAPIException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void add() {
+		try {
+			git.add().addFilepattern(".").call();
 		} catch (GitAPIException e) {
 			e.printStackTrace();
 		}

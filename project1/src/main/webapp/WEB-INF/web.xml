@@ -9,10 +9,6 @@
     <display-name>Ontology Editor</display-name>
 	
 	<servlet>
-		<servlet-name>LoginServlet</servlet-name>
-		<servlet-class>servlets.LoginServlet</servlet-class>
-	</servlet>
-	<servlet>
 		<servlet-name>CreateClassServlet</servlet-name>
 		<servlet-class>servlets.CreateClassServlet</servlet-class>
 	</servlet>
@@ -61,8 +57,8 @@
 		<servlet-class>servlets.DeleteObjectPropertiesServlet</servlet-class>
 	</servlet>
 	<servlet>
-		<servlet-name>CuratorDecisionServlet</servlet-name>
-		<servlet-class>servlets.CuratorDecisionServlet</servlet-class>
+		<servlet-name>CuratorServlet</servlet-name>
+		<servlet-class>servlets.CuratorServlet</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>DeleteIndividualDataPropertiesServlet</servlet-name>
@@ -81,10 +77,6 @@
 		<servlet-class>servlets.CreateIndividualDataPropertiesServlet</servlet-class>
 	</servlet>
 	
-	<servlet-mapping>
-		<servlet-name>LoginServlet</servlet-name>
-		<url-pattern>/curator</url-pattern>
-	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>CreateClassServlet</servlet-name>
 		<url-pattern>/create_class</url-pattern>
@@ -134,8 +126,12 @@
 		<url-pattern>/delete_object_property</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
-		<servlet-name>CuratorDecisionServlet</servlet-name>
-		<url-pattern>/curator_decision</url-pattern>
+		<servlet-name>CuratorServlet</servlet-name>
+		<url-pattern>/curator</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>CuratorServlet</servlet-name>
+		<url-pattern>/conflict</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>DeleteIndividualDataPropertiesServlet</servlet-name>

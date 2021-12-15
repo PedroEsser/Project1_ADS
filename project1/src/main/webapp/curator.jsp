@@ -41,7 +41,7 @@
 		</div>
 		<div id="diff-container" style="display: none; float: right; width: 76%; margin-bottom: 3%;">
 			<div id="diff" style="width: 100%;"></div>
-			<form action="curator_decision" method="post">
+			<form action="curator" method="post">
 				<input id="email" type="hidden" name="email"/>
 				<input id="password" type="hidden" name="password"/>
 				<input id="branch" type="hidden" name="branch"/>
