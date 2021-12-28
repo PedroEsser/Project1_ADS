@@ -29,6 +29,7 @@
 	<div class="w3-top">
 	  <div class="w3-bar w3-white w3-border w3-large">
 	  	<input id="log" type="button" value="Ontology Editor" style="cursor: pointer;" class="w3-bar-item w3-hide-small w3-padding-large w3-white"/>
+	  	<input id="vis" type="button" value="WebVOWL" style="cursor: pointer;" class="w3-bar-item w3-hide-small w3-padding-large w3-white"/>
 	  	<input id="editor" type="button" value="Request Manager" style="cursor: pointer;" class="w3-bar-item w3-hide-small w3-padding-large w3-white"/>
 	  </div>
 	</div>
@@ -55,6 +56,8 @@
 			var branch = "<%= request.getParameter("branch") %>";
 			
 			window.onload = function() {
+				$.post("revert", {email: "<%= email %>", password: "<%= password %>"});
+				
 				var file = `<% GitHandler handler = GitHandler.getDefault();
 							  out.println(handler.getOntologyFileContent()); %>`;
 				document.getElementById("file").value = file;

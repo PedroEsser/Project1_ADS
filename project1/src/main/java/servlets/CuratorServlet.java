@@ -78,6 +78,9 @@ public class CuratorServlet extends HttpServlet {
 				handler.commitAndPush("Conflict resolved!", "master");
 				RequestDispatcher view = request.getRequestDispatcher("curator.jsp");
 				view.forward(request, response);
+			} else if(request.getServletPath().equals("/revert")) {
+				GitHandler handler = GitHandler.getDefault();
+				handler.revertLastCommit();
 			}
 		} else {
 			response.sendRedirect("login.jsp");

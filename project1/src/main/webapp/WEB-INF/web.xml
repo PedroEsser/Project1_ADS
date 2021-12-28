@@ -134,6 +134,10 @@
 		<url-pattern>/conflict</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
+		<servlet-name>CuratorServlet</servlet-name>
+		<url-pattern>/revert</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
 		<servlet-name>DeleteIndividualDataPropertiesServlet</servlet-name>
 		<url-pattern>/delete_individual_data_property</url-pattern>
 	</servlet-mapping>

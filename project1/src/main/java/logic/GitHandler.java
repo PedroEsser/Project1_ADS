@@ -14,6 +14,7 @@ import org.apache.commons.io.FileUtils;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.ListBranchCommand.ListMode;
 import org.eclipse.jgit.api.MergeResult;
+import org.eclipse.jgit.api.ResetCommand.ResetType;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.errors.NoWorkTreeException;
@@ -126,6 +127,7 @@ public class GitHandler {
 	public void publishBranch(String branchName) {
 		try {
 			git.push()
+				.setForce(true)
 				.setCredentialsProvider(CREDENTIALS)
 				.setRemote("origin")
 				.setRefSpecs(new RefSpec(branchName + ":" + branchName))
@@ -190,6 +192,15 @@ public class GitHandler {
 		commit(commitMsg);
 		push();
 		publishBranch(branchName);
+	}
+	
+	public void revertLastCommit() {
+		try {
+			git.reset().setMode(ResetType.HARD).setRef("HEAD^").call();
+			publishBranch("master");
+		} catch (RevisionSyntaxException | GitAPIException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	//gets all remote branches
