@@ -7,12 +7,24 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.checkerframework.checker.igj.qual.I;
+import org.checkerframework.checker.initialization.qual.Initialized;
+import org.checkerframework.checker.javari.qual.Mutable;
+import org.checkerframework.checker.javari.qual.PolyRead;
+import org.checkerframework.checker.nullness.qual.KeyFor;
+import org.checkerframework.checker.nullness.qual.KeyForBottom;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.UnknownKeyFor;
 import org.eclipse.jgit.internal.storage.file.LockFile;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.formats.FunctionalSyntaxDocumentFormat;
 import org.semanticweb.owlapi.model.EntityType;
@@ -44,6 +56,7 @@ import org.swrlapi.parser.SWRLParseException;
 import org.swrlapi.sqwrl.SQWRLQueryEngine;
 import org.swrlapi.sqwrl.SQWRLResult;
 import org.swrlapi.sqwrl.exceptions.SQWRLException;
+import org.swrlapi.sqwrl.values.SQWRLResultValue;
 
 import uk.ac.manchester.cs.owl.owlapi.OWLLiteralImplBoolean;
 import uk.ac.manchester.cs.owl.owlapi.OWLLiteralImplDouble;
@@ -520,6 +533,35 @@ public class OWLHandler {
 			return result.toString();
 		} catch (SQWRLException | SWRLParseException e) {
 			return e.toString();
+		}
+	}
+	
+	public JSONArray runJSONSQWRLQuery(String query) {
+		try {
+			SQWRLResult result = queryEngine.runSQWRLQuery("query", query);
+			List<List<String>> lst = new ArrayList<>();
+			while(result.next()) {
+				List<String> aux = new LinkedList<>();
+				for(SQWRLResultValue value: result.getRow()) {
+					if(value.isLiteral()) {
+						aux.add(value.asLiteralResult().getOWLLiteral().getLiteral());
+					}else {
+						aux.add(value.toString());
+					}		
+				}
+				lst.add(aux);
+			}
+			return JSONHandler.createQueryResultJSON(lst, result.getColumnNames());
+		} catch (SQWRLException | SWRLParseException e) {
+			return new JSONArray("[{Invalid Query:" + e.toString().replaceAll("(:|')", "_") + "}]");
+		}
+	}
+	
+	public void test() {
+		for (Entry<OWLNamedIndividual, Set<OWLDataPropertyAssertionAxiom>> s: getIndividualsDataProperties().entrySet()) {
+			for(OWLDataPropertyAssertionAxiom aux: s.getValue()) {
+				System.out.println(aux.getObject().getLiteral());
+			}
 		}
 	}
 	

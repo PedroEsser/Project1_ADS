@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Set;
 import java.util.Map.Entry;
 
@@ -18,6 +19,7 @@ import org.semanticweb.owlapi.model.OWLDataPropertyAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLObjectPropertyAssertionAxiom;
+import org.swrlapi.sqwrl.values.SQWRLResultValue;
 
 import java.lang.reflect.Field;
 import java.nio.file.Files;
@@ -171,6 +173,22 @@ public class JSONHandler {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static JSONArray createQueryResultJSON(List<List<String>> results, List<String> labels) {
+		JSONArray array = new JSONArray();
+		for(List<String> data : results) {
+			JSONObject object = new JSONObject();
+			setOrderedJSONOBject(object);
+			if(!data.isEmpty()) {
+				int i = 0;
+				for(String value : data)
+					object.put(labels.get(i++), value);
+			}
+			array.put(object);
+		}
+		return array;
+
 	}
 	
 	private static void fixJSONArrayComposition(JSONArray array) {
