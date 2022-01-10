@@ -76,6 +76,10 @@
 		<servlet-name>CreateIndividualDataPropertiesServlet</servlet-name>
 		<servlet-class>servlets.CreateIndividualDataPropertiesServlet</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>ImportOntologyServlet</servlet-name>
+		<servlet-class>servlets.ImportOntologyServlet</servlet-class>
+	</servlet>
 	
 	<servlet-mapping>
 		<servlet-name>CreateClassServlet</servlet-name>
@@ -152,6 +156,10 @@
 	<servlet-mapping>
 		<servlet-name>CreateIndividualObjectPropertiesServlet</servlet-name>
 		<url-pattern>/create_individual_object_property</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ImportOntologyServlet</servlet-name>
+		<url-pattern>/import</url-pattern>
 	</servlet-mapping>
 	
 	<welcome-file-list>

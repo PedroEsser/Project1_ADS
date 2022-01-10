@@ -18,6 +18,7 @@
 	  	<input id="editor" type="button" value="Ontology Editor" onclick="window.location.href='taxonomy.jsp'" style="cursor: pointer;" class="w3-bar-item w3-hide-small w3-padding-large w3-white"/>
 	  	<input id="vis" type="button" value="WebVOWL" onclick="window.open('https://webvowl.blackglacier-3bc0d68a.northeurope.azurecontainerapps.io/#iri=https://raw.githubusercontent.com/ADSDummyUser/Knowledge_Base/master/ontology.owl')" style="cursor: pointer;" class="w3-bar-item w3-hide-small w3-padding-large w3-white"/>
 	  	<input id="log" type="button" value="Request Manager" onclick="window.location.href='login.jsp'" style="cursor: pointer;" class="w3-bar-item w3-hide-small w3-padding-large w3-white"/>
+	  	<input id="import" type="button" value="Import Ontology" onclick="importOntology()" style="float: right; cursor: pointer;" class="w3-bar-item w3-hide-small w3-padding-large w3-white"/>
 	  </div>
 	</div>
 	
@@ -268,6 +269,23 @@
 					document.getElementById("object-properties-warning").textContent = "Select an Object Property!";
 				}
 			}
+		}
+		
+		function importOntology() {
+		    let input = document.createElement('input');
+		    input.type = 'file';
+		    input.onchange = e => {
+	            var file = e.target.files[0];
+	            var reader = new FileReader();
+	            reader.readAsText(file, "UTF-8");
+	            reader.onload = function (evt) {
+	          		$.post("import", {content: evt.target.result, page: "login.jsp"})
+	          		.done(function() {
+	          			location.reload();
+	          	    });
+	            }
+	        };
+		    input.click();
 		}
 		
 		document.getElementById("create-data-property-span").onclick = function() {

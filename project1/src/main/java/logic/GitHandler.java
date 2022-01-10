@@ -41,7 +41,7 @@ public class GitHandler {
 	
 	private static final GitHandler DEFAULT_HANDLER = new GitHandler("./knowledge_base/.git");
 
-	private final static CredentialsProvider CREDENTIALS = new UsernamePasswordCredentialsProvider("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", "");
+	private final static CredentialsProvider CREDENTIALS = new UsernamePasswordCredentialsProvider("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", "");
 	private Repository repository;
 	private Git git;
 

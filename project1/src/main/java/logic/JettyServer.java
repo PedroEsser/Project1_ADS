@@ -14,7 +14,8 @@ public class JettyServer {
 			ClassList classlist = ClassList.setServerDefault(server);
 		    classlist.addAfter("org.eclipse.jetty.webapp.FragmentConfiguration", "org.eclipse.jetty.plus.webapp.EnvConfiguration", "org.eclipse.jetty.plus.webapp.PlusConfiguration");
 		    classlist.addBefore("org.eclipse.jetty.webapp.JettyWebXmlConfiguration", "org.eclipse.jetty.annotations.AnnotationConfiguration");
-			server.setHandler(webAppContext);
+		    server.setAttribute("org.eclipse.jetty.server.Request.maxFormContentSize", 1000000);
+		    server.setHandler(webAppContext);
 			server.start();
 			HerokuHandler.startServing();
 			server.join();

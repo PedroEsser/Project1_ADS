@@ -553,7 +553,7 @@ public class OWLHandler {
 			}
 			return JSONHandler.createQueryResultJSON(lst, result.getColumnNames());
 		} catch (SQWRLException | SWRLParseException e) {
-			return new JSONArray("[{Invalid Query:" + e.toString().replaceAll("(:|')", "_") + "}]");
+			return new JSONArray("[]");
 		}
 	}
 	
