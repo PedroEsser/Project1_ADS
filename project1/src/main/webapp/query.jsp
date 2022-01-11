@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link href="https://unpkg.com/tabulator-tables@5.0.7/dist/css/tabulator.min.css" rel="stylesheet">
 <script type="text/javascript" src="https://unpkg.com/tabulator-tables@5.0.7/dist/js/tabulator.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="dropdown.js"></script>
 <style>button,body,h1,h2,h3,h4,h5,h6 {font-family: "Times New Roman"}</style>
 <style>
@@ -76,6 +77,7 @@
 	  	<input id="editor" type="button" value="Ontology Editor" onclick="window.location.href='taxonomy.jsp'" style="cursor: pointer;" class="w3-bar-item w3-hide-small w3-padding-large w3-white"/>
 	  	<input id="vis" type="button" value="WebVOWL" onclick="window.open('https://webvowl.blackglacier-3bc0d68a.northeurope.azurecontainerapps.io/#iri=https://raw.githubusercontent.com/ADSDummyUser/Knowledge_Base/master/ontology.owl')" style="cursor: pointer;" class="w3-bar-item w3-hide-small w3-padding-large w3-white"/>
 	  	<input id="log" type="button" value="Request Manager" onclick="window.location.href='login.jsp'" style="cursor: pointer;" class="w3-bar-item w3-hide-small w3-padding-large w3-white"/>
+	  	<input id="import" type="button" value="Import Ontology" onclick="importOntology()" style="float: right; cursor: pointer;" class="w3-bar-item w3-hide-small w3-padding-large w3-white"/>
 	  </div>
 	</div>
 	
@@ -89,6 +91,7 @@
 				<form action="query.jsp" method="post">
 					<div style="width: 100%; height: 125px; margin-bottom: 50px">
 						<div style="margin-bottom: 10px; float: left">SQWRL Query:</div>
+						<textarea id="query" name="query" placeholder="Enter SQWRL Query" style="width: 100%; height: 90%" required></textarea>
 						<button type="submit" style="float: right">Execute</button>
 					</div>
 					<div style="width: 100%; height: 175px; margin-bottom: 8px">
@@ -119,14 +122,22 @@
 	
 	<script>
 		
-		var result_table = new Tabulator("#result-table",{
-			layout:"fitColumns",
-			height:"332px",
-			selectable:1,
-		    data:[{"No result":''}], //assign data to table
-		    autoColumns:true, //create columns from data field names
-		    
-		});
+		function importOntology() {
+		    let input = document.createElement('input');
+		    input.type = 'file';
+		    input.onchange = e => {
+	            var file = e.target.files[0];
+	            var reader = new FileReader();
+	            reader.readAsText(file, "UTF-8");
+	            reader.onload = function (evt) {
+	          		$.post("import", {content: evt.target.result, page: "login.jsp"})
+	          		.done(function() {
+	          			location.reload();
+	          	    });
+	            }
+	        };
+		    input.click();
+		}
 		
 		window.onload = function() {
 			var query = `<% if(request.getParameter("query") != null) out.print(request.getParameter("query")); %>`;
@@ -135,7 +146,19 @@
 			document.getElementById("query").value = query;
 			document.getElementById("result").value = result;
 			result_table.setData(result_data);
+			var cols = result_table.getColumns();
+			cols.forEach(function(col){
+				col.updateDefinition({headerFilter:true, headerFilterPlaceholder:"Filter..."})
+			});
 		};
+		
+		var result_table = new Tabulator("#result-table",{
+			layout:"fitColumns",
+			height:"332px",
+			selectable:1,
+		    data:[], //assign data to table
+		    autoColumns:true, //create columns from data field names
+		});
 
 	</script>
 	
@@ -147,11 +170,6 @@
 		
 		var classes_data = <%= JSONHandler.convertJSONToString("src/main/webapp/resources/taxonomy.json") %>
 		classes_data = getAllClasses(classes_data)
-		//classes_data.push("testerinorinorionqwertzuioliuztred end")
-		classes_data.push("test")
-		classes_data.push("test")
-		classes_data.push("test")
-		classes_data.push("test")
 		var dt_properties_data = <%= JSONHandler.convertJSONToString("src/main/webapp/resources/data_properties.json") %>
 		dt_properties_data = dt_properties_data.map(x => x["data property"])
 		var obj_properties_data = <%= JSONHandler.convertJSONToString("src/main/webapp/resources/object_properties.json") %>
