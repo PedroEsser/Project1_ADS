@@ -106,7 +106,7 @@
 			<div style="margin-bottom: 10px">Table Result:</div>
 			<div id="result-table"></div>
 			<div id="webvowl-result" style="float: right; margin-top: 5px">
-				<button onclick="alert('Hello WebVOWL!')">Visualize in WebVOWL</button>
+				<button onclick="view_webvowl()">Visualize in WebVOWL</button>
 			</div>
 		</div>
 	</div>
@@ -151,7 +151,6 @@
 				col.updateDefinition({headerFilter:true, headerFilterPlaceholder:"Filter..."})
 			});
 		};
-		
 		var result_table = new Tabulator("#result-table",{
 			layout:"fitColumns",
 			height:"332px",
@@ -159,7 +158,10 @@
 		    data:[], //assign data to table
 		    autoColumns:true, //create columns from data field names
 		});
-
+		function view_webvowl() {
+			$.post("result_visualization", {result: document.getElementById("query").value });
+		}
+		
 	</script>
 	
 	<!-- 

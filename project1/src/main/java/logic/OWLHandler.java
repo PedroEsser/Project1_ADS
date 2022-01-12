@@ -1,5 +1,8 @@
 package logic;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -14,17 +17,9 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.checkerframework.checker.igj.qual.I;
-import org.checkerframework.checker.initialization.qual.Initialized;
-import org.checkerframework.checker.javari.qual.Mutable;
-import org.checkerframework.checker.javari.qual.PolyRead;
-import org.checkerframework.checker.nullness.qual.KeyFor;
-import org.checkerframework.checker.nullness.qual.KeyForBottom;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.UnknownKeyFor;
 import org.eclipse.jgit.internal.storage.file.LockFile;
+import org.eclipse.jgit.util.FS;
 import org.json.JSONArray;
-import org.json.JSONObject;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.formats.FunctionalSyntaxDocumentFormat;
 import org.semanticweb.owlapi.model.EntityType;
@@ -78,7 +73,7 @@ public class OWLHandler {
 		this.owlFile = owlFile;
 		manager = OWLManager.createOWLOntologyManager();
 		try {
-			ontology =  manager.loadOntologyFromOntologyDocument(in);
+			ontology = manager.loadOntologyFromOntologyDocument(in);
 			queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 			factory = ontology.getOWLOntologyManager().getOWLDataFactory();
 			defaultprefix = manager.getOntologyFormat(ontology).asPrefixOWLOntologyFormat().getDefaultPrefix();
@@ -89,6 +84,32 @@ public class OWLHandler {
 		}
 	}
 	
+	public OWLHandler(File f) throws FileNotFoundException {
+		this.owlFile = new LockFile(f, FS.DETECTED);
+		manager = OWLManager.createOWLOntologyManager();
+		try {
+			ontology =  manager.loadOntologyFromOntologyDocument(f);
+			queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+			factory = ontology.getOWLOntologyManager().getOWLDataFactory();
+			defaultprefix = manager.getOntologyFormat(ontology).asPrefixOWLOntologyFormat().getDefaultPrefix();
+			datatypePrefix = manager.getOntologyFormat(ontology).asPrefixOWLOntologyFormat().getPrefix("xsd:");
+		} catch (OWLOntologyCreationException e) {
+	    	System.err.println("Error creating OWL ontology: " + e.getMessage());
+	    	System.exit(-1);
+		}
+	}
+	
+	public HashMap<String, String> getPrefixs() {
+		HashMap<String, String> prefixs = new HashMap<>();
+		for(String prefixName: manager.getOntologyFormat(ontology).asPrefixOWLOntologyFormat().getPrefixNames()) {
+			prefixs.put(prefixName, manager.getOntologyFormat(ontology).asPrefixOWLOntologyFormat().getPrefix(prefixName));
+		}
+		return prefixs;
+	}
+	
+	public String getDefaultPrefix() {
+		return defaultprefix;
+	}
 	//---------------------------------------READ---------------------------------------
 
 	//gets all the classes (Declaration(Class))
@@ -526,6 +547,15 @@ public class OWLHandler {
 	}
 	
 	//---------------------------------------QUERY---------------------------------------
+	
+	public SQWRLResult getQueryResult(String query) {
+		try {
+			SQWRLResult result = queryEngine.runSQWRLQuery("query", query);
+			return result;
+		} catch (SQWRLException | SWRLParseException e) {
+			return null;
+		}
+	}
 	
 	public String runSQWRLQuery(String query) {
 		try {

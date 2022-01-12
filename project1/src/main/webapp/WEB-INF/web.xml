@@ -80,6 +80,10 @@
 		<servlet-name>ImportOntologyServlet</servlet-name>
 		<servlet-class>servlets.ImportOntologyServlet</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>ResultVisualizationServlet</servlet-name>
+		<servlet-class>servlets.ResultVisualizationServlet</servlet-class>
+	</servlet>
 	
 	<servlet-mapping>
 		<servlet-name>CreateClassServlet</servlet-name>
@@ -160,6 +164,10 @@
 	<servlet-mapping>
 		<servlet-name>ImportOntologyServlet</servlet-name>
 		<url-pattern>/import</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ResultVisualizationServlet</servlet-name>
+		<url-pattern>/result_visualization</url-pattern>
 	</servlet-mapping>
 	
 	<welcome-file-list>
