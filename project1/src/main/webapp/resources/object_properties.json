@@ -1,4 +1,120 @@
-[{
- "object property": "Friends",
- "characteristics": []
-}]
+[
+ {
+  "object property": "OWLObjectProperty_21ba1a99_c399_43c8_8788_9b52dea09f8c",
+  "characteristics": [
+   "Domain",
+   "Range"
+  ]
+ },
+ {
+  "object property": "OWLObjectProperty_95ca6fad_b96f_472a_97ed_92795d67fd2c",
+  "characteristics": [
+   "Range",
+   "Domain"
+  ]
+ },
+ {
+  "object property": "OWLObjectProperty_36a74d9e_88c5_4585_9d5b_d10d29b96875",
+  "characteristics": [
+   "Domain",
+   "Range"
+  ]
+ },
+ {
+  "object property": "OWLObjectProperty_185232e4_8a8b_462d_9b80_0ea6a59b736c",
+  "characteristics": [
+   "Range",
+   "Domain"
+  ]
+ },
+ {
+  "object property": "OWLObjectProperty_2be10b83_b322_4dd1_874b_b62d4ce2f317",
+  "characteristics": [
+   "Range",
+   "Domain"
+  ]
+ },
+ {
+  "object property": "OWLObjectProperty_15fc460f_4fef_470f_87e3_dc02347ed396",
+  "characteristics": [
+   "Range",
+   "Domain"
+  ]
+ },
+ {
+  "object property": "OWLObjectProperty_6341b9ed_8594_47b2_9bc7_3075bcde4d20",
+  "characteristics": [
+   "Range",
+   "Domain"
+  ]
+ },
+ {
+  "object property": "OWLObjectProperty_031566c5_f99c_4f6b_8555_595acea9068f",
+  "characteristics": [
+   "Domain",
+   "Range"
+  ]
+ },
+ {
+  "object property": "OWLObjectProperty_aeb368a1_db5e_4b24_a300_c7cda0d6d70c",
+  "characteristics": [
+   "Transitive",
+   "InverseObjectProperties",
+   "Range",
+   "Domain"
+  ]
+ },
+ {
+  "object property": "OWLObjectProperty_f477d006_f446_4329_9be3_95e1a0838c49",
+  "characteristics": [
+   "Domain",
+   "Range"
+  ]
+ },
+ {
+  "object property": "OWLObjectProperty_2aa05e95_65ac_4c0b_93a1_c03f392d8100",
+  "characteristics": [
+   "InverseObjectProperties",
+   "Range",
+   "Domain"
+  ]
+ },
+ {
+  "object property": "OWLObjectProperty_798b8e21_8ca6_42f1_aed6_98adc1d19bb0",
+  "characteristics": [
+   "Domain",
+   "Range"
+  ]
+ },
+ {
+  "object property": "OWLObjectProperty_ccb61fa2_9a82_462e_b31c_099278749307",
+  "characteristics": [
+   "Range",
+   "Domain"
+  ]
+ },
+ {
+  "object property": "OWLObjectProperty_4adb529b_fdbd_4c2d_8c4b_969ea67cb4bf",
+  "characteristics": [
+   "Range",
+   "InverseObjectProperties",
+   "Domain"
+  ]
+ },
+ {
+  "object property": "OWLObjectProperty_9ae178a1_994a_4a7f_aaa2_0f81cc499ce5",
+  "characteristics": [
+   "Transitive",
+   "Domain",
+   "InverseObjectProperties",
+   "Range"
+  ]
+ },
+ {
+  "object property": "OWLObjectProperty_a0db6751_4bf4_4c3f_8c26_07ae06f66ee0",
+  "characteristics": [
+   "Range",
+   "Domain"
+  ]
+ }
+]

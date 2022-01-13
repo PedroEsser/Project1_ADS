@@ -1,4 +1,18 @@
 [
- {"data property": "maxObjectivesAlgorithmIsAbleToDealWith"},
- {"data property": "minObjectivesAlgorithmIsAbleToDealWith"}
+ {"data property": "OWLDataProperty_22d4b049_0129_4d0c_837c_9c280c919f06"},
+ {"data property": "OWLDataProperty_2d368f15_5420_4f5c_adb7_ebff6e417fc0"},
+ {"data property": "OWLDataProperty_2ee12c1d_7f5e_490c_a16e_4595daa84f6f"},
+ {"data property": "OWLDataProperty_43ced6c2_1ab1_4ae4_bc23_91b854e7bfdb"},
+ {"data property": "OWLDataProperty_4bde4f92_be3a_4eaa_b890_273a6b1e220e"},
+ {"data property": "OWLDataProperty_589b2769_8177_4746_9fdb_922b2db60b70"},
+ {"data property": "OWLDataProperty_61d3cd95_fde4_4c1b_af08_1eaf73473aea"},
+ {"data property": "OWLDataProperty_6856a860_936f_45b8_892c_8cd703f85607"},
+ {"data property": "OWLDataProperty_8919cc64_3fce_4d40_80b5_43ef79409dbf"},
+ {"data property": "OWLDataProperty_8f218aa3_e8ed_4389_b2dc_f3f669bca8d1"},
+ {"data property": "OWLDataProperty_9c4a3a8d_15c8_4d56_a952_26dbd6b620c2"},
+ {"data property": "OWLDataProperty_b4070ba7_208b_43da_a537_69c0f02e1b99"},
+ {"data property": "OWLDataProperty_c6918b46_569d_4b38_bb83_45cd96e3df8d"},
+ {"data property": "OWLDataProperty_c7f3899e_fbfe_4a05_a851_53704b5427d5"},
+ {"data property": "OWLDataProperty_de900583_e7eb_4ee9_9849_7567040b7aae"},
+ {"data property": "OWLDataProperty_eaa7d01d_6083_4b47_a247_2ebebcbd2837"}
 ]

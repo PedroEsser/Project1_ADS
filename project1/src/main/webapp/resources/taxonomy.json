@@ -1,1 +1,158 @@
-[{"class": "Algorithm"}]
+[
+ {
+  "class": "OWLClass_1f63fe14_b204_48f7_86aa_ab0dc1a595d5",
+  "_children": [
+   {"class": "OWLClass_69476618_f461_4627_902b_da6b9f06a28c"},
+   {
+    "class": "OWLClass_744ce35d_f6d4_4ebc_89b9_c9b631afca47",
+    "_children": [
+     {"class": "OWLClass_14adf1d9_496d_47e1_8f38_b0b1bb3fb660"},
+     {"class": "OWLClass_b52624a8_fc24_410d_b4d7_e9b08d1b3031"}
+    ]
+   }
+  ]
+ },
+ {
+  "class": "OWLClass_5ddfed7a_8920_4236_a2c8_1fe8eabf36f2",
+  "_children": [
+   {"class": "OWLClass_082cb4aa_6e2b_478b_8e3c_cf262083809e"},
+   {
+    "class": "OWLClass_11dcccfb_65f7_407d_9e45_6a8381ebc968",
+    "_children": [
+     {"class": "OWLClass_5728291f_5f78_4c17_82e1_904e44359777"},
+     {"class": "OWLClass_f5b1da6e_bf6c_4881_9170_d0e48266de05"}
+    ]
+   },
+   {"class": "OWLClass_17a2255e_5e04_4932_81ad_e97eba2226e1"},
+   {"class": "OWLClass_181802fa_7486_413a_aa45_2df218322ec5"},
+   {
+    "class": "OWLClass_2bf72a02_5cc3_40e4_90ea_66f99d04b759",
+    "_children": [{"class": "OWLClass_f5982df0_7e39_4d79_a6d2_19a56d3d5cc3"}]
+   },
+   {"class": "OWLClass_2fcfafa1_dce7_4371_8258_ec9e9ca313ae"},
+   {"class": "OWLClass_3bf4a8c7_8fd6_4fb2_b85d_f0da3f108174"},
+   {"class": "OWLClass_620dc087_c1dc_49ce_9514_054e9476f55a"},
+   {"class": "OWLClass_96c23e75_4392_4012_8fad_70319a154234"},
+   {"class": "OWLClass_a54843db_822e_418e_bb09_d7f4dd9f4761"},
+   {"class": "OWLClass_c4bc110a_57a4_4412_aadf_5e81b9d1a06b"},
+   {"class": "OutrankingParameters"}
+  ]
+ },
+ {
+  "class": "OWLClass_64cce782_d75b_4552_8420_db5dea08fa41",
+  "_children": [
+   {"class": "LightBeamSearch"},
+   {"class": "OWLClass_073994cb_1720_4c7d_8a29_20fa10988758"},
+   {
+    "class": "OWLClass_1141eeb7_9be5_493d_8bb1_1460ecd04668",
+    "_children": [{"class": "OWLClass_f1493240_1b83_4fb4_8e86_2c7dce3ec983"}]
+   },
+   {"class": "OWLClass_1aec4e26_2fb8_4601_90fa_65e1bf75d9f7"},
+   {
+    "class": "OWLClass_3b10d18f_d5b2_4477_837b_a3d9c48e3bb3",
+    "_children": [
+     {"class": "OWLClass_0522bc7f_b4df_4134_ae64_edf19f729c15"},
+     {"class": "OWLClass_20272124_8d29_453b_8183_930a6cd68e2b"},
+     {"class": "OWLClass_25dff644_22cd_4a1c_8dfb_ab5cdd90c239"},
+     {"class": "OWLClass_2b7c7f00_ca99_42b6_9f7e_86d232a80461"},
+     {"class": "OWLClass_5ca436f1_f4d6_492d_accc_1b244c2385b4"},
+     {"class": "OWLClass_70ad41dd_ed07_4e87_8684_96568ffa3e3c"},
+     {"class": "OWLClass_a91a5034_be01_416b_9d3c_b79323b1aa3b"}
+    ]
+   },
+   {"class": "OWLClass_46f541ad_b7f2_4c6e_beb7_bba245762c60"},
+   {"class": "OWLClass_4db9d94b_4b4a_4d84_8194_f1512d26994d"},
+   {"class": "OWLClass_540b07eb_b807_4596_8261_1531f881b1a2"},
+   {"class": "OWLClass_948e91bf_39f0_4e18_be36_1384d73b2415"},
+   {"class": "OWLClass_a92ebd68_18e0_44fe_a82e_ed77bc0bc7d9"},
+   {"class": "OWLClass_d7196cd7_a5eb_4f0a_9c60_a530a489da7d"},
+   {"class": "ObjectiveRelativeImportance"},
+   {"class": "PreferencePoint"}
+  ]
+ },
+ {"class": "OWLClass_73ac8134_0456_4e26_9616_4258aad4198c"},
+ {
+  "class": "OWLClass_78aa5e30_4a52_440d_b144_1b2414334f9e",
+  "_children": [
+   {"class": "OWLClass_4e69019e_1869_4d93_9be1_7f1012651493"},
+   {
+    "class": "OWLClass_e22632f2_ed62_4a09_8abc_9ca90b36426b",
+    "_children": [
+     {"class": "OWLClass_17f56347_7d75_4fa7_80ec_54f097349283"},
+     {
+      "class": "OWLClass_33ce5694_bce0_4798_85a2_2346427d7817",
+      "_children": [{"class": "OWLClass_b306d36f_fb9c_42ce_8879_fdf8bcd03a9f"}]
+     },
+     {"class": "OWLClass_3b37ccfb_7589_4216_bc31_7021481b5fa4"},
+     {
+      "class": "OWLClass_643650de_6ffc_44d1_a837_c19e8cbb8d57",
+      "_children": [
+       {"class": "OWLClass_00c7fd29_6c95_48c3_a75f_671412050749"},
+       {"class": "OWLClass_5781599c_a837_405e_8e6e_e86ed8d9aebc"}
+      ]
+     },
+     {"class": "OWLClass_9db66662_f548_4634_891c_782685904680"},
+     {
+      "class": "OWLClass_bcb56834_18a0_4de9_bf6c_8f4d53fc70eb",
+      "_children": [{"class": "OWLClass_6b7ea0ae_108c_46d5_8065_2d7a848be758"}]
+     },
+     {"class": "OWLClass_bdae1821_8d61_445c_b5ca_bd7daca88079"},
+     {"class": "OWLClass_c8d4597e_877e_4db6_9968_2b88830e465e"}
+    ]
+   }
+  ]
+ },
+ {"class": "OWLClass_9598b33d_f57f_4f27_942e_fa47ade955e3"},
+ {
+  "class": "OWLClass_b70f801e_7369_45e9_84a9_6b76db7c4c06",
+  "_children": [
+   {"class": "OWLClass_37889111_1598_4e91_892c_95fbb7cf8147"},
+   {"class": "OWLClass_5568dac1_4e57_4fb1_a13a_85f047164523"},
+   {"class": "OWLClass_58260720_d60e_4b5e_a0e1_a4a4b32653cc"},
+   {"class": "OWLClass_7845232d_ab96_4a74_a626_f295e4107914"},
+   {"class": "OWLClass_a8012dd4_cb32_4ae3_8b42_3a37480a3e97"}
+  ]
+ },
+ {
+  "class": "OWLClass_c2655939_c36d_44df_b4c3_fd52ff691b64",
+  "_children": [
+   {"class": "OWLClass_6154eeac_1900_48c7_b0e6_3532ee613de6"},
+   {"class": "OWLClass_736bee73_0127_4f4d_b54b_f1e99fed7dd0"},
+   {"class": "OWLClass_c48e01d0_ad98_4686_b669_cd514808207b"}
+  ]
+ },
+ {
+  "class": "OWLClass_c348cf8a_5c0c_4357_88df_a599f3fb173b",
+  "_children": [
+   {"class": "Constraints"},
+   {"class": "LeaderSelection"},
+   {"class": "OWLClass_304e1df7_8e66_45db_8e37_9bf68ed0637a"},
+   {"class": "OWLClass_395a1ac6_bba9_465c_a19d_083feecebd7d"},
+   {"class": "OWLClass_3b7a814c_4172_45a2_bcef_3025c1f75614"},
+   {"class": "OWLClass_44a148bf_9eaf_462b_804e_7416f074f4f1"},
+   {"class": "OWLClass_470f1428_8225_43c3_852b_830ba1106380"},
+   {"class": "OWLClass_6e9c5e2d_c9ce_4117_8ed6_1dc4438bd96c"},
+   {"class": "OWLClass_737a86f5_a8a3_4740_a296_1d943f5e6ed4"},
+   {"class": "OWLClass_752d8e52_51e2_4fb3_943b_a2f7c3fe7a88"},
+   {"class": "OWLClass_80580857_17c3_448b_9a30_d0d34047feb8"},
+   {"class": "OWLClass_8a2e3e6c_f934_4009_8dbd_c4827fc92e2c"},
+   {"class": "OWLClass_9109b4ca_2fa5_46e1_b2cd_97a86eaa366c"}
+  ]
+ },
+ {"class": "OWLClass_cccfbe7c_e1d1_4a2d_8022_5603a6e0257b"},
+ {
+  "class": "OWLClass_dc777a2b_5b14_4674_ba36_f1f9e90da118",
+  "_children": [
+   {
+    "class": "OWLClass_678af363_b743_4f84_8034_afc14b1e3b65",
+    "_children": [
+     {"class": "OWLClass_1bc2bdc3_71c8_4ec4_a9ef_662db078a2b8"},
+     {"class": "OWLClass_3a345d90_eeda_403d_b484_617f45a5edd6"},
+     {"class": "OWLClass_a8ec693c_c7e5_4d97_a809_07e0457d3add"},
+     {"class": "OWLClass_ce527bad_3f3d_4a72_980f_d91ad5f6a8a9"}
+    ]
+   },
+   {"class": "OWLClass_fbee18ee_85b1_4409_a4e7_4a8196741ac6"}
+  ]
+ }
+]
