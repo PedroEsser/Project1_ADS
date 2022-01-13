@@ -1,0 +1,50 @@
+[
+ {
+  "individual": "nsgaiii",
+  "class": "Algorithm",
+  "data properties": [
+   [
+    "maxObjectivesAlgorithmIsAbleToDealWith",
+    "10000"
+   ],
+   [
+    "minObjectivesAlgorithmIsAbleToDealWith",
+    "3"
+   ]
+  ],
+  "object properties": []
+ },
+ {
+  "individual": "nsgaii",
+  "class": "Algorithm",
+  "data properties": [
+   [
+    "maxObjectivesAlgorithmIsAbleToDealWith",
+    "3"
+   ],
+   [
+    "minObjectivesAlgorithmIsAbleToDealWith",
+    "2"
+   ]
+  ],
+  "object properties": []
+ },
+ {
+  "individual": "smsemoa",
+  "class": "Algorithm",
+  "data properties": [
+   [
+    "minObjectivesAlgorithmIsAbleToDealWith",
+    "2"
+   ],
+   [
+    "maxObjectivesAlgorithmIsAbleToDealWith",
+    "3"
+   ]
+  ],
+  "object properties": [[
+   "Friends",
+   "nsgaii"
+  ]]
+ }
+]

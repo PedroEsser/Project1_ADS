@@ -1,0 +1,32 @@
+Prefix(:=<http://www.semanticweb.org/vbasto/ontologies/2020/9/untitled-ontology-74#>)
+Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
+Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
+Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)
+Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
+Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
+
+
+Ontology(<http://www.semanticweb.org/vbasto/ontologies/2020/9/untitled-ontology-74#>
+
+Declaration(DataProperty(:maxObjectivesAlgorithmIsAbleToDealWith))
+Declaration(DataProperty(:minObjectivesAlgorithmIsAbleToDealWith))
+Declaration(NamedIndividual(<http://www.semanticweb.org/vbasto/ontologies/2020/9/untitled-ontology-74#:nsgaii>))
+Declaration(NamedIndividual(<http://www.semanticweb.org/vbasto/ontologies/2020/9/untitled-ontology-74#:smsemoa>))
+
+
+############################
+#   Named Individuals
+############################
+
+# Individual: <http://www.semanticweb.org/vbasto/ontologies/2020/9/untitled-ontology-74#:nsgaii> (<http://www.semanticweb.org/vbasto/ontologies/2020/9/untitled-ontology-74#:nsgaii>)
+
+DataPropertyAssertion(:maxObjectivesAlgorithmIsAbleToDealWith <http://www.semanticweb.org/vbasto/ontologies/2020/9/untitled-ontology-74#:nsgaii> "3"^^xsd:integer)
+DataPropertyAssertion(:minObjectivesAlgorithmIsAbleToDealWith <http://www.semanticweb.org/vbasto/ontologies/2020/9/untitled-ontology-74#:nsgaii> "2"^^xsd:integer)
+
+# Individual: <http://www.semanticweb.org/vbasto/ontologies/2020/9/untitled-ontology-74#:smsemoa> (<http://www.semanticweb.org/vbasto/ontologies/2020/9/untitled-ontology-74#:smsemoa>)
+
+DataPropertyAssertion(:maxObjectivesAlgorithmIsAbleToDealWith <http://www.semanticweb.org/vbasto/ontologies/2020/9/untitled-ontology-74#:smsemoa> "3"^^xsd:integer)
+DataPropertyAssertion(:minObjectivesAlgorithmIsAbleToDealWith <http://www.semanticweb.org/vbasto/ontologies/2020/9/untitled-ontology-74#:smsemoa> "2"^^xsd:integer)
+
+
+)
